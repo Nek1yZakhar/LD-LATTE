@@ -1,0 +1,7 @@
+pandas
+pydantic
+pydantic-settings
+python-dotenv
+httpx
+openai
+groq

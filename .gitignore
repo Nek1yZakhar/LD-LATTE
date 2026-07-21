@@ -1,0 +1,18 @@
+.env
+.env.local
+__pycache__/
+*.pyc
+.idea/
+.vscode/
+
+# Игнорируем данные и выводы, но сохраняем структуру через .gitkeep
+data/*
+!data/raw/
+!data/processed/
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+output/*
+!output/.gitkeep
