@@ -117,16 +117,50 @@ graph TD
 ## 6. Быстрый запуск (Quick Start)
 
 *(Инструкции будут дополняться по мере реализации пайплайна)*
-1. Установите зависимости:
+
+### Шаг 1: Настройка виртуального окружения (Рекомендуется)
+Создайте и активируйте виртуальное окружение:
+* **Windows (PowerShell)**:
+  ```powershell
+  python -m venv .venv
+  .venv\Scripts\Activate.ps1
+  ```
+* **Linux/macOS**:
+  ```bash
+  python3 -m venv .venv
+  source .venv/bin/activate
+  ```
+
+### Шаг 2: Установка зависимостей
+Установите основные зависимости проекта:
+```bash
+pip install -r requirements.txt
+```
+
+### Шаг 3: Настройка GPU (NVIDIA Cuda)
+По умолчанию PyTorch устанавливается для работы на CPU. Чтобы перенести вычисления локальных моделей эмбеддингов (`Qwen3-Embedding`) и реранкера (`BGE-Reranker`) на видеокарту NVIDIA (например, RTX 3050), выполните переустановку PyTorch с поддержкой CUDA:
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/cu124 --force-reinstall
+```
+
+### Шаг 4: Настройка конфигурации
+1. Скопируйте файл конфигурации `.env.example` в `.env`:
    ```bash
-   pip install -r requirements.txt
+   cp .env.example .env
    ```
-2. Создайте файл `.env` на основе `.env.example` и укажите ключи для Groq/OpenRouter.
-3. Поместите исходный seed-файл в `data/raw/Блогеры - Лист1.csv`.
-4. Запустите очистку данных:
-   ```bash
-   python src/ingest/clean.py
-   ```
+2. Откройте `.env` и при необходимости укажите API-ключи `GROQ_API_KEY` и `OPENROUTER_API_KEY`. Если ключи не указаны, сетевой блок LLM будет пропущен в тестах, а локальные модели всё равно пройдут проверку.
+
+### Шаг 5: Проверка работоспособности стека (Smoke Test)
+Запустите диагностический скрипт для автоматической проверки подключения к API и корректности инференса локальных моделей:
+```bash
+python -m src.shared.smoke_test
+```
+
+### Шаг 6: Запуск очистки данных (TICKET-01)
+Поместите исходный seed-файл в `data/raw/Блогеры - Лист1.csv` и запустите скрипт нормализации:
+```bash
+python src/ingest/clean.py
+```
 
 ---
 

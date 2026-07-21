@@ -16,3 +16,11 @@ data/processed/*
 
 output/*
 !output/.gitkeep
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local models weights cache
+models/

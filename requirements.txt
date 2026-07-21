@@ -5,3 +5,9 @@ python-dotenv
 httpx
 openai
 groq
+torch
+sentence-transformers
+transformers
+hf-transfer
+instaloader
+playwright
