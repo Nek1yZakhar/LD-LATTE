@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   Layers, 
   ChevronRight, 
@@ -13,7 +14,8 @@ import {
   Database,
   Sliders,
   Award,
-  Cpu
+  Cpu,
+  Filter
 } from 'lucide-react';
 import type { PipelineNode, IdealBloggerProfile } from '@/data';
 
@@ -25,6 +27,18 @@ interface PipelineEvidenceGraphProps {
 export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ nodes, idealPortrait }) => {
   const [selectedNode, setSelectedNode] = useState<PipelineNode | null>(null);
   const [showPortraitModal, setShowPortraitModal] = useState<boolean>(false);
+
+  // Lock background scrolling when modal is open
+  useEffect(() => {
+    if (selectedNode || showPortraitModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedNode, showPortraitModal]);
 
   return (
     <div className="space-y-8">
@@ -349,154 +363,270 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
       </div>
 
       {/* Stage Detail Modal */}
-      {selectedNode && (
-        <div className="fixed inset-0 z-50 bg-[#161210]/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#FFFFFF] border border-[#D4C4B7] rounded-3xl max-w-xl w-full p-6 sm:p-8 space-y-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-start justify-between pb-4 border-b border-[#E8E0D7]">
-              <div className="space-y-1">
-                <div className="flex items-center space-x-2">
-                  <span className="px-2 py-0.5 rounded bg-[#48121A] text-[#FAF7F2] font-mono text-xs font-bold">
+      {selectedNode && createPortal(
+        <div className="fixed inset-0 z-[9999] bg-[#161210]/75 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          <div className="bg-[#FFFFFF] border border-[#D4C4B7] rounded-3xl max-w-3xl sm:max-w-4xl w-full shadow-2xl flex flex-col max-h-[90vh] overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
+            
+            {/* Modal Header (Integrated inside rounded top) */}
+            <div className="flex items-start justify-between p-6 sm:p-8 pb-5 border-b border-[#E8E0D7] bg-[#FFFFFF] shrink-0">
+              <div className="space-y-1.5">
+                <div className="flex items-center space-x-2.5">
+                  <span className="px-2.5 py-1 rounded-md bg-[#48121A] text-[#FAF7F2] font-mono text-xs sm:text-sm font-bold">
                     ШАГ 0{selectedNode.stageNumber}
                   </span>
                   {selectedNode.isVlmNode && (
-                    <span className="px-2 py-0.5 rounded bg-[#C88D74] text-[#161210] text-xs font-bold">
+                    <span className="px-2.5 py-1 rounded-md bg-[#C88D74] text-[#161210] text-xs sm:text-sm font-bold">
                       VLM Аудит визуала
                     </span>
                   )}
                 </div>
-                <h3 className="text-xl font-bold text-[#161210]">{selectedNode.name}</h3>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-[#161210]">{selectedNode.name}</h3>
               </div>
               <button
                 onClick={() => setSelectedNode(null)}
-                className="p-1.5 rounded-full hover:bg-[#FAF7F2] text-[#8C7C75] hover:text-[#161210] transition-colors"
+                className="p-2 rounded-full hover:bg-[#FAF7F2] text-[#8C7C75] hover:text-[#161210] transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-6 h-6" />
               </button>
             </div>
 
-            <div className="space-y-4 text-xs">
-              <div className="space-y-1">
-                <span className="font-bold text-[#8C7C75] uppercase text-[10px] tracking-wider">Файл модуля Python:</span>
-                <div className="p-3 rounded-xl bg-[#FAF7F2] border border-[#E8E0D7] font-mono text-[#48121A] font-bold flex items-center justify-between">
+            {/* Modal Body */}
+            <div className="p-6 sm:p-8 space-y-6 text-sm overflow-y-auto shrink grow">
+              {/* Special Funnel & Quality Control Card for Stage 01 (34 -> 19) */}
+              {selectedNode.stageNumber === 1 && (
+                <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F2] border border-[#D4C4B7] space-y-4 shadow-2xs">
+                  <div className="flex items-center justify-between border-b border-[#E8E0D7] pb-3">
+                    <div className="flex items-center space-x-2 text-[#48121A] font-bold text-sm sm:text-base">
+                      <Filter className="w-5 h-5 text-[#48121A]" />
+                      <span>Воронка отбора: от 34 ссылок к 19 профилям</span>
+                    </div>
+                    {/* Interactive Tooltip Badge: 100% Real Data Policy */}
+                    <div className="relative group/policyTooltip inline-block">
+                      <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-[#2E6B48]/10 text-[#2E6B48] border border-[#2E6B48]/20 cursor-help flex items-center space-x-1 hover:bg-[#2E6B48]/20 transition-colors">
+                        <ShieldCheck className="w-3.5 h-3.5 text-[#2E6B48]" />
+                        <span>100% Real Data Policy</span>
+                        <Info className="w-3 h-3 text-[#2E6B48]/70" />
+                      </span>
+
+                      {/* Tooltip Popup */}
+                      <div className="absolute top-full right-0 mt-2.5 w-80 p-4 bg-[#161210] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C88D74]/40 backdrop-blur-md opacity-0 group-hover/policyTooltip:opacity-100 transition-all duration-200 pointer-events-none z-50 space-y-2 text-xs font-sans">
+                        <div className="flex items-center space-x-2 text-[#C88D74] font-bold border-b border-[#FAF7F2]/10 pb-2 text-xs">
+                          <ShieldCheck className="w-4 h-4 text-[#2E6B48]" />
+                          <span>Политика 100% реальных данных (Zero-Mock)</span>
+                        </div>
+                        <p className="text-xs text-[#FAF7F2]/90 leading-relaxed font-normal">
+                          Пайплайн категорически запрещает синтез фейковых профилей. Из 34 исходных ссылок 15 недоступных (HTTP 404/400) отсеяны сетевой проверкой, а все 19 профилей в анализе — это реально существующие живые инфлюенсеры.
+                        </p>
+                        <div className="flex items-center justify-between border-t border-[#FAF7F2]/10 pt-2 text-[10px] text-[#8C7C75]">
+                          <span>Hard Reject Enforced</span>
+                          <span className="text-[#2E6B48] font-semibold">19/34 Valid Instagram Profiles</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 3 Metric Badges */}
+                  <div className="grid grid-cols-3 gap-3 sm:gap-4 text-center">
+                    <div className="p-3 sm:p-4 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7]">
+                      <span className="block text-2xl sm:text-3xl font-extrabold font-mono text-[#161210]">34</span>
+                      <span className="text-xs text-[#8C7C75] leading-tight block font-medium mt-1">Исходный seed-список</span>
+                    </div>
+                    <div className="p-3 sm:p-4 rounded-xl bg-[#EAF3EC] border border-[#2E6B48]/30">
+                      <span className="block text-2xl sm:text-3xl font-extrabold font-mono text-[#2E6B48]">19</span>
+                      <span className="text-xs text-[#2E6B48] font-bold leading-tight block mt-1">Прошли сетевую проверку</span>
+                    </div>
+                    <div className="p-3 sm:p-4 rounded-xl bg-[#F7EFF1] border border-[#48121A]/30">
+                      <span className="block text-2xl sm:text-3xl font-extrabold font-mono text-[#48121A]">15</span>
+                      <span className="text-xs text-[#48121A] font-bold leading-tight block mt-1">Исключены (HTTP 404/400)</span>
+                    </div>
+                  </div>
+
+                  {/* Clear human-readable quality rationale */}
+                  <div className="space-y-1.5 bg-[#FFFFFF] p-4 rounded-xl border border-[#E8E0D7]">
+                    <span className="font-bold text-[#161210] text-xs sm:text-sm block">Почему часть ссылок была исключена:</span>
+                    <p className="text-xs sm:text-sm text-[#4A3E39] leading-relaxed">
+                      Система выполнила прямую сетевую проверку каждой ссылки в Instagram. 15 аккаунтов оказались недоступными (страницы удалены, заблокированы или переименованы). Пайплайн автоматически отсеял их до начала анализа. Это <strong className="text-[#161210] font-semibold">контроль качества данных</strong>, а не их потеря.
+                    </p>
+                  </div>
+
+                  {/* Samples of Excluded Usernames with Custom Interactive Tooltip */}
+                  <div className="space-y-2 pt-2 border-t border-[#E8E0D7]">
+                    <span className="text-xs font-bold text-[#8C7C75] uppercase tracking-wider block">
+                      Примеры исключенных профилей из исходного списка (HTTP 404):
+                    </span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {['_crazy__unicorn__', 'curly.bloger', 'demoiselle._.rie', 'merklary_l', 'nev_pollyy', 'yunglolaa'].map((user) => (
+                        <span key={user} className="px-2.5 py-1 rounded-md bg-[#FFFFFF] border border-[#D4C4B7] text-[#8C7C75] text-xs font-mono line-through decoration-[#48121A]/50">
+                          @{user}
+                        </span>
+                      ))}
+
+                      {/* Custom Tooltip Badge for Remaining 9 Excluded Profiles */}
+                      <div className="relative group/tooltip inline-block">
+                        <span className="px-3 py-1 rounded-md bg-[#F7EFF1] text-[#48121A] text-xs font-semibold border border-[#48121A]/30 cursor-help flex items-center space-x-1.5 hover:bg-[#F0E4E7] transition-colors">
+                          <span>+ 9 других недоступных ссылок</span>
+                          <Info className="w-3.5 h-3.5 text-[#48121A]/70" />
+                        </span>
+
+                        {/* Tooltip Content */}
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 w-80 p-4 bg-[#161210] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C88D74]/40 backdrop-blur-md opacity-0 group-hover/tooltip:opacity-100 transition-all duration-200 pointer-events-none z-50 space-y-2.5 text-xs font-sans">
+                          <div className="flex items-center justify-between border-b border-[#FAF7F2]/10 pb-2 text-[#C88D74] font-bold text-xs">
+                            <span>Остальные 9 исключенных профилей</span>
+                            <span className="text-[11px] font-mono text-[#FAF7F2]/60">HTTP 404</span>
+                          </div>
+                          <div className="grid grid-cols-2 gap-1.5 font-mono text-xs text-[#FAF7F2]/90">
+                            <span>@sha_obzor.wb</span>
+                            <span>@lv_yana_lv</span>
+                            <span>@miysta_fatt_</span>
+                            <span>@habakher</span>
+                            <span>@ri_vls</span>
+                            <span>@__aparina</span>
+                            <span>@rtini.a13</span>
+                            <span>@ninooochka2.0</span>
+                            <span className="col-span-2">@irinatitovaaa_</span>
+                          </div>
+                          <p className="text-[11px] text-[#8C7C75] leading-tight border-t border-[#FAF7F2]/10 pt-2">
+                            Все 15 аккаунтов отсеяны сетевой валидацией (Hard Reject).
+                          </p>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="space-y-1.5">
+                <span className="font-bold text-[#8C7C75] uppercase text-xs tracking-wider">Файл модуля Python:</span>
+                <div className="p-3.5 rounded-xl bg-[#FAF7F2] border border-[#E8E0D7] font-mono text-[#48121A] text-sm font-bold flex items-center justify-between">
                   <span>{selectedNode.moduleFile}</span>
-                  <FileCode className="w-4 h-4 text-[#8C7C75]" />
+                  <FileCode className="w-4.5 h-4.5 text-[#8C7C75]" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="p-3.5 rounded-xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-1">
-                  <span className="font-bold text-[#8C7C75] uppercase text-[10px] tracking-wider">Входной контракт:</span>
-                  <p className="font-mono text-[#161210] font-semibold truncate">{selectedNode.inputContract}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-1">
+                  <span className="font-bold text-[#8C7C75] uppercase text-xs tracking-wider block">Что модуль получает:</span>
+                  <p className="font-medium text-[#161210] text-sm sm:text-base leading-snug">{selectedNode.inputContract}</p>
                 </div>
-                <div className="p-3.5 rounded-xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-1">
-                  <span className="font-bold text-[#8C7C75] uppercase text-[10px] tracking-wider">Выходной контракт:</span>
-                  <p className="font-mono text-[#2E6B48] font-semibold truncate">{selectedNode.outputContract}</p>
+                <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-1">
+                  <span className="font-bold text-[#8C7C75] uppercase text-xs tracking-wider block">Что модуль создает:</span>
+                  <p className="font-semibold text-[#2E6B48] text-sm sm:text-base leading-snug">{selectedNode.outputContract}</p>
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <span className="font-bold text-[#8C7C75] uppercase text-[10px] tracking-wider">Описание работы модуля:</span>
-                <p className="text-[#4A3E39] leading-relaxed text-sm bg-[#FAF7F2] p-3.5 rounded-xl border border-[#E8E0D7]">
+              <div className="space-y-1.5">
+                <span className="font-bold text-[#8C7C75] uppercase text-xs tracking-wider">Описание работы модуля:</span>
+                <p className="text-[#4A3E39] leading-relaxed text-sm sm:text-base bg-[#FAF7F2] p-4 rounded-xl border border-[#E8E0D7]">
                   {selectedNode.description}
                 </p>
               </div>
 
               {selectedNode.isVlmNode && (
-                <div className="p-4 rounded-xl bg-[#F7EFF1] border border-[#48121A]/30 text-[#48121A] space-y-1">
-                  <span className="font-bold uppercase text-[10px] tracking-wider flex items-center space-x-1">
-                    <ShieldCheck className="w-3.5 h-3.5" />
+                <div className="p-4 sm:p-5 rounded-xl bg-[#F7EFF1] border border-[#48121A]/30 text-[#48121A] space-y-1.5">
+                  <span className="font-bold uppercase text-xs tracking-wider flex items-center space-x-1.5">
+                    <ShieldCheck className="w-4 h-4" />
                     <span>Строгое архитектурное ограничение</span>
                   </span>
-                  <p className="text-xs">
+                  <p className="text-xs sm:text-sm leading-relaxed">
                     VLM модель не загружается при первичном поиске (Retrieval). Она вызывается только для первых 5 кандидатов шорт-листа, прошедших реранкинг BGE-Reranker-v2-m3.
                   </p>
                 </div>
               )}
             </div>
 
-            <div className="pt-4 border-t border-[#E8E0D7] flex justify-end">
+            {/* Modal Footer */}
+            <div className="p-4 sm:px-8 border-t border-[#E8E0D7] flex justify-end bg-[#FAF7F2] shrink-0">
               <button
                 onClick={() => setSelectedNode(null)}
-                className="px-5 py-2.5 rounded-xl bg-[#161210] text-[#FAF7F2] hover:bg-[#48121A] transition-colors font-bold text-xs"
+                className="px-6 py-3 rounded-xl bg-[#161210] text-[#FAF7F2] hover:bg-[#48121A] transition-colors font-bold text-xs sm:text-sm shadow-xs"
               >
                 Закрыть инспектор
               </button>
             </div>
+
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Ideal Portrait Modal */}
-      {showPortraitModal && (
-        <div className="fixed inset-0 z-50 bg-[#161210]/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#FFFFFF] border border-[#D4C4B7] rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-start justify-between pb-4 border-b border-[#E8E0D7]">
+      {showPortraitModal && createPortal(
+        <div className="fixed inset-0 z-[9999] bg-[#161210]/75 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          <div className="bg-[#FFFFFF] border border-[#D4C4B7] rounded-3xl max-w-3xl sm:max-w-4xl w-full shadow-2xl flex flex-col max-h-[90vh] overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
+            
+            {/* Modal Header */}
+            <div className="flex items-start justify-between p-6 sm:p-8 pb-5 border-b border-[#E8E0D7] bg-[#FFFFFF] shrink-0">
               <div>
-                <span className="px-2.5 py-0.5 rounded bg-[#48121A]/10 text-[#48121A] text-xs font-bold uppercase tracking-wider">
+                <span className="px-2.5 py-1 rounded-md bg-[#48121A]/10 text-[#48121A] text-xs font-bold uppercase tracking-wider">
                   Deep Inspection
                 </span>
-                <h3 className="text-xl font-bold text-[#161210] mt-1">Инспектор эталонного профиля инфлюенсера</h3>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-[#161210] mt-1">Инспектор эталонного профиля инфлюенсера</h3>
               </div>
               <button
                 onClick={() => setShowPortraitModal(false)}
-                className="p-1.5 rounded-full hover:bg-[#FAF7F2] text-[#8C7C75] hover:text-[#161210]"
+                className="p-2 rounded-full hover:bg-[#FAF7F2] text-[#8C7C75] hover:text-[#161210]"
               >
-                <X className="w-5 h-5" />
+                <X className="w-6 h-6" />
               </button>
             </div>
 
-            <div className="space-y-4 text-xs">
-              <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-3">
-                <h4 className="font-bold text-[#161210] text-sm">Параметры идеального блогера (`IdealBloggerProfile`):</h4>
-                <div className="grid grid-cols-2 gap-3 text-xs">
+            {/* Modal Content */}
+            <div className="p-6 sm:p-8 space-y-6 text-sm overflow-y-auto shrink grow">
+              <div className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-4">
+                <h4 className="font-bold text-[#161210] text-base">Параметры идеального блогера (`IdealBloggerProfile`):</h4>
+                <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
                   <div>
                     <span className="text-[#8C7C75]">Target Niches:</span>
-                    <p className="font-bold text-[#161210]">{idealPortrait.target_niches.join(', ')}</p>
+                    <p className="font-bold text-[#161210] text-sm sm:text-base mt-0.5">{idealPortrait.target_niches.join(', ')}</p>
                   </div>
                   <div>
                     <span className="text-[#8C7C75]">Min Engagement Rate (ER):</span>
-                    <p className="font-bold font-mono text-[#2E6B48]">{(idealPortrait.estimated_er_min * 100).toFixed(1)}%</p>
+                    <p className="font-bold font-mono text-[#2E6B48] text-sm sm:text-base mt-0.5">{(idealPortrait.estimated_er_min * 100).toFixed(1)}%</p>
                   </div>
                   <div>
                     <span className="text-[#8C7C75]">Preferred Tone of Voice:</span>
-                    <p className="font-bold text-[#161210] capitalize">{idealPortrait.preferred_tone_of_voice}</p>
+                    <p className="font-bold text-[#161210] capitalize text-sm sm:text-base mt-0.5">{idealPortrait.preferred_tone_of_voice}</p>
                   </div>
                   <div>
                     <span className="text-[#8C7C75]">Sponsorship Saturation Max:</span>
-                    <p className="font-bold font-mono text-[#C88D74] uppercase">{idealPortrait.sponsorship_saturation_max}</p>
+                    <p className="font-bold font-mono text-[#C88D74] uppercase text-sm sm:text-base mt-0.5">{idealPortrait.sponsorship_saturation_max}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <h4 className="font-bold text-[#161210]">Ключевые темы контента:</h4>
-                <div className="flex flex-wrap gap-2">
+              <div className="space-y-2.5">
+                <h4 className="font-bold text-[#161210] text-base">Ключевые темы контента:</h4>
+                <div className="flex flex-wrap gap-2.5">
                   {idealPortrait.key_themes.map((theme) => (
-                    <span key={theme} className="px-3 py-1 rounded-xl bg-[#F3EDE2] border border-[#E8E0D7] text-[#161210] font-medium">
+                    <span key={theme} className="px-3.5 py-1.5 rounded-xl bg-[#F3EDE2] border border-[#E8E0D7] text-[#161210] font-semibold text-xs sm:text-sm">
                       ✓ {theme}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="space-y-2 pt-2 border-t border-[#E8E0D7]">
-                <h4 className="font-bold text-[#161210]">Сгенерированное обоснование Llama-3.3-70B:</h4>
-                <p className="text-[#4A3E39] leading-relaxed bg-[#FAF7F2] p-4 rounded-xl border border-[#E8E0D7] text-xs">
+              <div className="space-y-2.5 pt-2 border-t border-[#E8E0D7]">
+                <h4 className="font-bold text-[#161210] text-base">Сгенерированное обоснование Llama-3.3-70B:</h4>
+                <p className="text-[#4A3E39] leading-relaxed bg-[#FAF7F2] p-5 rounded-2xl border border-[#E8E0D7] text-xs sm:text-sm">
                   {idealPortrait.rationale}
                 </p>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-[#E8E0D7] flex justify-end">
+            {/* Modal Footer */}
+            <div className="p-4 sm:px-8 border-t border-[#E8E0D7] flex justify-end bg-[#FAF7F2] shrink-0">
               <button
                 onClick={() => setShowPortraitModal(false)}
-                className="px-5 py-2.5 rounded-xl bg-[#161210] text-[#FAF7F2] hover:bg-[#48121A] transition-colors font-bold text-xs"
+                className="px-6 py-3 rounded-xl bg-[#161210] text-[#FAF7F2] hover:bg-[#48121A] transition-colors font-bold text-xs sm:text-sm shadow-xs"
               >
                 Закрыть
               </button>
             </div>
+
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

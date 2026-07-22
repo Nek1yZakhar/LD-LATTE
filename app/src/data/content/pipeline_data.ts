@@ -42,9 +42,9 @@ export const PIPELINE_NODES: PipelineNode[] = [
     stageNumber: 1,
     name: 'Проверка исходного списка',
     moduleFile: 'src/ingest/clean.py',
-    inputContract: 'Блогеры - Лист1.csv (34 rows)',
-    outputContract: 'data/processed/normalized_seed_profiles_valid.csv (19 valid)',
-    description: 'Очистка исходных данных, извлечение username и прямая сетевая проверка доступности страниц в Instagram без создания фейковых профилей.',
+    inputContract: 'Исходный seed-список из 34 ссылок на профили (Блогеры - Лист1.csv)',
+    outputContract: 'Очищенный проверенный список из 19 профилей (normalized_seed_profiles_valid.csv)',
+    description: 'Система проверяет исходные ссылки, извлекает username и выполняет прямую сетевую проверку доступности страниц в Instagram. Недоступные, битые и удаленные профили автоматически исключаются до начала анализа.',
     status: 'DONE'
   },
   {
@@ -52,9 +52,9 @@ export const PIPELINE_NODES: PipelineNode[] = [
     stageNumber: 2,
     name: 'Сбор данных из Instagram',
     moduleFile: 'src/fetchers/enrich.py',
-    inputContract: 'valid_seed_profiles',
-    outputContract: 'data/processed/seed_enriched.json (19 entries)',
-    description: 'Self-operated скрапинг метаданных (число подписчиков, био, посты, ER) через Playwright и Instaloader с фактуальной классификацией.',
+    inputContract: '19 подтвержденных профилей Instagram',
+    outputContract: 'Обогащенный профиль с метриками и постами (seed_enriched.json)',
+    description: 'Автоматический сбор актуальных показателей (подписчики, вовлеченность ER, темы постов и язык) через self-operated скрапинг без сторонних платных API.',
     status: 'DONE'
   },
   {
@@ -62,9 +62,9 @@ export const PIPELINE_NODES: PipelineNode[] = [
     stageNumber: 3,
     name: 'Портрет идеального блогера',
     moduleFile: 'src/analyzers/portrait.py',
-    inputContract: 'data/processed/seed_enriched.json',
-    outputContract: 'data/processed/ideal_portrait.json',
-    description: 'Синтез идеального профиля инфлюенсера Llama-3.3-70B на основе целевых ниш, вовлеченности и эстетики бренда LD Latte.',
+    inputContract: 'Обогащенные профили 19 реальных блогеров',
+    outputContract: 'Эталонный профиль идеального инфлюенсера (ideal_portrait.json)',
+    description: 'ИИ-модель Llama-3.3-70B анализирует собранные профили и формулирует точные критерии бренда: ниши lifestyle/beauty, порог вовлеченности ER ≥ 3.6% и дружелюбный тон.',
     status: 'DONE'
   },
   {
@@ -72,9 +72,9 @@ export const PIPELINE_NODES: PipelineNode[] = [
     stageNumber: 4,
     name: 'Поиск и первичный отсев',
     moduleFile: 'src/search/discover.py',
-    inputContract: 'seed_enriched.json + ideal_portrait.json',
-    outputContract: 'data/processed/candidates_discovered.json (18 entries)',
-    description: 'Детерминированная фильтрация пула кандидатов по правилам (отсев приватных аккаунтов с 0 подписчиков, недоступных профилей).',
+    inputContract: 'Данные 19 профилей и эталонный портрет бренда',
+    outputContract: 'Список 18 валидных кандидатов (candidates_discovered.json)',
+    description: 'Фильтрация кандидатов по алгоритмическим правилам: автоматический отсев приватных профилей с 0 подписчиков и аккаунтов без публикаций.',
     status: 'DONE'
   },
   {
@@ -82,9 +82,9 @@ export const PIPELINE_NODES: PipelineNode[] = [
     stageNumber: 5,
     name: 'Смысловое сравнение и оценка',
     moduleFile: 'src/scoring/embed.py & score.py',
-    inputContract: 'candidates_discovered.json',
-    outputContract: 'data/processed/candidates_scored.json',
-    description: 'Векторизация текстов через CUDA GPU Qwen3-Embedding-0.6B (косинусное сходство) и расчет 5 фичевых параметров (niche, ER, recency, sponsorship, lang).',
+    inputContract: '18 валидированных кандидатов',
+    outputContract: 'Оцененный список с детальным пофичевым скорингом (candidates_scored.json)',
+    description: 'Векторный поиск сходства постов через Qwen3-Embedding (0.6B) на CUDA GPU и расчет 5 фичевых параметров (ниша, ER, дата активности, реклама, язык).',
     status: 'DONE'
   },
   {
@@ -92,9 +92,9 @@ export const PIPELINE_NODES: PipelineNode[] = [
     stageNumber: 6,
     name: 'Уточнение рейтинга кандидатов',
     moduleFile: 'src/scoring/rerank.py',
-    inputContract: 'candidates_scored.json',
-    outputContract: 'data/processed/candidates_reranked.json',
-    description: 'Пересортировка кандидатов кросс-энкодером BAAI/bge-reranker-v2-m3 с сигмоидной нормализацией логитов.',
+    inputContract: 'Ранжированный список 18 кандидатов',
+    outputContract: 'Уточненный список реранкинга (candidates_reranked.json)',
+    description: 'Глубокая пересортировка кандидатов кросс-энкодером BAAI/bge-reranker-v2-m3 с нормализацией логитов для абсолютной точности топа.',
     status: 'DONE'
   },
   {
@@ -102,9 +102,9 @@ export const PIPELINE_NODES: PipelineNode[] = [
     stageNumber: 7,
     name: 'Проверка визуального стиля',
     moduleFile: 'src/scoring/vlm_sanity.py',
-    inputContract: 'candidates_reranked.json (Top N)',
-    outputContract: 'data/processed/shortlist_final.json (5 entries)',
-    description: 'Точечный эстетический аудит ленты профиля через мультимодальную модель Qwen2.5-VL для топовых кандидатов шорт-листа.',
+    inputContract: 'Лидеры рейтинга (Top-5 финалистов)',
+    outputContract: 'Финальный шорт-лист с визуальным вердиктом (shortlist_final.json)',
+    description: 'Точечный эстетический аудит визуального стиля ленты профиля с помощью мультимодальной модели Qwen2.5-VL строго для финалистов отбора.',
     status: 'DONE',
     isVlmNode: true
   },
@@ -113,9 +113,9 @@ export const PIPELINE_NODES: PipelineNode[] = [
     stageNumber: 8,
     name: 'Подготовка персонального предложения',
     moduleFile: 'src/outreach/generator.py',
-    inputContract: 'shortlist_final.json + prompts/outreach_offer.md',
-    outputContract: 'output/barter_offers.json (5 offers)',
-    description: 'Генерация персонализированных коммерческих офферов на русском языке с контролем anti-robotic QA и 100% заземлением в фактах.',
+    inputContract: 'Финальный шорт-лист 5 лидеров',
+    outputContract: 'Готовые персональные PR-офферы (barter_offers.json)',
+    description: 'Генерация теплых персонализированных писем о бартерном сотрудничестве на русском языке с проверкой фактов и фильтрацией канцеляризмов.',
     status: 'DONE'
   }
 ];
