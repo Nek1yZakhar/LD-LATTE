@@ -996,52 +996,107 @@ export const GROUNDED_AUTHOR_RESUME: AuthorResume = {
 export const GROUNDED_PROOF_LINKS: ProofLink[] = [
   {
     id: 'repo_main',
-    label: 'GitHub Repository',
+    label: 'README.md',
     filePath: 'README.md',
     url: 'https://github.com/Nek1yZakhar/LD-LATTE',
     category: 'repo',
-    description: 'Главный исходный репозиторий проекта LD Latte'
+    description: 'Главный стартовый навигатор по репозиторию и запуску',
+    whyOpen: 'Быстрый ввод в концепцию проекта, стек технологий, команды установки и запуска пайплайна и UI за 1 минуту.'
   },
   {
     id: 'doc_arch',
     label: 'ARCHITECTURE.md',
     filePath: 'docs/ARCHITECTURE.md',
     category: 'architecture',
-    description: 'Полная схема конвейера и Pydantic-контракты данных'
-  },
-  {
-    id: 'doc_policy',
-    label: 'POLICY.md',
-    filePath: 'docs/POLICY.md',
-    category: 'policy',
-    description: 'Политика Strict Zero-Mock Data Policy'
+    description: 'Архитектурная схема пайплайна и Pydantic-контракты',
+    whyOpen: 'Подробное описание 8 этапов воронки, структуры данных, стратегии скрапинга и векторного поиска Qwen3 + BGE.'
   },
   {
     id: 'doc_state',
     label: 'STATE.md',
     filePath: 'docs/STATE.md',
     category: 'architecture',
-    description: 'Бэклог тикетов и история выполнения пайплайна'
+    description: 'Полный статус разработки, бэклог и Handoff Truth',
+    whyOpen: 'Отслеживание прогресса выполнения тикетов TICKET-01..10F, известных проблем и списка реальных профилей.'
   },
   {
-    id: 'doc_ia',
+    id: 'doc_policy',
+    label: 'POLICY.md',
+    filePath: 'docs/POLICY.md',
+    category: 'policy',
+    description: 'Политика Strict Zero-Mock Data Policy',
+    whyOpen: 'Принципы гарантированной работы только со 100% реальными спарсенными данными Instagram без фейковых затычек.'
+  },
+  {
+    id: 'doc_t10a',
     label: 'TICKET_10A_RESEARCH_AND_IA.md',
     filePath: 'docs/TICKET_10A_RESEARCH_AND_IA.md',
-    category: 'architecture',
-    description: 'Архитектурный и дизайн-исследовательский документ'
+    category: 'spec',
+    description: 'Исследовательский документ и карта информационной архитектуры',
+    whyOpen: 'Обоснование визуального стиля Warm Editorial Tech, CJW пути проверяющего и контрактов UI-компонентов.'
   },
   {
-    id: 'report_audit',
-    label: 'pipeline_audit_report.md',
-    filePath: 'output/pipeline_audit_report.md',
-    category: 'report',
-    description: 'Финальный отчет прогона пайплайна на 100% реальных данных'
+    id: 'doc_t10b',
+    label: 'TICKET_10B_DATA_LAYER.md',
+    filePath: 'docs/TICKET_10B_DATA_LAYER.md',
+    category: 'spec',
+    description: 'Спецификация типизированного слоя данных Demo UI',
+    whyOpen: 'Описание структуры app/src/data/, адаптеров и механизма связи реальных JSON-артефактов с React UI.'
+  },
+  {
+    id: 'doc_t10c',
+    label: 'TICKET_10C_VISUAL_SYSTEM.md',
+    filePath: 'docs/TICKET_10C_VISUAL_SYSTEM.md',
+    category: 'spec',
+    description: 'Спецификация fashion-first визуальной системы',
+    whyOpen: 'Описание токенов стилей, палитры LD Latte, типографики Bodoni/Outfit и векторных бренд-ассетов.'
+  },
+  {
+    id: 'doc_t10d',
+    label: 'TICKET_10D_APP_SHELL.md',
+    filePath: 'docs/TICKET_10D_APP_SHELL.md',
+    category: 'spec',
+    description: 'Спецификация AppShell и narrative-каркаса',
+    whyOpen: 'Архитектура навигации "Одна ссылка", отслеживание прокрутки и адаптивная верстка под мобильные устройства.'
+  },
+  {
+    id: 'doc_t10e',
+    label: 'TICKET_10E_EVIDENCE_VIEWS.md',
+    filePath: 'docs/TICKET_10E_EVIDENCE_VIEWS.md',
+    category: 'spec',
+    description: 'Спецификация интерактивных доказательных модулей',
+    whyOpen: 'Детали реализации инспектора промптов, графа воронки отбора, BGE-логитов и Qwen2.5-VL визуального аудита.'
   },
   {
     id: 'prompt_outreach',
     label: 'outreach_offer.md',
     filePath: 'prompts/outreach_offer.md',
     category: 'prompt',
-    description: 'Системный промпт генератора бартерных офферов'
+    description: 'Системный промпт генерации PR-офферов',
+    whyOpen: 'Инструкции для DeepSeek-V4/Groq, правила заземления в фактах и anti-robotic QA контроля писем.'
+  },
+  {
+    id: 'report_audit',
+    label: 'pipeline_audit_report.md',
+    filePath: 'output/pipeline_audit_report.md',
+    category: 'report',
+    description: 'Финальный отчет прогона пайплайна на 100% реальных данных',
+    whyOpen: 'Сводный аудит воронки: от 34 seed-записей к 19 валидным профилям и финальному Top-5 шорт-листу.'
+  },
+  {
+    id: 'report_embed',
+    label: 'embedding_debug_report.md',
+    filePath: 'output/embedding_debug_report.md',
+    category: 'report',
+    description: 'Отчет дебага векторов Qwen3-Embedding-0.6B',
+    whyOpen: 'Детальные косинусные оценки сходства между текстами постов кандидатов и идеальным портретом бренда.'
+  },
+  {
+    id: 'report_seed',
+    label: 'seed_cleanup_report.md',
+    filePath: 'output/seed_cleanup_report.md',
+    category: 'report',
+    description: 'Отчет очистки и нормализации исходного CSV',
+    whyOpen: 'Разбор отсева 15 недоступных (HTTP 404/400) страниц и фактологической верификации 19 реальных аккаунтов.'
   }
 ];

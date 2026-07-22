@@ -265,8 +265,9 @@ export interface ProofLink {
   label: string;
   filePath: string;
   url?: string;
-  category: 'architecture' | 'policy' | 'data' | 'report' | 'prompt' | 'repo';
+  category: 'architecture' | 'policy' | 'data' | 'report' | 'prompt' | 'repo' | 'spec';
   description: string;
+  whyOpen?: string;
 }
 
 // ==========================================

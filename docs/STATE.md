@@ -6,7 +6,7 @@
 
 ## 1. Текущий статус проекта
 
-* **Статус**: Выполнены этапы TICKET-01..TICKET-10D (очистка seed, согласованию документов, фрейминг стека, изоляция окружения, Instagram enrichment, идеальный портрет, Candidate Discovery, Embedding Similarity & Feature Scoring, Reranking & VLM Sanity Pass, Outreach Generator & QA, First Name Extraction & Personalization Upgrade, Research & Information Architecture, Demo Data Layer & Content Mapping, Visual System & Media Assets, App Shell & Narrative Layout). На очереди — TICKET-10E (Interactive Evidence Views).
+* **Статус**: Выполнены этапы TICKET-01..TICKET-10F (очистка seed, согласованию документов, фрейминг стека, изоляция окружения, Instagram enrichment, идеальный портрет, Candidate Discovery, Embedding Similarity & Feature Scoring, Reranking & VLM Sanity Pass, Outreach Generator & QA, First Name Extraction & Personalization Upgrade, Research & Information Architecture, Demo Data Layer & Content Mapping, Visual System & Media Assets, App Shell & Narrative Layout, Interactive Evidence Views, Submission Packaging & README/START Navigator). На очереди — TICKET-10G (Iterative QA, Visual Polish, User Feedback Loop & Final Public Deploy).
 * **Выполненные этапы**:
   * **TICKET-01**: Очистка Seed-данных полностью завершена. Разработан и запущен скрипт `src/ingest/clean.py`, сформирован очищенный файл `data/processed/normalized_seed_profiles_valid.csv` и подготовлен отчет `output/seed_cleanup_report.md`.
   * **TICKET-02**: Обновлены и заморожены базовые документы (`README.md`, `docs/ARCHITECTURE.md`, `docs/STATE.md`, `docs/AGENT_RULES.md`).
@@ -23,6 +23,7 @@
   * **TICKET-10B**: Разработан единый типизированный слой данных (Data Layer) в `app/src/data/` (`types.ts`, `content/pipeline_data.ts`, `adapters/index.ts`, `index.ts`), объединяющий 100% реальные артефакты пайплайна и резюме автора. Написан сопровождающий документ `docs/TICKET_10B_DATA_LAYER.md`.
   * **TICKET-10C**: Сформирован fashion-first визуальный фундамент в `app/src/styles/` (`tokens.css`, `globals.css`), `app/src/lib/design-tokens.ts`, `app/public/` (`favicon.svg`, `logo-mark.svg`). Зафиксирована концепция Warm Editorial Tech, сгенерированы векторы 100% официального логотипа LD LATTE, подключена типографика `Bodoni Moda`, `Outfit`, `Playfair Display`, `Plus Jakarta Sans`, `JetBrains Mono` и подготовлена спецификация `docs/TICKET_10C_VISUAL_SYSTEM.md`.
   * **TICKET-10D**: Собраны App Shell и Narrative Layout в `app/` (Vite, React, TypeScript, TailwindCSS, Header, ProofRail, SectionNav, Footer, HeroSection, Part1Section, Part2Section, Part3Section, App.tsx). Выполнена полная интеграция официального брендинга LD LATTE (векторный логотип, фавикон, глубокий винный акцент `#48121A`). Поддержан принцип «ОДНА ссылка», авто-отслеживание активной секции при прокрутке и адаптивность. Успешно пройден сборщик `npm run build`. Подготовлена спецификация `docs/TICKET_10D_APP_SHELL.md`.
+  * **TICKET-10E**: Разработаны и интегрированы интерактивные доказательные модули в `app/src/components/evidence/` (`PipelineEvidenceGraph.tsx`, `CandidateEvidenceStudio.tsx`, `OutreachOfferStudio.tsx`, `Part1Section.tsx`). Реализована глубокая инспекция Pydantic-контрактов 8 этапов, переключатель режимов Топ-5 шорт-лист / 17 кандидатов, модальный инспектор пофичевого скоринга, BGE-Reranker логитов, VLM Visual Sanity аудита Qwen2.5-VL и промпта `prompts/outreach_offer.md`. Подготовлена спецификация `docs/TICKET_10E_EVIDENCE_VIEWS.md`.
     * **1. Выявление проблем и ручной аудит данных**:
       * Обнаружены неточности в определении имен у кандидатов (`@llaurraiiam` = Лаура, `@janestetsiura` = Евгения/Jane Stetsiura, `@juliar_r` = Ульяна, `@daria_grogulenko` = Дарья, `@dddinaaaaaa` = Дина, `@mishandkatya` = парный аккаунт Миша и Катя).
       * Выявлена аномалия: закрытый недоступный аккаунт `@shalafaeva.al` ошибочно попал в топ-5 из-за отсутствия жесткой проверки доступности профиля.
@@ -194,24 +195,31 @@
 * **Зависит от**: TICKET-10B, TICKET-10C.
 
 #### 🔬 TICKET-10E — Interactive Evidence Views (shortlist, scores, VLM notes, offers, prompts)
-* **Статус**: `PENDING`
+* **Статус**: `DONE`
 * **Приоритет**: Высокий
 * **Описание**: Разработка интерактивных модулей демонстрации результатов: (1) Интерактивный шорт-лист кандидатов, (2) Детализация воронки отбора и фильтрации (пофичевый скоринг, Qwen3 эмбеддинги, BGE Reranker score), (3) VLM Visual Sanity notes и вердикты, (4) Генератор писем (просмотр офферов + промпты `prompts/outreach_offer.md`), (5) Интерактивный синтез идеального портрета.
-* **Done when**: Реализованы все интерактивные виджеты с детальными модальными окнами/аккордеонами и 100% прозрачностью расчетов пайплайна.
+* **Done when**: Реализованы все интерактивные виджеты с детальными модальными окнами/аккордеонами и 100% прозрачностью расчетов пайплайна. Созданы компоненты в `app/src/components/evidence/` (`PipelineEvidenceGraph.tsx`, `CandidateEvidenceStudio.tsx`, `OutreachOfferStudio.tsx`), обновлен `Part1Section.tsx`, написан артефакт `docs/TICKET_10E_EVIDENCE_VIEWS.md`. Успешно пройден сборщик `npm run build`.
 * **Зависит от**: TICKET-10D.
 
 #### 📦 TICKET-10F — Submission Packaging & README/START Navigator
-* **Статус**: `PENDING`
+* **Статус**: `DONE`
 * **Приоритет**: Средний
-* **Описание**: Интеграция быстрых ссылок на исходный код репозитория, документацию (`ARCHITECTURE.md`, `STATE.md`, `POLICY.md`), промпты и инструкции запуска в интерфейс Demo UI, а также обновление README.md со ссылкой на деплой.
-* **Done when**: Пользователь сайта может в один клик перейти к любому файлу пайплайна или промпту, в UI встроен навигатор по материалам тестового задания.
+* **Описание**: Интеграция быстрых ссылок на исходный код репозитория, документацию (`ARCHITECTURE.md`, `STATE.md`, `POLICY.md`), промпты и инструкции запуска в интерфейс Demo UI, а также обновление README.md со ссылкой на деплой и создание `docs/START.md`.
+* **Done when**: Пользователь сайта может в один клик перейти к любому из 13 файлов пайплайна или промпту, в UI (секция 3.4 `Part3Section.tsx`) встроен категориальный Submission & Evidence Hub, созданы `docs/START.md` и `docs/TICKET_10F_SUBMISSION_PACKAGING.md`, а также обновлен `README.md`.
 * **Зависит от**: TICKET-10E.
 
-#### 🚀 TICKET-10G — QA, Polish, Public Vercel Deploy & Final Handoff
+#### 🚀 TICKET-10G — Iterative QA, Visual Polish, User Feedback Loop & Final Public Deploy
 * **Статус**: `PENDING`
 * **Приоритет**: Блокирующий
-* **Описание**: Финальное тестирование интерфейса на всех разрешениях экрана, оптимизация скорости загрузки, настройка сборки Vercel, получение и верификация публичной рабочей ссылки (Vercel URL).
-* **Done when**: Проект задеплоен на Vercel, публичная ссылка проверена и полностью готова к отправке в проверяющий орган/команду LD Latte.
+* **Описание**: Управляемый совместный цикл полировки и приемки собранного веб-интерфейса LD Latte Demo UI. Включает агентский скрининг и аудит, ручной визуальный/UX-тестинг владельцем проекта (User Feedback Loop), внесение итеративных пакетов правок, повторные локальные проверки (`npm run build`) после каждого цикла, настройку Vercel и запуск публичного деплоя строго после получения явного ручного `visual approve`.
+* **Рабочий цикл (Loop Protocol)**:
+  1. *Audit & Baseline Check*: Агент проводит первичную локальную проверку кросс-браузерной верстки, типографики и отклика UI.
+  2. *User Feedback Gathering*: Владелец проекта вручную тестирует интерфейс, формирует список замечаний и пожеланий по визуалу/UX.
+  3. *Iterative Refinement*: Агент вносит изменения по замечаниям пользователя (в рамках утвержденной архитектуры и фрейминга).
+  4. *Local Re-testing*: После каждого пакета правок выполняется обязательная локальная сборка (`npm run build`) и проверка отсутствии регрессий.
+  5. *Human Visual Approve*: Владелец проекта проводит повторный ручной осмотр и дает финальное подтверждение на публичную публикацию.
+  6. *Vercel Deployment & Verification*: Настройка сборки Vercel, запуск деплоя, проверка доступности публичной рабочей ссылки (Vercel URL).
+* **Done when**: Интерфейс успешно прошел совместные итерации правок, получен явный ручной visual approve от владельца проекта, Demo UI публично задеплоен на Vercel, а рабочая ссылка верифицирована и готова к сдаче в LD Latte по принципу «ОДНА ссылка».
 * **Зависит от**: TICKET-10F.
 
 ### 📝 TICKET-11 — Теоретическое эссе и финальная сборка (Writeup & Submission)
