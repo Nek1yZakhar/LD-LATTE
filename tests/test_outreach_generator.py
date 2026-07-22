@@ -66,7 +66,7 @@ def test_language_selection_ru_and_en():
     cand_en = {"username": "fashion_blogger", "language": "en", "niche": "fashion", "biography": "Fashion style diary"}
     draft_en = build_deterministic_fallback_draft(entry, cand_en)
     assert draft_en.language == "en"
-    assert "Collaboration with LD Latte" in draft_en.subject
+    assert "Collaboration offer from LD Latte" in draft_en.subject
     assert "Hello" in draft_en.body
 
 
