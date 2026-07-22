@@ -21,6 +21,7 @@ from src.shared.models import (
     OutreachDraft
 )
 from src.shared.llm_client import LLMClient
+from src.outreach.name_extractor import extract_first_name
 
 # Configure logging
 logging.basicConfig(
@@ -98,9 +99,13 @@ def build_deterministic_fallback_draft(
     when LLM generation is unavailable or fails QA. No fake or invented data is used.
     """
     username = shortlist_entry.username
-    lang = candidate_info.get("language", "ru")
+    lang = candidate_info.get("language") or "ru"
     bio = candidate_info.get("biography", "").strip()
     niche = candidate_info.get("niche", "fashion")
+    
+    # Deterministic name extraction
+    name_result = extract_first_name(biography=bio, username=username)
+    greeting_target = name_result.greeting_name
     
     real_facts = []
     if bio:
@@ -112,7 +117,7 @@ def build_deterministic_fallback_draft(
             real_facts.append(gf)
             
     if not real_facts:
-        real_facts.append(f"Профиль @{username} выбран для сотрудничества с LD Latte.")
+        real_facts.append(f"Профиль {greeting_target} выбран для сотрудничества с LD Latte.")
 
     dedup_facts = list(dict.fromkeys(real_facts))
 
@@ -121,22 +126,23 @@ def build_deterministic_fallback_draft(
     ]
     if bio:
         personalized_elements.append(f"Описание профиля: {bio[:60]}")
+    if name_result.confidence == "high" and name_result.first_name:
+        personalized_elements.append(f"Извлеченное имя (high confidence): {name_result.first_name}")
 
     if lang == "en":
-        subject = f"Collaboration offer from LD Latte x @{username} 🤍"
+        subject = f"Collaboration offer from LD Latte x {greeting_target} 🤍"
         body = (
-            f"Hello @{username}!\n\n"
+            f"Hello {greeting_target}!\n\n"
             f"We at LD Latte love your visual style and aesthetic approach to content creation. "
             f"Our brand focuses on creating timeless, elegant minimalist apparel designed for everyday capsule wardrobe styling.\n\n"
-            f"We would love to offer you a barter collaboration — gifting you a complete outfit of your choice from our latest collection. "
-            f"In return, we would be thrilled if you featured the items in your own style, whether as a styling reel, outfit breakdown, or unboxing.\n\n"
+            f"We would love to offer you a barter collaboration — gifting you a complete outfit of your choice from our latest collection.\n\n"
             f"Would you be open to taking a look at our catalogue and picking something out?\n\n"
             f"Warm regards,\nLD Latte PR Team"
         )
     else:
-        subject = f"Стильный подарок от LD Latte для @{username} 🤍"
+        subject = f"Стильный подарок от LD Latte для {greeting_target} 🤍"
         body = (
-            f"Здравствуйте, @{username}!\n\n"
+            f"Здравствуйте, {greeting_target}!\n\n"
             f"Команда бренда LD Latte внимательно следит за вашим профилем — нам очень откликается ваша эстетика и то, как стильно вы преподносите свои образы.\n\n"
             f"Мы в LD Latte создаем лаконичную и элегантную женскую одежду, в которой легко собирать безупречные повседневные капсулы. "
             f"Хотели бы предложить вам бартерное сотрудничество и подарить любой понравившийся образ из нашей новой коллекции.\n\n"
@@ -184,13 +190,12 @@ def validate_qa_draft(draft: OutreachDraft, target_lang: str) -> bool:
             logger.warning(f"QA Failed: Robotic phrase '{phrase}' detected for @{draft.username}")
             return False
 
-    # Language drift check
-    if target_lang == "ru":
-        cyrillic_count = len(re.findall(r'[а-яА-ЯёЁ]', draft.body))
-        if cyrillic_count < 15:
-            logger.warning(f"QA Failed: Language drift detected for @{draft.username} (expected ru)")
-            return False
-            
+    # Language drift check (must be Russian for LD Latte target audience)
+    cyrillic_count = len(re.findall(r'[а-яА-ЯёЁ]', draft.body))
+    if cyrillic_count < 15:
+        logger.warning(f"QA Failed: Language drift detected for @{draft.username} (expected Russian, got only {cyrillic_count} Cyrillic characters)")
+        return False
+        
     return True
 
 
@@ -205,23 +210,33 @@ def generate_single_offer(
     with fallback to Groq / deterministic draft generator.
     """
     username = shortlist_entry.username
-    lang = candidate_info.get("language", "ru")
+    lang = "ru"  # Force Russian for Russian fashion market target audience
     bio = candidate_info.get("biography", "")
     niche = candidate_info.get("niche", "fashion")
     recent_posts = candidate_info.get("recent_posts", [])
     
+    # Deterministic name extraction & greeting formatting
+    name_result = extract_first_name(biography=bio, username=username)
+    greeting_target = name_result.greeting_name
+    mandatory_greeting = f"Здравствуйте, {greeting_target}!"
+
     # Format natural, human narrative input context (avoiding raw metric keys)
     input_context = {
         "username": username,
-        "language": lang,
+        "language": "ru",
         "biography_text": bio,
         "content_niche_focus": niche,
+        "mandatory_greeting": mandatory_greeting,
+        "extracted_first_name": name_result.first_name if name_result.confidence == "high" else None,
+        "name_confidence": name_result.confidence,
         "verified_profile_facts": shortlist_entry.grounding_facts,
         "recent_post_snippets": [p.get("caption", "") for p in recent_posts if isinstance(p, dict) and p.get("caption")]
     }
 
     user_prompt = (
-        f"Write a natural, high-converting barter PR offer for influencer @{username}.\n"
+        f"Write a natural, high-converting barter PR offer for influencer @{username} strictly in RUSSIAN language.\n"
+        f"MANDATORY: You MUST write the entire subject, body, personalized_elements, and grounding_facts in RUSSIAN.\n"
+        f"MANDATORY: You MUST start the offer body strictly with: '{mandatory_greeting}'\n"
         f"Strict Observable Context (DO NOT INVENT ANY FAKE FACTS):\n"
         f"{json.dumps(input_context, ensure_ascii=False, indent=2)}\n\n"
         f"Return strictly a valid JSON object matching the schema without robotic jargon."
@@ -249,11 +264,19 @@ def generate_single_offer(
             parsed_json = json.loads(cleaned_text)
             
             parsed_json["username"] = username
-            if "language" not in parsed_json or not parsed_json["language"]:
-                parsed_json["language"] = lang
+            parsed_json["language"] = "ru"
+
+            # Constraint 2: Ensure greeting is deterministically set in code
+            if "body" in parsed_json and isinstance(parsed_json["body"], str):
+                parsed_json["body"] = re.sub(
+                    r'^(?:Здравствуйте|Hello)\s*[^!\.\n]*[!\.]?\s*(?:[a-zA-Z0-9_\.]+[!\.]?\s*)?',
+                    f"{mandatory_greeting} ",
+                    parsed_json["body"].strip(),
+                    count=1
+                )
                 
             draft = OutreachDraft.model_validate(parsed_json)
-            
+
             if validate_qa_draft(draft, lang):
                 logger.info(f"Successfully generated valid natural PR offer for @{username}")
                 return draft

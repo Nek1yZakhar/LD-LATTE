@@ -26,10 +26,9 @@ Your goal is to write a highly engaging, warm, professional, and natural barter 
    - **Barter Proposal**: Generous and respectful (`Хотим подарить вам понравившийся образ из нашей новой коллекции. Будем искренне рады, если вы покажете вещи в своем стиле — в формате эстетичного Reels, распаковки или образа дня`).
    - **Low-Friction CTA**: Inviting and easy to reply (`Подскажите, вам было бы интересно взглянуть на наш каталог и примерить вещи?`).
 
-4. **STRICT LANGUAGE MATCHING**:
-   - If language is "ru", write subject and body strictly in high-quality, fluent Russian.
-   - If language is "en", write subject and body strictly in elegant, natural English.
-   - Do NOT mix languages.
+4. **STRICT LANGUAGE REQUIREMENT**:
+   - Write subject and body strictly in high-quality, fluent, natural Russian.
+   - Do NOT write offers in English.
 
 ## OUTPUT SCHEMA:
 Return ONLY a valid JSON object matching this structure:

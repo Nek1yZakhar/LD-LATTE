@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import re
 import json
 import logging
 import argparse
@@ -184,10 +185,13 @@ def fetch_playwright(username: str) -> Optional[dict]:
 
             if og_desc:
                 import re
-                logger.info(f"[Playwright] Extracting profile data from meta description fallback for '{username}': '{og_desc}'")
-                followers_match = re.search(r'([\d\.\,KkMm]+)\s+Followers', og_desc)
-                posts_match = re.search(r'([\d\.\,KkMm]+)\s+Posts', og_desc)
-
+                logger.info(f"[Playwright] Parsing meta description fallback for '{username}': '{og_desc}'")
+                
+                # Extract numbers from og_desc: usually "X Followers, Y Following, Z Posts" or "X, Y, Z"
+                numbers = re.findall(r'[\d\.\,]+[KkMm]?', og_desc)
+                followers_cnt = 0
+                posts_cnt = 0
+                
                 def parse_num(val_str: Optional[str]) -> int:
                     if not val_str:
                         return 0
@@ -201,15 +205,48 @@ def fetch_playwright(username: str) -> Optional[dict]:
                     except Exception:
                         return 0
 
-                followers_cnt = parse_num(followers_match.group(1)) if followers_match else 0
-                posts_cnt = parse_num(posts_match.group(1)) if posts_match else 0
+                if len(numbers) >= 1:
+                    followers_cnt = parse_num(numbers[0])
+                if len(numbers) >= 3:
+                    posts_cnt = parse_num(numbers[2])
+                elif len(numbers) == 2:
+                    posts_cnt = parse_num(numbers[1])
+
+                # Extract bio / full name inside parentheses after @username
+                bio_extracted = ""
+                bio_match = re.search(r'\([^\)]+\)', og_desc)
+                if bio_match:
+                    bio_extracted = bio_match.group(0).strip('()').strip()
+                    # Clean replacement characters if present
+                    bio_extracted = re.sub(r'[\ufffd\x00-\x1f]+', ' ', bio_extracted).strip()
+
+                # Extract post captions from article image alt attributes if present in DOM
+                recent_posts_dom = []
+                try:
+                    img_locators = page.locator("article img").all()
+                    for img in img_locators[:10]:
+                        alt_text = img.get_attribute("alt") or ""
+                        if alt_text and len(alt_text) > 10:
+                            # Clean "Photo by... with caption:" prefix if present
+                            clean_cap = re.sub(r'^Photo by [^\:]+\:\s*', '', alt_text, flags=re.IGNORECASE).strip()
+                            if clean_cap and not clean_cap.lower().startswith("profile picture"):
+                                recent_posts_dom.append({
+                                    "caption": clean_cap[:300],
+                                    "date": "",
+                                    "likes": 0,
+                                    "comments": 0
+                                })
+                except Exception as e:
+                    logger.debug(f"[Playwright] DOM post alt extraction skipped for '{username}': {e}")
+
+                final_bio = bio_extracted if bio_extracted else f"Instagram profile for {username}"
 
                 return {
                     "username": username,
-                    "biography": f"Instagram profile for {username}",
+                    "biography": final_bio,
                     "followers_count": followers_cnt,
                     "posts_count": posts_cnt,
-                    "recent_posts": []
+                    "recent_posts": recent_posts_dom
                 }
 
             logger.warning(f"[Playwright] Could not fetch profile payload for '{username}'.")
@@ -303,9 +340,12 @@ def fetch_mock(username: str) -> dict:
 
 def classify_profile_with_llm(biography: str, recent_posts: List[dict], llm_client: Optional[LLMClient] = None) -> dict:
     """Factual classification of language, niche, tone, and sponsorship saturation."""
+    has_cyrillic = bool(re.search(r'[а-яА-ЯёЁ]', biography))
+    default_lang = "ru" if has_cyrillic else "ru"  # Russian-first target market
+    
     default_meta = {
-        "language": "ru",
-        "niche": "fashion",
+        "language": default_lang,
+        "niche": "lifestyle",
         "caption_tone": "friendly",
         "sponsorship_saturation": "low"
     }
@@ -333,8 +373,13 @@ def classify_profile_with_llm(biography: str, recent_posts: List[dict], llm_clie
     try:
         raw_response = llm_client.generate(messages=messages, temperature=0.1, response_format={"type": "json_object"})
         parsed = json.loads(raw_response)
+        detected_lang = str(parsed.get("language", default_meta["language"])).lower()
+        # Enforce 'ru' if profile bio has Cyrillic text
+        if has_cyrillic:
+            detected_lang = "ru"
+
         return {
-            "language": str(parsed.get("language", default_meta["language"])),
+            "language": detected_lang,
             "niche": str(parsed.get("niche", default_meta["niche"])),
             "caption_tone": str(parsed.get("caption_tone", default_meta["caption_tone"])),
             "sponsorship_saturation": str(parsed.get("sponsorship_saturation", default_meta["sponsorship_saturation"]))

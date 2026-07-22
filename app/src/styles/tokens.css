@@ -1,0 +1,176 @@
+/**
+ * LD LATTE Demo UI - Design Tokens
+ * @file app/src/styles/tokens.css
+ * @description Master CSS Custom Properties for LD Latte Fashion-First Technical Design System.
+ * Style: Warm Editorial Tech (Fashion-First Hybrid)
+ */
+
+:root {
+  /* ==========================================
+   * 1. COLOR PALETTE (LIGHT THEME - DEFAULT)
+   * ========================================== */
+  
+  /* Background Surfaces */
+  --ld-color-bg-primary: #FAF7F2;      /* Topolevoe Moloko / Warm Cream */
+  --ld-color-bg-secondary: #F3EDE2;    /* Soft Latte Surface */
+  --ld-color-bg-elevated: #FFFFFF;     /* Pure White Card Surface */
+  --ld-color-bg-tertiary: #EBE3D5;     /* Muted Warm Secondary Surface */
+  --ld-color-bg-glass: rgba(250, 247, 242, 0.82); /* Glassmorphism Overlay */
+  
+  /* Text & Content */
+  --ld-color-text-primary: #161210;    /* Espresso Dark Primary Text */
+  --ld-color-text-secondary: #4A3E39;  /* Deep Roast Subtext */
+  --ld-color-text-muted: #8C7C75;      /* Warm Taupe Muted Text */
+  --ld-color-text-on-accent: #FFFFFF;  /* Contrast Text on Accent */
+
+  /* Accent Colors (Official LD LATTE Burgundy Palette) */
+  --ld-color-accent-primary: #48121A;  /* Official LD LATTE Burgundy Primary Accent */
+  --ld-color-accent-hover: #6B1D2E;    /* Deep Wine Hover Accent */
+  --ld-color-accent-subtle: #F7EFF1;   /* Burgundy Light Tint */
+  --ld-color-accent-ring: rgba(72, 18, 26, 0.35); /* Focus Ring */
+
+  /* Borders & Dividers */
+  --ld-color-border-subtle: #E8E0D7;   /* Subtle Border */
+  --ld-color-border-default: #D4C4B7;  /* Latte Divider & Card Border */
+  --ld-color-border-strong: #48121A;   /* Official Burgundy Border */
+
+  /* Semantic Status Colors (Fashion-Muted) */
+  --ld-color-success: #2E6B48;         /* Subdued Forest Green for High Score/VLM Pass */
+  --ld-color-success-bg: #EAF3EC;      /* Soft Green Badge Fill */
+  --ld-color-warning: #B57F22;         /* Warm Amber for Moderate Match */
+  --ld-color-warning-bg: #FAF3E6;      /* Soft Amber Badge Fill */
+  --ld-color-error: #A83B2B;           /* Warm Crimson for Rejected/Unreachable */
+  --ld-color-error-bg: #F9ECE9;        /* Soft Red Badge Fill */
+  --ld-color-info: #4A6E8D;            /* Slate Blue for Technical Notes */
+  --ld-color-info-bg: #EDF2F7;         /* Soft Blue Badge Fill */
+
+  /* Data & Chart Accents */
+  --ld-color-chart-semantic: #C88D74;  /* Semantic Embeddings */
+  --ld-color-chart-features: #6E5346;  /* Feature Score */
+  --ld-color-chart-rerank: #946955;    /* BGE Reranker Score */
+  --ld-color-chart-vlm: #2E6B48;       /* VLM Score */
+
+  /* ==========================================
+   * 2. TYPOGRAPHY TOKENS
+   * ========================================== */
+  --ld-font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ld-font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --ld-font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ld-font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* Font Sizes & Line Heights */
+  --ld-text-xs: 0.75rem;     /* 12px */
+  --ld-lh-xs: 1.0rem;
+  --ld-text-sm: 0.875rem;    /* 14px */
+  --ld-lh-sm: 1.375rem;
+  --ld-text-base: 1.0rem;    /* 16px */
+  --ld-lh-base: 1.625rem;
+  --ld-text-lg: 1.125rem;    /* 18px */
+  --ld-lh-lg: 1.75rem;
+  --ld-text-xl: 1.25rem;     /* 20px */
+  --ld-lh-xl: 1.875rem;
+  --ld-text-2xl: 1.5rem;     /* 24px */
+  --ld-lh-2xl: 2.0rem;
+  --ld-text-3xl: 1.875rem;   /* 30px */
+  --ld-lh-3xl: 2.375rem;
+  --ld-text-4xl: 2.25rem;    /* 36px */
+  --ld-lh-4xl: 2.75rem;
+  --ld-text-5xl: 3.0rem;     /* 48px */
+  --ld-lh-5xl: 3.5rem;
+
+  /* Font Weights */
+  --ld-font-weight-regular: 400;
+  --ld-font-weight-medium: 500;
+  --ld-font-weight-semibold: 600;
+  --ld-font-weight-bold: 700;
+
+  /* Letter Spacing */
+  --ld-tracking-tighter: -0.03em;
+  --ld-tracking-tight: -0.015em;
+  --ld-tracking-normal: 0em;
+  --ld-tracking-wide: 0.05em;
+  --ld-tracking-wider: 0.1em;
+  --ld-tracking-widest: 0.18em;
+
+  /* ==========================================
+   * 3. SPACING & RADIUS & SHADOWS
+   * ========================================== */
+  --ld-space-1: 0.25rem;   /* 4px */
+  --ld-space-2: 0.5rem;    /* 8px */
+  --ld-space-3: 0.75rem;   /* 12px */
+  --ld-space-4: 1.0rem;    /* 16px */
+  --ld-space-5: 1.25rem;   /* 20px */
+  --ld-space-6: 1.5rem;    /* 24px */
+  --ld-space-8: 2.0rem;    /* 32px */
+  --ld-space-10: 2.5rem;   /* 40px */
+  --ld-space-12: 3.0rem;   /* 48px */
+  --ld-space-16: 4.0rem;   /* 64px */
+  --ld-space-20: 5.0rem;   /* 80px */
+  --ld-space-24: 6.0rem;   /* 96px */
+
+  /* Border Radii */
+  --ld-radius-xs: 0.25rem;  /* 4px */
+  --ld-radius-sm: 0.375rem; /* 6px */
+  --ld-radius-md: 0.625rem; /* 10px */
+  --ld-radius-lg: 1.0rem;   /* 16px */
+  --ld-radius-xl: 1.5rem;   /* 24px */
+  --ld-radius-full: 9999px;
+
+  /* Elevation Shadows (Soft Fashion Warmth) */
+  --ld-shadow-sm: 0 1px 2px 0 rgba(22, 18, 16, 0.04);
+  --ld-shadow-md: 0 4px 12px -2px rgba(22, 18, 16, 0.06), 0 2px 4px -1px rgba(22, 18, 16, 0.03);
+  --ld-shadow-lg: 0 12px 28px -4px rgba(22, 18, 16, 0.08), 0 4px 8px -2px rgba(22, 18, 16, 0.04);
+  --ld-shadow-xl: 0 20px 40px -8px rgba(22, 18, 16, 0.12);
+  --ld-shadow-accent: 0 8px 20px -4px rgba(200, 141, 116, 0.35);
+
+  /* Transitions & Motion */
+  --ld-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --ld-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --ld-transition-smooth: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout Max Widths */
+  --ld-container-sm: 640px;
+  --ld-container-md: 896px;
+  --ld-container-lg: 1152px;
+  --ld-container-xl: 1280px;
+}
+
+/* ==========================================
+ * 4. DARK THEME TOKENS ([data-theme="dark"])
+ * ========================================== */
+[data-theme="dark"] {
+  --ld-color-bg-primary: #14100E;      /* Deep Espresso Dark */
+  --ld-color-bg-secondary: #1C1715;    /* Dark Roast Surface */
+  --ld-color-bg-elevated: #241E1B;     /* Elevated Espresso Card */
+  --ld-color-bg-tertiary: #2E2724;     /* Subtle Dark Surface */
+  --ld-color-bg-glass: rgba(20, 16, 14, 0.85);
+
+  --ld-color-text-primary: #F7F2EC;    /* Cream White Primary Text */
+  --ld-color-text-secondary: #D0C4BB;  /* Latte Subtext */
+  --ld-color-text-muted: #9E9088;      /* Muted Mocha */
+  --ld-color-text-on-accent: #14100E;  /* Dark Text on Light Accent */
+
+  --ld-color-accent-primary: #D89B82;  /* Warm Rose Gold Accent */
+  --ld-color-accent-hover: #E4AA92;    /* Lighter Rose Gold Hover */
+  --ld-color-accent-subtle: #2B1F1B;   /* Rose Gold Dark Tint */
+  --ld-color-accent-ring: rgba(216, 155, 130, 0.4);
+
+  --ld-color-border-subtle: #2A221F;   /* Subtle Dark Border */
+  --ld-color-border-default: #3D332F;  /* Mocha Divider & Card Border */
+  --ld-color-border-strong: #5A4C46;   /* High Contrast Dark Border */
+
+  --ld-color-success: #4E9A6F;
+  --ld-color-success-bg: #1B2B21;
+  --ld-color-warning: #D9A23E;
+  --ld-color-warning-bg: #2C2417;
+  --ld-color-error: #CE5A48;
+  --ld-color-error-bg: #2C1B18;
+  --ld-color-info: #6B94B8;
+  --ld-color-info-bg: #18232D;
+
+  --ld-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --ld-shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.4);
+  --ld-shadow-lg: 0 12px 28px -4px rgba(0, 0, 0, 0.5);
+  --ld-shadow-xl: 0 20px 40px -8px rgba(0, 0, 0, 0.6);
+  --ld-shadow-accent: 0 8px 20px -4px rgba(216, 155, 130, 0.25);
+}

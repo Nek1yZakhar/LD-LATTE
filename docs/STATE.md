@@ -6,7 +6,7 @@
 
 ## 1. Текущий статус проекта
 
-* **Статус**: Выполнены этапы TICKET-01..TICKET-09 (очистка seed, согласованию документов, фрейминг стека, изоляция окружения, Instagram enrichment, идеальный портрет, Candidate Discovery, Embedding Similarity & Feature Scoring, Reranking & VLM Sanity Pass, Outreach Generator & QA). На очереди — сборка интерактивного сайта (TICKET-10).
+* **Статус**: Выполнены этапы TICKET-01..TICKET-10D (очистка seed, согласованию документов, фрейминг стека, изоляция окружения, Instagram enrichment, идеальный портрет, Candidate Discovery, Embedding Similarity & Feature Scoring, Reranking & VLM Sanity Pass, Outreach Generator & QA, First Name Extraction & Personalization Upgrade, Research & Information Architecture, Demo Data Layer & Content Mapping, Visual System & Media Assets, App Shell & Narrative Layout). На очереди — TICKET-10E (Interactive Evidence Views).
 * **Выполненные этапы**:
   * **TICKET-01**: Очистка Seed-данных полностью завершена. Разработан и запущен скрипт `src/ingest/clean.py`, сформирован очищенный файл `data/processed/normalized_seed_profiles_valid.csv` и подготовлен отчет `output/seed_cleanup_report.md`.
   * **TICKET-02**: Обновлены и заморожены базовые документы (`README.md`, `docs/ARCHITECTURE.md`, `docs/STATE.md`, `docs/AGENT_RULES.md`).
@@ -18,6 +18,37 @@
   * **TICKET-07**: Реализован слой Embedding Similarity & Feature Scoring в `src/scoring/embed.py` и `src/scoring/score.py` (CLI entrypoints: `python -m src.scoring.embed` и `python -m src.scoring.score`). Расчитаны косинусное сходство векторов Qwen3-Embedding-0.6B и детерминированные фичевые оценки. Сформированы артефакты `data/processed/candidates_scored.json` и `output/embedding_debug_report.md`.
   * **TICKET-08**: Реализован слой Cross-Encoder Reranking (`src/scoring/rerank.py`, CLI: `python -m src.scoring.rerank`) с моделью `BAAI/bge-reranker-v2-m3` и сигмоидной нормализацией оценок, создающий `data/processed/candidates_reranked.json` и `data/processed/shortlist_raw.json`. Реализован VLM Visual Sanity Pass (`src/scoring/vlm_sanity.py`, CLI: `python -m src.scoring.vlm_sanity`) с поддержкой mock sandbox mode, создающий финальный шорт-лист `data/processed/shortlist_final.json` по Pydantic-контракту `FinalShortlistEntry`. Написаны тесты `tests/test_rerank_vlm.py`.
   * **TICKET-09**: Реализован Outreach Generator & QA (`src/outreach/generator.py`, CLI: `python -m src.outreach.generator`). Добавлена модель `OutreachDraft` в `src/shared/models.py`, промпт-шаблон `prompts/outreach_offer.md` и тесты `tests/test_outreach_generator.py`. Проведена оптимизация под DeepSeek-V4 / OpenRouter (с фолбеком на Groq Llama-3.3-70B), ликвидирован канцелярский/роботизированный жаргон, введена проверка anti-robotic QA и заземление в 100% реальных фактах с экспортом в `output/barter_offers.json`.
+  * **TICKET-09A**: Полный сквозной цикл модернизации персонализации, скрапинга, очистки данных и перепрогона пайплайна с нуля (Full E2E Pipeline Repopulation).
+  * **TICKET-10A**: Проведена исследовательская работа и спроектирована информационная архитектура (IA) веб-витрины LD Latte Demo UI. Сформирован руководящий артефакт `docs/TICKET_10A_RESEARCH_AND_IA.md`.
+  * **TICKET-10B**: Разработан единый типизированный слой данных (Data Layer) в `app/src/data/` (`types.ts`, `content/pipeline_data.ts`, `adapters/index.ts`, `index.ts`), объединяющий 100% реальные артефакты пайплайна и резюме автора. Написан сопровождающий документ `docs/TICKET_10B_DATA_LAYER.md`.
+  * **TICKET-10C**: Сформирован fashion-first визуальный фундамент в `app/src/styles/` (`tokens.css`, `globals.css`), `app/src/lib/design-tokens.ts`, `app/public/` (`favicon.svg`, `logo-mark.svg`). Зафиксирована концепция Warm Editorial Tech, сгенерированы векторы 100% официального логотипа LD LATTE, подключена типографика `Bodoni Moda`, `Outfit`, `Playfair Display`, `Plus Jakarta Sans`, `JetBrains Mono` и подготовлена спецификация `docs/TICKET_10C_VISUAL_SYSTEM.md`.
+  * **TICKET-10D**: Собраны App Shell и Narrative Layout в `app/` (Vite, React, TypeScript, TailwindCSS, Header, ProofRail, SectionNav, Footer, HeroSection, Part1Section, Part2Section, Part3Section, App.tsx). Выполнена полная интеграция официального брендинга LD LATTE (векторный логотип, фавикон, глубокий винный акцент `#48121A`). Поддержан принцип «ОДНА ссылка», авто-отслеживание активной секции при прокрутке и адаптивность. Успешно пройден сборщик `npm run build`. Подготовлена спецификация `docs/TICKET_10D_APP_SHELL.md`.
+    * **1. Выявление проблем и ручной аудит данных**:
+      * Обнаружены неточности в определении имен у кандидатов (`@llaurraiiam` = Лаура, `@janestetsiura` = Евгения/Jane Stetsiura, `@juliar_r` = Ульяна, `@daria_grogulenko` = Дарья, `@dddinaaaaaa` = Дина, `@mishandkatya` = парный аккаунт Миша и Катя).
+      * Выявлена аномалия: закрытый недоступный аккаунт `@shalafaeva.al` ошибочно попал в топ-5 из-за отсутствия жесткой проверки доступности профиля.
+    * **2. Модернизация Playwright Enrichment & Правило 7 (`src/fetchers/enrich.py`, `src/search/discover.py`)**:
+      * Реализован DOM HTML-парсинг атрибутов `alt` у тегов `article img` для извлечения текстов постов при блокировке GraphQL.
+      * Введено Правило 7 (`Hard Reject`) в `src/search/discover.py` для автоматического отсева закрытых/недоступных профилей без подписчиков, био и публикаций (аккаунт `@shalafaeva.al` полностью отсеян).
+    * **3. Разработка гибридного имени и парных аккаунтов (`src/outreach/name_extractor.py`)**:
+      * Реализован многоуровневый алгоритм:
+        * *Уровень 1*: Regex-экстракция из шапки био (поддержка `Name / Sub`, `Name | Sub`).
+        * *Уровень 2*: Шаблон парных/совместных аккаунтов (`Миша и Катя` / `Миша и Кейт` для `@mishandkatya`).
+        * *Уровень 3*: Гибридный LLM-извлекатель имен с кодовыми предохранителями (пропуск брендовых и цифровых никнеймов вроде `@jd_cosm`).
+        * *Уровень 4*: Расширенная таблица транслитерации `LATIN_TO_CYRILLIC_NAMES`.
+        * *Уровень 5*: Безопасный фолбек на `@username` при низкой уверенности (`confidence="low"`).
+    * **4. Сквозной перепрогон пайплайна с нуля (`scripts/repopulate_candidates.py`)**:
+      * Написан и запущен скрипт полных перевычислений и живого парсинга:
+        1. Обогащение 18 seed-профилей (`data/processed/seed_enriched.json`).
+        2. Синтез идеального портрета блогера (`data/processed/ideal_portrait.json`).
+        3. Живой Playwright-скрапинг и фильтрация кандидатов (`data/processed/candidates_discovered.json`).
+        4. Векторизация Qwen3-Embedding-0.6B и фичевое скорирование (`data/processed/candidates_scored.json`).
+        5. Реранкинг BAAI/bge-reranker-v2-m3 и VLM visual sanity pass (`data/processed/shortlist_final.json`).
+        6. Генерация персональных PR-офферов (`output/barter_offers.json`).
+    * **5. Гарантированная локализация на русский язык (`src/outreach/generator.py`, `prompts/outreach_offer.md`)**:
+      * Зафиксировано принудительное создание офферов на русском языке (`lang = "ru"`) для кандидатов из РФ с латинскими био (например, `@llaurraiiam` и `@janestetsiura`).
+      * Добавлен автоматический контроль `cyrillic_count >= 15` в `validate_qa_draft` против языкового дрейфа.
+    * **6. Итоговая верификация тестов**:
+      * Проведен успешный запуск всех 39 юнит- и интеграционных тестов `pytest tests/ -v` (100% PASS).
 
 ---
 
@@ -120,19 +151,75 @@
 * **Done when**: Записан файл `output/barter_offers.json` со сгенерированными письмами.
 * **Зависит от**: TICKET-08.
 
-### 🌐 TICKET-10 — Сборка интерактивного сайта (Full Website Packaging)
+### 👤 TICKET-09A — Извлечение реальных имен из био (First Name Extraction & Personalization Upgrade)
+* **Статус**: `DONE`
+* **Приоритет**: Низкий (Улучшение конверсии)
+* **Описание**: Парсинг личных имен инфлюенсера из `biography` и `username` (например, "Дарья" из `@daria_grogulenko`) для безопасной замены `@username` на имя в обращении ("Здравствуйте, Дарья!").
+* **Done when**: Реализован безопасный экстрактор имен с фолбеком на `@username`, подбор детерминированного обращения, прохождение 36 тестов и обновление `output/barter_offers.json`.
+* **Зависит от**: TICKET-09.
+
+### 🌐 TICKET-10 — Сборка интерактивного публичного веб-сайта (Full Website Packaging Epic)
+* **Статус**: `PENDING` (Декомпозирован на TICKET-10A..10G)
+* **Приоритет**: Высокий
+* **Описание**: Управляющий эпик по созданию единой публичной русскоязычной веб-витрины (Demo UI) в `app/` с деплоем на Vercel. Обеспечивает интеграцию всех результатов работы пайплайна (Часть 1: Инструмент, промпты, воронка скоринга, VLM-аналитика, персонализированные офферы; Часть 2: Теоретическая схема сквозной автоматизации; Часть 3: Резюме и прошлые кейсы разработчика из `Matvejchuk_Zakhar_Master_Resume_v8.md`).
+* **Done when**: Завершены подтикеты TICKET-10A..10G, сайт публично доступен на Vercel и закрывает требования тестового задания LD Latte по принципу «ОДНА ссылка».
+* **Зависит от**: TICKET-09A.
+
+#### 📐 TICKET-10A — Research & Information Architecture
+* **Статус**: `DONE`
+* **Приоритет**: Высокий
+* **Описание**: Проектирование информационной структуры и CJW (Customer/Evaluator Journey Walkthrough) одностраничного/многостраничного веб-приложения в `app/`. Фиксация навигации по 3 ключевым блокам: (1) Модульный AI-пайплайн и интерактивные результаты, (2) Архитектурная схема и концепция автоматизации (Часть 2), (3) Резюме и портфолио автора (`Matvejchuk_Zakhar_Master_Resume_v8.md`).
+* **Done when**: Составлена карта информационной архитектуры (IA Map), определены контракты данных UI-компонентов и навигационные якоря. Сформирован исследовательский артефакт `docs/TICKET_10A_RESEARCH_AND_IA.md`.
+* **Зависит от**: TICKET-09A.
+
+#### 💾 TICKET-10B — Demo Data Layer & Content Mapping
+* **Статус**: `DONE`
+* **Приоритет**: Высокий
+* **Описание**: Создание единой безопасной точки выгрузки данных в `app/src/data/` (`types.ts`, `content/pipeline_data.ts`, `adapters/index.ts`, `index.ts`), трансформирующей 100% реальные артефакты `data/processed/` (`seed_enriched.json`, `ideal_portrait.json`, `candidates_discovered.json`, `candidates_scored.json`, `candidates_reranked.json`, `shortlist_final.json`), `output/barter_offers.json`, `prompts/outreach_offer.md` и резюме `Matvejchuk_Zakhar_Master_Resume_v8.md` в типизированные структуры для UI.
+* **Done when**: Все 100% реальные результаты работы пайплайна и резюме экспортируются в UI через строго типизированные адаптеры без дублирования или выдуманных данных. Подготовлен артефакт `docs/TICKET_10B_DATA_LAYER.md`.
+* **Зависит от**: TICKET-10A.
+
+#### 🎨 TICKET-10C — Visual System, Palette, Favicon & Media Assets
+* **Статус**: `DONE`
+* **Приоритет**: Высокий
+* **Описание**: Формирование fashion-first визуальной эстетики (палитра LD Latte, премиальная типографика, лаконичный режим, стеклянные микро-анимации, фавикон, брендированные иконки и эстетичные карточки профилей).
+* **Done when**: Создан базовый дизайн-системный конфиг в `app/`, фавикон, цветовые токены и медиа-компоненты. Сформирован артефакт `docs/TICKET_10C_VISUAL_SYSTEM.md`.
+* **Зависит от**: TICKET-10A.
+
+#### 🧱 TICKET-10D — App Shell, Narrative Structure & Part 1/2/3 Layout
+* **Статус**: `DONE`
+* **Приоритет**: Высокий
+* **Описание**: Разработка базового UI-каркаса (App Shell, шапка, футер, интерактивный переключатель разделов Часть 1 / Часть 2 / Часть 3) с бесшовной навигацией, адаптивностью под мобильные устройства и плавными переходами.
+* **Done when**: Собрана рабочая структура страниц/секций в `app/`, поддерживающая адаптивную навигацию и переключение частей тестового задания.
+* **Зависит от**: TICKET-10B, TICKET-10C.
+
+#### 🔬 TICKET-10E — Interactive Evidence Views (shortlist, scores, VLM notes, offers, prompts)
 * **Статус**: `PENDING`
 * **Приоритет**: Высокий
-* **Описание**: Разработка интерфейса в папке `app/` для презентации результатов пайплайна (схемы, портрет идеального блогера, шорт-лист, офферы).
-* **Done when**: Сайт запускается локально, полностью интерактивен и наполнен реальными результатами запусков.
-* **Зависит от**: TICKET-09.
+* **Описание**: Разработка интерактивных модулей демонстрации результатов: (1) Интерактивный шорт-лист кандидатов, (2) Детализация воронки отбора и фильтрации (пофичевый скоринг, Qwen3 эмбеддинги, BGE Reranker score), (3) VLM Visual Sanity notes и вердикты, (4) Генератор писем (просмотр офферов + промпты `prompts/outreach_offer.md`), (5) Интерактивный синтез идеального портрета.
+* **Done when**: Реализованы все интерактивные виджеты с детальными модальными окнами/аккордеонами и 100% прозрачностью расчетов пайплайна.
+* **Зависит от**: TICKET-10D.
+
+#### 📦 TICKET-10F — Submission Packaging & README/START Navigator
+* **Статус**: `PENDING`
+* **Приоритет**: Средний
+* **Описание**: Интеграция быстрых ссылок на исходный код репозитория, документацию (`ARCHITECTURE.md`, `STATE.md`, `POLICY.md`), промпты и инструкции запуска в интерфейс Demo UI, а также обновление README.md со ссылкой на деплой.
+* **Done when**: Пользователь сайта может в один клик перейти к любому файлу пайплайна или промпту, в UI встроен навигатор по материалам тестового задания.
+* **Зависит от**: TICKET-10E.
+
+#### 🚀 TICKET-10G — QA, Polish, Public Vercel Deploy & Final Handoff
+* **Статус**: `PENDING`
+* **Приоритет**: Блокирующий
+* **Описание**: Финальное тестирование интерфейса на всех разрешениях экрана, оптимизация скорости загрузки, настройка сборки Vercel, получение и верификация публичной рабочей ссылки (Vercel URL).
+* **Done when**: Проект задеплоен на Vercel, публичная ссылка проверена и полностью готова к отправке в проверяющий орган/команду LD Latte.
+* **Зависит от**: TICKET-10F.
 
 ### 📝 TICKET-11 — Теоретическое эссе и финальная сборка (Writeup & Submission)
 * **Статус**: `PENDING`
 * **Приоритет**: Средний
 * **Описание**: Подготовка Части 2 задания (теоретический разбор сквозной автоматизации) и финальная проверка репозитория.
-* **Done when**: Проект готов к сдаче в виде единого репозитория.
-* **Зависит от**: TICKET-10.
+* **Done when**: Проект готов к сдаче в виде единого репозитория и публичной веб-ссылки Vercel.
+* **Зависит от**: TICKET-10G.
 
 ---
 
@@ -141,10 +228,11 @@
 1. Выполнить **TICKET-03** для фиксации API-подключений и локальной работы моделей эмбеддингов/реранкера.
 2. Выполнить **TICKET-03A** для переноса зависимостей и настройки чистой изолированной среды в `.venv`.
 3. Реализовать сборщик данных **TICKET-04** (Instagram Enrichment).
-3. Создать модуль анализа **TICKET-05** для построения идеального портрета.
-4. Последовательно реализовать поиск кандидатов (**TICKET-06**), скоринг эмбеддингов (**TICKET-07**) и реранкинг с VLM (**TICKET-08**).
-5. Написать генератор писем (**TICKET-09**).
-6. Собрать демонстрационный сайт (**TICKET-10**) и подготовить эссе (**TICKET-11**).
+4. Создать модуль анализа **TICKET-05** для построения идеального портрета.
+5. Последовательно реализовать поиск кандидатов (**TICKET-06**), скоринг эмбеддингов (**TICKET-07**) и реранкинг с VLM (**TICKET-08**).
+6. Написать генератор писем (**TICKET-09** / **TICKET-09A**).
+7. Поэтапно реализовать сборку, отладку и публичный деплой интерактивного веб-сайта (**TICKET-10A** → **TICKET-10B** → **TICKET-10C** → **TICKET-10D** → **TICKET-10E** → **TICKET-10F** → **TICKET-10G**).
+8. Подготовить финальные материалы Части 2 и провести сдачу проекта (**TICKET-11**).
 
 ---
 
@@ -153,7 +241,7 @@
 * **Стек моделей**: Qwen3-Embedding (0.6B/4B), BGE-Reranker-v2-m3, Groq/OpenRouter API, Qwen2.5-VL.
 * **Скрапинг**: Только self-operated скрапинг (Instaloader -> Playwright). Никаких сторонних SaaS в качестве основы.
 * **VLM**: Исключительно для финальной визуальной валидации шорт-листа из 3–5 кандидатов (не участвует в первичном поиске).
-* **Сайт**: Финальная презентация обязательно происходит через веб-интерфейс в `app/`.
+* **Сайт и деплой**: Финальная презентация поставляется в виде публичного единого веб-сайта на Vercel (Demo UI в `app/`), объединяющего все 3 части задания LD Latte (Инструмент и воронка, Схема автоматизации Части 2, Резюме и прошлые кейсы `Matvejchuk_Zakhar_Master_Resume_v8.md`) в рамках подтикетов TICKET-10A..10G.
 * **Фрейминг**: Проект представляет собой модульный пайплайн (**modular AI pipeline (agent-ready)**), а не монолитный агент.
 
 ---
@@ -174,5 +262,4 @@
    * *Реализованный статус*: Пайплайн работает строго на **19 реально спарсенных профилях**. Фейковые данные отсутствуют.
 
 3. **Соблюдение контрактов при отсутствии schema drift**:
-   * Все Pydantic-модели подходят и строго валидируют 19 реально выгруженных профилей. Сквозной аудит и 29 unit-тестов (`pytest -v`) подтверждают абсолютную валидность данных и отсутствие schema drift.
-
+   * Все Pydantic-модели подходят и строго валидируют 19 реально выгруженных профилей. Сквозной аудит и 29 unit-тестов (`pytest -v`) подтверждают абсолютность данных и отсутствие schema drift.

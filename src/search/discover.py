@@ -123,6 +123,8 @@ def filter_candidate(
     4. Language relevance matching allowed_languages.
     5. Activity recency <= ideal.activity_recency_max_days.
     6. Sponsorship saturation <= ideal.sponsorship_saturation_max.
+    7. [HARD REJECT] 0-follower / inaccessible profiles with no bio or content
+       Private/deleted accounts cannot be meaningfully scored or validated.
     """
     # 1. Followers count
     if not (min_followers <= candidate.followers_count <= max_followers):
@@ -159,6 +161,15 @@ def filter_candidate(
     max_sat_rank = SATURATION_RANK.get(ideal.sponsorship_saturation_max.lower(), 1)
     if cand_sat_rank > max_sat_rank:
         logger.debug(f"Candidate @{candidate.username} filtered out: saturation '{candidate.sponsorship_saturation}' > max '{ideal.sponsorship_saturation_max}'")
+        return False
+
+    # 7. HARD REJECT: private / inaccessible 0-follower profiles with no bio or content
+    #    Private/deleted accounts cannot be meaningfully scored or validated.
+    if candidate.followers_count == 0 and not candidate.recent_posts and not candidate.biography:
+        logger.info(
+            f"Candidate @{candidate.username} hard-rejected: private or inaccessible profile "
+            f"(0 followers, no bio, no posts)."
+        )
         return False
 
     return True
