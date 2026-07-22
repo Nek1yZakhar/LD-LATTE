@@ -12,7 +12,8 @@ import {
   Info,
   Database,
   Sliders,
-  Award
+  Award,
+  Cpu
 } from 'lucide-react';
 import type { PipelineNode, IdealBloggerProfile } from '@/data';
 
@@ -28,7 +29,7 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
   return (
     <div className="space-y-8">
       {/* 1.1 Pipeline Graph Cards */}
-      <div id="p1-flow" className="p-6 sm:p-8 rounded-3xl bg-[#FFFFFF] border border-[#D4C4B7] shadow-xs space-y-6">
+      <div id="p1-flow" className="p-6 sm:p-8 rounded-3xl bg-[#FFFFFF] border border-[#D4C4B7] shadow-sm space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E8E0D7]">
           <div>
             <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-full bg-[#48121A]/10 text-[#48121A] text-xs font-bold uppercase tracking-wider mb-1">
@@ -40,75 +41,223 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
               Кликните на любой этап, чтобы узнать, что происходит на этом шаге, какие данные передаются и какой алгоритм используется.
             </p>
           </div>
-          <div className="flex items-center space-x-2 text-xs font-mono">
-            <span className="px-2.5 py-1 rounded-md bg-[#EAF3EC] text-[#2E6B48] border border-[#2E6B48]/30 font-semibold flex items-center space-x-1">
-              <ShieldCheck className="w-3.5 h-3.5" />
+          <div className="flex items-center space-x-2 text-xs font-mono relative group/tooltip">
+            <span className="px-3 py-1.5 rounded-xl bg-[#EAF3EC] text-[#2E6B48] border border-[#2E6B48]/30 font-semibold flex items-center space-x-1.5 cursor-help hover:bg-[#DDF0E2] transition-all shadow-2xs">
+              <ShieldCheck className="w-4 h-4 text-[#2E6B48]" />
               <span>Строгое Pydantic-валидирование</span>
+              <Info className="w-3 h-3 text-[#2E6B48]/70 ml-0.5" />
             </span>
+
+            {/* Custom Premium Tooltip */}
+            <div className="absolute right-0 top-full mt-2.5 w-80 p-4 bg-[#161210] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C88D74]/40 backdrop-blur-md opacity-0 group-hover/tooltip:opacity-100 transition-all duration-200 pointer-events-none z-30 space-y-2 text-xs font-sans">
+              <div className="flex items-center space-x-2 text-[#C88D74] font-bold border-b border-[#FAF7F2]/10 pb-1.5">
+                <ShieldCheck className="w-4 h-4" />
+                <span>Что такое Pydantic-контракт?</span>
+              </div>
+              <p className="text-[11px] text-[#FAF7F2]/90 leading-relaxed font-normal">
+                Гарантия абсолютной целостности данных: каждый из 8 модулей конвейера обменивается строго типизированными объектами Python. Ошибки типов, пропущенные поля и невалидная структура исключаются автоматически.
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Interactive Grid of Nodes */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-          {nodes.map((node) => {
-            const isSelected = selectedNode?.id === node.id;
-            return (
-              <button
-                key={node.id}
-                onClick={() => setSelectedNode(node)}
-                className={`p-3 rounded-2xl text-left transition-all relative group flex flex-col justify-between h-32 border ${
-                  node.isVlmNode 
-                    ? 'bg-[#F7EFF1] border-[#48121A]/40 hover:border-[#48121A] shadow-xs' 
-                    : isSelected 
-                      ? 'bg-[#48121A] text-[#FAF7F2] border-[#48121A] shadow-md ring-2 ring-[#48121A]/20' 
-                      : 'bg-[#FAF7F2] border-[#E8E0D7] hover:border-[#48121A] hover:bg-[#FFFFFF]'
-                }`}
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className={`text-[10px] font-bold font-mono ${
-                      isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
-                    }`}>
-                      ШАГ 0{node.stageNumber}
-                    </span>
-                    {node.isVlmNode ? (
-                      <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#48121A] text-[#FAF7F2]">
-                        VLM Визуал
-                      </span>
-                    ) : (
-                      <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : 'bg-[#2E6B48]'}`}></span>
+        {/* Central Axis Tree Flow Diagram (Minimalistic & Highly Readable) */}
+        <div className="relative py-4 px-1">
+          {/* Main Horizontal Flow Line (Desktop/Tablet) */}
+          <div className="hidden lg:block absolute left-4 right-4 top-1/2 -translate-y-1/2 h-0.5 bg-[#D4C4B7] z-0" />
+
+          {/* Grid of Nodes Alternating Top & Bottom on Central Axis */}
+          <div className="hidden lg:grid grid-cols-8 gap-3 relative z-10">
+            {nodes.map((node, index) => {
+              const isSelected = selectedNode?.id === node.id;
+              const isTop = index % 2 === 0; // Steps 1, 3, 5, 7 on Top; Steps 2, 4, 6, 8 on Bottom
+
+              return (
+                <div key={node.id} className="flex flex-col items-center justify-between h-84 py-1">
+                  {/* Top Slot */}
+                  <div className="w-full h-36 flex flex-col justify-end">
+                    {isTop && (
+                      <button
+                        onClick={() => setSelectedNode(node)}
+                        className={`p-3 sm:p-3.5 rounded-2xl text-left transition-all relative group flex flex-col justify-between h-34 border ${
+                          node.isVlmNode 
+                            ? 'bg-[#F7EFF1] border-[#48121A]/40 hover:border-[#48121A] shadow-xs' 
+                            : isSelected 
+                              ? 'bg-[#48121A] text-[#FAF7F2] border-[#48121A] shadow-md ring-2 ring-[#48121A]/20' 
+                              : 'bg-[#FAF7F2] border-[#E8E0D7] hover:border-[#48121A] hover:bg-[#FFFFFF]'
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between mb-1.5">
+                            <span className={`text-xs font-bold font-mono ${
+                              isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
+                            }`}>
+                              ШАГ 0{node.stageNumber}
+                            </span>
+                            {node.isVlmNode ? (
+                              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#48121A] text-[#FAF7F2]">
+                                VLM Визуал
+                              </span>
+                            ) : (
+                              <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : 'bg-[#2E6B48]'}`}></span>
+                            )}
+                          </div>
+                          <h4 className={`text-xs sm:text-sm font-bold leading-snug clamp-2 ${
+                            isSelected ? 'text-[#FAF7F2]' : 'text-[#161210]'
+                          }`}>
+                            {node.name}
+                          </h4>
+                        </div>
+
+                        <div className="pt-2 border-t border-black/5 flex items-center justify-between">
+                          <span className={`text-[10px] sm:text-[11px] font-mono truncate ${
+                            isSelected ? 'text-[#FAF7F2]/80' : 'text-[#8C7C75]'
+                          }`}>
+                            {node.moduleFile.split('/').pop()}
+                          </span>
+                          <ChevronRight className={`w-3.5 h-3.5 transition-transform ${
+                            isSelected ? 'text-[#C88D74] translate-x-0.5' : 'text-[#8C7C75] group-hover:translate-x-0.5'
+                          }`} />
+                        </div>
+                      </button>
                     )}
                   </div>
-                  <h4 className={`text-xs font-bold leading-tight clamp-2 ${
-                    isSelected ? 'text-[#FAF7F2]' : 'text-[#161210]'
-                  }`}>
-                    {node.name}
-                  </h4>
-                </div>
 
-                <div className="pt-2 border-t border-black/5 flex items-center justify-between">
-                  <span className={`text-[9px] font-mono truncate ${
-                    isSelected ? 'text-[#FAF7F2]/70' : 'text-[#8C7C75]'
-                  }`}>
-                    {node.moduleFile.split('/').pop()}
-                  </span>
-                  <ChevronRight className={`w-3 h-3 transition-transform ${
-                    isSelected ? 'text-[#C88D74] translate-x-0.5' : 'text-[#8C7C75] group-hover:translate-x-0.5'
-                  }`} />
+                  {/* Stem Line & Node Dot Connection on Central Axis */}
+                  <div className="flex flex-col items-center justify-center my-1">
+                    <div className={`w-0.5 h-4 ${isTop ? 'bg-[#D4C4B7]' : 'bg-transparent'}`} />
+                    <div className={`w-4 h-4 rounded-full border-2 transition-all flex items-center justify-center ${
+                      isSelected 
+                        ? 'bg-[#48121A] border-[#C88D74] scale-125 z-20 shadow-xs' 
+                        : node.isVlmNode
+                          ? 'bg-[#48121A] border-[#48121A]'
+                          : 'bg-[#FFFFFF] border-[#D4C4B7] hover:border-[#48121A]'
+                    }`}>
+                      <div className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#FAF7F2]' : 'bg-[#48121A]'}`} />
+                    </div>
+                    <div className={`w-0.5 h-4 ${!isTop ? 'bg-[#D4C4B7]' : 'bg-transparent'}`} />
+                  </div>
+
+                  {/* Bottom Slot */}
+                  <div className="w-full h-36 flex flex-col justify-start">
+                    {!isTop && (
+                      <button
+                        onClick={() => setSelectedNode(node)}
+                        className={`p-3 sm:p-3.5 rounded-2xl text-left transition-all relative group flex flex-col justify-between h-34 border ${
+                          node.isVlmNode 
+                            ? 'bg-[#F7EFF1] border-[#48121A]/40 hover:border-[#48121A] shadow-xs' 
+                            : isSelected 
+                              ? 'bg-[#48121A] text-[#FAF7F2] border-[#48121A] shadow-md ring-2 ring-[#48121A]/20' 
+                              : 'bg-[#FAF7F2] border-[#E8E0D7] hover:border-[#48121A] hover:bg-[#FFFFFF]'
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between mb-1.5">
+                            <span className={`text-xs font-bold font-mono ${
+                              isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
+                            }`}>
+                              ШАГ 0{node.stageNumber}
+                            </span>
+                            {node.isVlmNode ? (
+                              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#48121A] text-[#FAF7F2]">
+                                VLM Визуал
+                              </span>
+                            ) : (
+                              <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : 'bg-[#2E6B48]'}`}></span>
+                            )}
+                          </div>
+                          <h4 className={`text-xs sm:text-sm font-bold leading-snug clamp-2 ${
+                            isSelected ? 'text-[#FAF7F2]' : 'text-[#161210]'
+                          }`}>
+                            {node.name}
+                          </h4>
+                        </div>
+
+                        <div className="pt-2 border-t border-black/5 flex items-center justify-between">
+                          <span className={`text-[10px] sm:text-[11px] font-mono truncate ${
+                            isSelected ? 'text-[#FAF7F2]/80' : 'text-[#8C7C75]'
+                          }`}>
+                            {node.moduleFile.split('/').pop()}
+                          </span>
+                          <ChevronRight className={`w-3.5 h-3.5 transition-transform ${
+                            isSelected ? 'text-[#C88D74] translate-x-0.5' : 'text-[#8C7C75] group-hover:translate-x-0.5'
+                          }`} />
+                        </div>
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </button>
-            );
-          })}
+              );
+            })}
+          </div>
+
+          {/* Mobile / Small Screens Layout (Vertical Tree Line) */}
+          <div className="lg:hidden relative pl-6 space-y-3.5">
+            <div className="absolute left-2.5 top-3 bottom-3 w-0.5 bg-[#D4C4B7]" />
+            {nodes.map((node) => {
+              const isSelected = selectedNode?.id === node.id;
+              return (
+                <div key={node.id} className="relative">
+                  <div className={`absolute -left-6 top-4 w-3.5 h-3.5 rounded-full border-2 ${
+                    isSelected ? 'bg-[#48121A] border-[#C88D74]' : 'bg-[#FFFFFF] border-[#D4C4B7]'
+                  }`} />
+                  <button
+                    onClick={() => setSelectedNode(node)}
+                    className={`w-full p-3.5 rounded-2xl text-left transition-all relative group flex flex-col justify-between h-32 border ${
+                      node.isVlmNode 
+                        ? 'bg-[#F7EFF1] border-[#48121A]/40 hover:border-[#48121A] shadow-xs' 
+                        : isSelected 
+                          ? 'bg-[#48121A] text-[#FAF7F2] border-[#48121A] shadow-md ring-2 ring-[#48121A]/20' 
+                          : 'bg-[#FAF7F2] border-[#E8E0D7] hover:border-[#48121A] hover:bg-[#FFFFFF]'
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className={`text-xs font-bold font-mono ${
+                          isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
+                        }`}>
+                          ШАГ 0{node.stageNumber}
+                        </span>
+                        {node.isVlmNode ? (
+                          <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#48121A] text-[#FAF7F2]">
+                            VLM Визуал
+                          </span>
+                        ) : (
+                          <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : 'bg-[#2E6B48]'}`}></span>
+                        )}
+                      </div>
+                      <h4 className={`text-xs sm:text-sm font-bold leading-snug clamp-2 ${
+                        isSelected ? 'text-[#FAF7F2]' : 'text-[#161210]'
+                      }`}>
+                        {node.name}
+                      </h4>
+                    </div>
+
+                    <div className="pt-2 border-t border-black/5 flex items-center justify-between">
+                      <span className={`text-[10px] sm:text-[11px] font-mono truncate ${
+                        isSelected ? 'text-[#FAF7F2]/80' : 'text-[#8C7C75]'
+                      }`}>
+                        {node.moduleFile.split('/').pop()}
+                      </span>
+                      <ChevronRight className={`w-3.5 h-3.5 transition-transform ${
+                        isSelected ? 'text-[#C88D74] translate-x-0.5' : 'text-[#8C7C75] group-hover:translate-x-0.5'
+                      }`} />
+                    </div>
+                  </button>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Banner with Architectural Note on VLM */}
-        <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#D4C4B7] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-          <div className="flex items-start space-x-3">
-            <div className="p-2 rounded-xl bg-[#48121A]/10 text-[#48121A] shrink-0 mt-0.5">
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#FAF7F2] to-[#F3EDE2] border border-[#D4C4B7] flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs shadow-2xs">
+          <div className="flex items-start space-x-3.5">
+            <div className="p-2.5 rounded-xl bg-[#48121A]/10 text-[#48121A] shrink-0 mt-0.5 border border-[#48121A]/20 shadow-2xs">
               <Eye className="w-4 h-4" />
             </div>
             <div>
-              <p className="font-bold text-[#161210]">
+              <p className="font-bold text-[#161210] text-sm">
                 Зачем здесь мультимодальный AI (Qwen2.5-VL)?
               </p>
               <p className="text-[#4A3E39] mt-0.5 leading-relaxed">
@@ -118,7 +267,7 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
           </div>
           <button
             onClick={() => setShowPortraitModal(true)}
-            className="px-3.5 py-2 rounded-xl bg-[#161210] text-[#FAF7F2] hover:bg-[#48121A] transition-colors font-semibold shrink-0 text-xs flex items-center space-x-1.5 self-start sm:self-center"
+            className="px-4 py-2.5 rounded-xl bg-[#161210] text-[#FAF7F2] hover:bg-[#48121A] transition-all duration-200 font-semibold shrink-0 text-xs flex items-center space-x-2 self-start sm:self-center shadow-md hover:shadow-lg"
           >
             <Sparkles className="w-3.5 h-3.5 text-[#C88D74]" />
             <span>Инспектор эталонного профиля</span>
