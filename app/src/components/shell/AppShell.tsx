@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './Header';
-import { ProofRail } from './ProofRail';
-import { SectionNav } from './SectionNav';
 import { Footer } from './Footer';
 
 interface AppShellProps {
@@ -40,22 +38,18 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#161210] flex flex-col font-sans selection:bg-[#48121A] selection:text-[#FAF7F2]">
-      {/* 1. Primary Sticky Navigation Header */}
+      {/* Primary Clean Sticky Navigation Header */}
       <Header activePart={activePart} onNavigate={setActivePart} />
 
-      {/* 2. Factual Evidence Proof Banner */}
-      <ProofRail />
-
-      {/* 3. Sub-section Quick Jump Anchor Navigation */}
-      <SectionNav activePart={activePart} />
-
-      {/* 4. Main Unified Single-Page Narrative Container */}
+      {/* Main Unified Single-Page Narrative Container */}
       <main className="flex-1">
         {children}
       </main>
 
-      {/* 5. Production Proof Footer */}
+      {/* Production Proof Footer */}
       <Footer />
     </div>
   );
 };
+
+

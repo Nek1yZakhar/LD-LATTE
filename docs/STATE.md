@@ -6,8 +6,15 @@
 
 ## 1. Текущий статус проекта
 
-* **Статус**: Выполнены этапы TICKET-01..TICKET-10F (очистка seed, согласованию документов, фрейминг стека, изоляция окружения, Instagram enrichment, идеальный портрет, Candidate Discovery, Embedding Similarity & Feature Scoring, Reranking & VLM Sanity Pass, Outreach Generator & QA, First Name Extraction & Personalization Upgrade, Research & Information Architecture, Demo Data Layer & Content Mapping, Visual System & Media Assets, App Shell & Narrative Layout, Interactive Evidence Views, Submission Packaging & README/START Navigator). На очереди — TICKET-10G (Iterative QA, Visual Polish, User Feedback Loop & Final Public Deploy).
+* **Статус**: Выполнены этапы TICKET-01..TICKET-10F. В процессе: **TICKET-10G** (Пакеты visual & content polish верхнего экрана и Part 1 успешно утверждены пользователем).
 * **Выполненные этапы**:
+  * **TICKET-10G (Visual Polish & User Feedback Loop)**: Выполнен двухэтапный итерационный цикл визуальной и текстовой полировки верхнего экрана и начала Part 1 (Получено явное подтверждение пользователя «да, все норм»):
+    1. **Ослабление плавающего Header**: Уменьшена высота шапки с `h-16 sm:h-20` до `h-14 sm:h-16` (экономия ~20% высоты экрана). Снижена плотность фона с `bg-[#FAF7F2]/95` до `bg-[#FAF7F2]/80 backdrop-blur-md border-b border-[#D4C4B7]/60`, уменьшены отступы и размеры плашек навигатора.
+    2. **Возврат инженерной весомости текстам с понятной расшифровкой**: Главным заголовкам и 4 карточкам возвращена техническая убедительность и статусность (`Agentic AI Workflow`, `100% Real Data`, `Qwen3-Embedding + BGE-Reranker`, `VLM Visual Sanity Pass`, `Outreach Generator & QA`), при этом рядом сохранена доступная человеческая расшифровка каждого термина.
+    3. **Пересборка 4 feature-карточек (Первый смысловой экран)**: (1) *1. Прямой авто-сбор (100% Real Data)*, (2) *2. Семантический скоринг & Реранкинг*, (3) *3. VLM Visual Sanity (Аудит эстетики)*, (4) *4. Персональный Outreach & QA*.
+    4. **Весомый заголовок Part 1**: Сохранен профессиональный заголовок **`Модульный AI-пайплайн: математический скоринг & персонализированные офферы`** с акцентом на векторизации и реранкинге.
+    5. **Акцентный разбор кейса «19 из 34» (100% Real Data Policy)**: В начало Part 1 встроен наглядный блок сетевой валидации, объясняющий, что из 34 ссылок 15 аккаунтов были недоступны в Instagram (HTTP 404/400). Пайплайн отсеял их (Hard Reject) без фейковых заглушек, а скоринг провел строго по 19 реально существующим активным блогерам.
+    6. **Верификация**: Сборка `npm run build` успешно пройдена (0 ошибок, 100% валидность TypeScript/Vite).
   * **TICKET-01**: Очистка Seed-данных полностью завершена. Разработан и запущен скрипт `src/ingest/clean.py`, сформирован очищенный файл `data/processed/normalized_seed_profiles_valid.csv` и подготовлен отчет `output/seed_cleanup_report.md`.
   * **TICKET-02**: Обновлены и заморожены базовые документы (`README.md`, `docs/ARCHITECTURE.md`, `docs/STATE.md`, `docs/AGENT_RULES.md`).
   * **TICKET-03**: Проведена фиксация стека и проверка клиентских модулей в `src/shared/`.
@@ -209,7 +216,7 @@
 * **Зависит от**: TICKET-10E.
 
 #### 🚀 TICKET-10G — Iterative QA, Visual Polish, User Feedback Loop & Final Public Deploy
-* **Статус**: `PENDING`
+* **Статус**: `IN_PROGRESS` (Visual Polish верхнего экрана принят, продолжается итерационная работа и подготовка)
 * **Приоритет**: Блокирующий
 * **Описание**: Управляемый совместный цикл полировки и приемки собранного веб-интерфейса LD Latte Demo UI. Включает агентский скрининг и аудит, ручной визуальный/UX-тестинг владельцем проекта (User Feedback Loop), внесение итеративных пакетов правок, повторные локальные проверки (`npm run build`) после каждого цикла, настройку Vercel и запуск публичного деплоя строго после получения явного ручного `visual approve`.
 * **Рабочий цикл (Loop Protocol)**:
