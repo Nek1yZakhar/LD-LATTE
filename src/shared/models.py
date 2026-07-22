@@ -83,6 +83,16 @@ class FinalShortlistEntry(BaseModel):
     vlm_aesthetic_notes: str = Field(default="")
     grounding_facts: List[str] = Field(default_factory=list)
 
+class OutreachDraft(BaseModel):
+    """Generated personalized barter offer proposal draft matching ARCHITECTURE.md."""
+    username: str
+    subject: str
+    body: str
+    language: str = "ru"
+    personalized_elements: List[str] = Field(default_factory=list)
+    grounding_facts: List[str] = Field(default_factory=list)
+
+
 
 
 

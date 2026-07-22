@@ -226,7 +226,7 @@ flowchart TD
 | **Text Embeddings (Векторизация)** | Qwen3-Embedding-0.6B | Qwen3-Embedding-4B | Высокое качество мультиязычного представления текста. |
 | **Reranker (Реранкинг)** | BAAI/bge-reranker-v2-m3 | Jina Reranker | Мощный мультиязычный кросс-энкодер. |
 | **VLM Aesthetic Judge (Визуальный анализ)**| Qwen2.5-VL / Qwen3-VL | GPT-4o-mini | Высокая точность понимания эстетики изображений через hosted API. |
-| **Offer Generator (Генератор писем)** | Llama-3-70b (Groq) | Qwen2.5-72B (OpenRouter) | Требуется высокий уровень владения естественным языком (русским/английским) для персонализации. |
+| **Offer Generator (Генератор писем)** | DeepSeek-V4 / DeepSeek-Chat (OpenRouter) | Llama-3.3-70b (Groq) / GPT-4o | Высший уровень естественного живого PR-копирайтинга на русском/английском языке без роботоподобного жаргона. |
 
 ---
 

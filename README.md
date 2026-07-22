@@ -240,6 +240,18 @@ python src/ingest/clean.py
   python -m pytest tests/test_rerank_vlm.py -v
   ```
 
+### Шаг 12: Генерация бартерных офферов и QA (Outreach Generator & QA, TICKET-09)
+Запустите модуль генерации персонализированных коммерческих писем (бартерных офферов) на базе **DeepSeek-V4** (OpenRouter) / **Groq API**:
+* **Генерация бартерных предложений (CLI entrypoint)**:
+  ```bash
+  python -m src.outreach.generator
+  ```
+* **Запуск тестов модуля Outreach Generator & QA**:
+  ```bash
+  python -m pytest tests/test_outreach_generator.py -v
+  ```
+  Результат сохраняется в `output/barter_offers.json` в виде массива Pydantic-моделей `OutreachDraft`. Все письма проходят QA-контроль на естественность речи (anti-robotic validation) и 100% заземление на реальных фактах из профилей блогеров.
+
 ---
 
 

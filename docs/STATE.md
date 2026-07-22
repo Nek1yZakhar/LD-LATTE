@@ -6,7 +6,7 @@
 
 ## 1. Текущий статус проекта
 
-* **Статус**: Выполнены этапы TICKET-01..TICKET-08 (очистка seed, согласованию документов, фрейминг стека, изоляция окружения, Instagram enrichment, идеальный портрет, Candidate Discovery, Embedding Similarity & Feature Scoring, Reranking & VLM Sanity Pass). На очереди — генерация бартерных офферов (TICKET-09).
+* **Статус**: Выполнены этапы TICKET-01..TICKET-09 (очистка seed, согласованию документов, фрейминг стека, изоляция окружения, Instagram enrichment, идеальный портрет, Candidate Discovery, Embedding Similarity & Feature Scoring, Reranking & VLM Sanity Pass, Outreach Generator & QA). На очереди — сборка интерактивного сайта (TICKET-10).
 * **Выполненные этапы**:
   * **TICKET-01**: Очистка Seed-данных полностью завершена. Разработан и запущен скрипт `src/ingest/clean.py`, сформирован очищенный файл `data/processed/normalized_seed_profiles_valid.csv` и подготовлен отчет `output/seed_cleanup_report.md`.
   * **TICKET-02**: Обновлены и заморожены базовые документы (`README.md`, `docs/ARCHITECTURE.md`, `docs/STATE.md`, `docs/AGENT_RULES.md`).
@@ -17,6 +17,7 @@
   * **TICKET-06**: Реализован модуль поиска и фильтрации кандидатов Candidate Discovery (`src/search/discover.py`), нормализующий raw-данные и применяющий rule-based фильтры с экспортом в `data/processed/candidates_discovered.json`.
   * **TICKET-07**: Реализован слой Embedding Similarity & Feature Scoring в `src/scoring/embed.py` и `src/scoring/score.py` (CLI entrypoints: `python -m src.scoring.embed` и `python -m src.scoring.score`). Расчитаны косинусное сходство векторов Qwen3-Embedding-0.6B и детерминированные фичевые оценки. Сформированы артефакты `data/processed/candidates_scored.json` и `output/embedding_debug_report.md`.
   * **TICKET-08**: Реализован слой Cross-Encoder Reranking (`src/scoring/rerank.py`, CLI: `python -m src.scoring.rerank`) с моделью `BAAI/bge-reranker-v2-m3` и сигмоидной нормализацией оценок, создающий `data/processed/candidates_reranked.json` и `data/processed/shortlist_raw.json`. Реализован VLM Visual Sanity Pass (`src/scoring/vlm_sanity.py`, CLI: `python -m src.scoring.vlm_sanity`) с поддержкой mock sandbox mode, создающий финальный шорт-лист `data/processed/shortlist_final.json` по Pydantic-контракту `FinalShortlistEntry`. Написаны тесты `tests/test_rerank_vlm.py`.
+  * **TICKET-09**: Реализован Outreach Generator & QA (`src/outreach/generator.py`, CLI: `python -m src.outreach.generator`). Добавлена модель `OutreachDraft` в `src/shared/models.py`, промпт-шаблон `prompts/outreach_offer.md` и тесты `tests/test_outreach_generator.py`. Проведена оптимизация под DeepSeek-V4 / OpenRouter (с фолбеком на Groq Llama-3.3-70B), ликвидирован канцелярский/роботизированный жаргон, введена проверка anti-robotic QA и заземление в 100% реальных фактах с экспортом в `output/barter_offers.json`.
 
 ---
 
@@ -114,8 +115,7 @@
 * **Зависит от**: TICKET-08.
 
 ### ✉️ TICKET-09 — Генерация barter-offers и QA (Outreach Generator & QA)
-* **Статус**: `PENDING`
-* **Приоритет**: Высокий
+* **Статус**: `DONE` (Перепроверено на 100% реальных данных)
 * **Описание**: Генерация персонализированных коммерческих предложений на русском/английском языке с опорой на факты из постов.
 * **Done when**: Записан файл `output/barter_offers.json` со сгенерированными письмами.
 * **Зависит от**: TICKET-08.
