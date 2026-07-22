@@ -9,6 +9,7 @@ from typing import List, Dict, Optional, Any, Tuple
 from src.shared.config import settings
 from src.shared.models import SeedProfile, PostInfo, EnrichedSeedProfile
 from src.shared.llm_client import LLMClient
+from src.fetchers.session_bootstrap import load_session_cookies
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -21,6 +22,12 @@ def fetch_instaloader(username: str) -> Optional[dict]:
         import instaloader
         logger.info(f"[Instaloader] Attempting live fetch for username: {username}")
         L = instaloader.Instaloader(download_pictures=False, download_videos=False, download_comments=False)
+        if settings.scraper_proxy:
+            logger.info(f"[Instaloader] Applying proxy: {settings.scraper_proxy}")
+            L.context._session.proxies = {
+                "http": settings.scraper_proxy,
+                "https": settings.scraper_proxy
+            }
         profile = instaloader.Profile.from_username(L.context, username)
         
         posts = []
@@ -47,55 +54,106 @@ def fetch_instaloader(username: str) -> Optional[dict]:
 
 
 def fetch_playwright(username: str) -> Optional[dict]:
-    """Authenticated fallback path: fetch profile using Playwright session."""
+    """Authenticated fallback path: fetch profile using Playwright session and in-page API evaluate."""
     try:
         from playwright.sync_api import sync_playwright
         logger.info(f"[Playwright] Attempting fallback fetch for username: {username}")
         
         session_path = settings.instagram_session_path
-        user = settings.instagram_username
-        password = settings.instagram_password
+        cookies = load_session_cookies(session_path)
 
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
-            context = browser.new_context()
+            launch_kwargs = {
+                "headless": False,
+                "args": [
+                    "--disable-blink-features=AutomationControlled",
+                    "--no-sandbox",
+                    "--disable-setuid-sandbox"
+                ]
+            }
+            try:
+                browser = p.chromium.launch(channel="chrome", **launch_kwargs)
+            except Exception:
+                browser = p.chromium.launch(**launch_kwargs)
 
-            if os.path.exists(session_path):
-                with open(session_path, "r", encoding="utf-8") as f:
-                    cookies = json.load(f)
-                    context.add_cookies(cookies)
+            context_kwargs = {
+                "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                "viewport": {"width": 1280, "height": 800},
+                "locale": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7"
+            }
+            if settings.scraper_proxy:
+                logger.info(f"[Playwright] Applying proxy: {settings.scraper_proxy}")
+                context_kwargs["proxy"] = {"server": settings.scraper_proxy}
+
+            context = browser.new_context(**context_kwargs)
+
+            context.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+
+            if cookies:
+                logger.info(f"[Playwright] Applying {len(cookies)} saved session cookies from '{session_path}'.")
+                context.add_cookies(cookies)
 
             captured_info: Dict[str, Any] = {}
             def handle_response(response):
-                if "web_profile_info" in response.url:
+                url = response.url.lower()
+                if "web_profile_info" in url or "graphql/query" in url:
                     try:
-                        captured_info["data"] = response.json()
+                        res_json = response.json()
+                        if isinstance(res_json, dict) and "data" in res_json:
+                            captured_info["data"] = res_json
                     except Exception:
                         pass
 
             context.on("response", handle_response)
             page = context.new_page()
-            page.goto(f"https://www.instagram.com/{username}/", timeout=15000)
+            logger.info(f"[Playwright] Navigating to profile: https://www.instagram.com/{username}/")
+            page.goto(f"https://www.instagram.com/{username}/", timeout=25000, wait_until="domcontentloaded")
             page.wait_for_timeout(3000)
 
-            if "accounts/login" in page.url and user and password:
-                logger.info(f"[Playwright] Session invalid or missing. Attempting login for user: {user}")
-                page.fill("input[name='username']", user)
-                page.fill("input[name='password']", password)
-                page.click("button[type='submit']")
-                page.wait_for_timeout(5000)
+            current_url = page.url.lower()
+            if any(k in current_url for k in ["accounts/login", "auth_platform", "recaptcha", "challenge"]):
+                logger.warning(f"[Playwright] Session invalid or redirected to auth page: {page.url}")
+                browser.close()
+                return None
 
-                os.makedirs(os.path.dirname(os.path.abspath(session_path)), exist_ok=True)
-                with open(session_path, "w", encoding="utf-8") as f:
-                    json.dump(context.cookies(), f)
+            # 1. Check intercepted network response
+            raw_response = captured_info.get("data")
 
-                page.goto(f"https://www.instagram.com/{username}/", timeout=15000)
-                page.wait_for_timeout(3000)
+            # 2. If missed, attempt evaluated in-page fetch
+            if not raw_response:
+                eval_script = """
+                async (target_user) => {
+                    try {
+                        const resp = await fetch(`https://www.instagram.com/api/v1/users/web_profile_info/?username=${target_user}`, {
+                            headers: {
+                                'x-ig-app-id': '936619743392459',
+                                'x-requested-with': 'XMLHttpRequest'
+                            }
+                        });
+                        if (resp.ok) {
+                            return await resp.json();
+                        }
+                        return null;
+                    } catch (e) {
+                        return null;
+                    }
+                }
+                """
+                raw_response = page.evaluate(eval_script, username)
+
+            # 3. Fallback: extract meta description tag from page HTML
+            og_desc = ""
+            try:
+                meta_el = page.locator("meta[property='og:description']").first
+                if meta_el.count() > 0:
+                    og_desc = meta_el.get_attribute("content") or ""
+            except Exception:
+                pass
 
             browser.close()
 
-            if captured_info.get("data"):
-                user_data = captured_info["data"].get("data", {}).get("user", {})
+            if raw_response and isinstance(raw_response, dict) and "data" in raw_response:
+                user_data = raw_response["data"].get("user", {})
                 if user_data:
                     biography = user_data.get("biography", "")
                     followers_count = user_data.get("edge_followed_by", {}).get("count", 0)
@@ -115,6 +173,7 @@ def fetch_playwright(username: str) -> Optional[dict]:
                         comments = node.get("edge_media_to_comment", {}).get("count", 0)
                         posts.append({"caption": caption, "date": date_str, "likes": likes, "comments": comments})
 
+                    logger.info(f"[Playwright] Successfully extracted live profile data for '{username}'.")
                     return {
                         "username": username,
                         "biography": biography,
@@ -122,6 +181,40 @@ def fetch_playwright(username: str) -> Optional[dict]:
                         "posts_count": posts_count,
                         "recent_posts": posts
                     }
+
+            if og_desc:
+                import re
+                logger.info(f"[Playwright] Extracting profile data from meta description fallback for '{username}': '{og_desc}'")
+                followers_match = re.search(r'([\d\.\,KkMm]+)\s+Followers', og_desc)
+                posts_match = re.search(r'([\d\.\,KkMm]+)\s+Posts', og_desc)
+
+                def parse_num(val_str: Optional[str]) -> int:
+                    if not val_str:
+                        return 0
+                    clean = val_str.replace(',', '').strip().upper()
+                    if 'K' in clean:
+                        return int(float(clean.replace('K', '')) * 1000)
+                    if 'M' in clean:
+                        return int(float(clean.replace('M', '')) * 1000000)
+                    try:
+                        return int(float(clean))
+                    except Exception:
+                        return 0
+
+                followers_cnt = parse_num(followers_match.group(1)) if followers_match else 0
+                posts_cnt = parse_num(posts_match.group(1)) if posts_match else 0
+
+                return {
+                    "username": username,
+                    "biography": f"Instagram profile for {username}",
+                    "followers_count": followers_cnt,
+                    "posts_count": posts_cnt,
+                    "recent_posts": []
+                }
+
+            logger.warning(f"[Playwright] Could not fetch profile payload for '{username}'.")
+            return None
+
     except Exception as e:
         logger.warning(f"[Playwright] Failed to fetch '{username}': {e}")
         return None
@@ -137,11 +230,13 @@ def fetch_mock(username: str) -> dict:
     random.seed(seed_val)
 
     bios = [
-        "Fashion & lifestyle blogger. Minimalist wardrobe enthusiast. ✨ Moscow / SPb",
-        "Fashion updates, daily outfits, aesthetic coffee shops. Collabs: DM 📩",
-        "Personal style diary | Slow fashion & vintage finds 🌿",
-        "Beauty & style blogger. Inspiring everyday capsule wardrobes.",
-        "Fashion enthusiast. Daily OOTD, luxury vs mass market reviews ✨"
+        "Fashion & lifestyle blogger. Ежедневные аутфиты и минималистичный гардероб. ✨ Москва / СПб",
+        "Обзоры трендов, стильные капсулы, эстетичные кофеенки. Коллаборации: DM 📩",
+        "Личный дневник стиля | Медленная мода и локальные бренды 🌿",
+        "Бьюти и фэшн инфлюенсер. Вдохновляю на базовый гардероб.",
+        "Fashion enthusiast. Daily OOTD, обзоры масс-маркета и локальных брендов ✨",
+        "Модные находки, капсула на каждый день и стиль жизни ☕",
+        "Минимализм в одежде, монохромные образы и разборы трендов 🤍"
     ]
 
     followers = random.randint(4500, 95000)
@@ -149,13 +244,39 @@ def fetch_mock(username: str) -> dict:
     bio = random.choice(bios)
 
     base_date = datetime.now(timezone.utc) - timedelta(days=random.randint(1, 3))
-    sample_captions = [
-        "Beige trench coat for fall season. What do you think? 🍂 #ootd #fashion",
-        "Minimalist aesthetic today. Silk shirt & tailored trousers.",
-        "Unboxing new arrival from local Russian designer brand 🤍",
-        "Sunday morning look. Coffee & soft knitwear.",
-        "How to build a capsule wardrobe: 5 essential pieces."
+    
+    caption_sets = [
+        [
+            "Бежевый тренч на осенне-весенний сезон. Как вам образ? 🍂 #ootd #fashion",
+            "Минималистичный аутфит: шелковая блуза и брюки палаццо.",
+            "Распаковка новинок от локального российского бренда 🤍",
+            "Утренний кофе в уютном трикотажном костюме.",
+            "Как собрать капсульный гардероб: 5 базовых вещей."
+        ],
+        [
+            "Образ дня в бежевых тонах. Капсула от российских дизайнеров 🌿",
+            "Уютный трикотажный сет для прохладных вечеров.",
+            "Модный монохромный сет: кашемировый свитер и юбка миди.",
+            "Обзор нового осенне-весеннего дропа 💫",
+            "Минимализм в деталях: аксессуары для лаконичного образа."
+        ],
+        [
+            "Капсульный гардероб на каждый день: пальто оверсайз и джинсы.",
+            "Обзор качественного трикотажа от местных брендов ✨",
+            "Бежевые пастельные оттенки — моя любовь в этом сезоне.",
+            "Эстетика минимализма: шелковый тотал-лук.",
+            "5 правил стильной базовой капсулы на сезон 🤍"
+        ],
+        [
+            "Идеальное бежевое пальто, найденное у локального бренда 🍂",
+            "Простой и элегантный дневной лук с прямыми брюками.",
+            "Распаковка лаконичной сумки в пастельных тонах ✨",
+            "Уютный вечерний свитер оверсайз крупной вязки.",
+            "Формируем базовый гардероб без лишних вещей."
+        ]
     ]
+    
+    chosen_captions = caption_sets[seed_val % len(caption_sets)]
 
     posts = []
     for i in range(5):
@@ -163,11 +284,12 @@ def fetch_mock(username: str) -> dict:
         likes = random.randint(int(followers * 0.02), int(followers * 0.06))
         comments = random.randint(10, 60)
         posts.append({
-            "caption": sample_captions[i % len(sample_captions)],
+            "caption": chosen_captions[i % len(chosen_captions)],
             "date": post_date.isoformat(),
             "likes": likes,
             "comments": comments
         })
+
 
     return {
         "username": username,
@@ -325,16 +447,30 @@ def run_enrichment(
         if use_mock or settings.scraper_provider == "mock":
             raw_data = fetch_mock(seed.username)
         else:
-            # Primary: Instaloader
-            raw_data = fetch_instaloader(seed.username)
+            session_exists = os.path.exists(settings.instagram_session_path)
 
-            # Fallback: Playwright
-            if not raw_data:
-                logger.info(f"Primary fetcher failed. Retrying '{seed.username}' with Playwright fallback...")
+            if session_exists:
+                # Prioritize Playwright with authenticated session if session file exists
+                logger.info(f"Authenticated session file found. Attempting Playwright fetch for '{seed.username}'...")
                 raw_data = fetch_playwright(seed.username)
 
+                if not raw_data:
+                    logger.info(f"Playwright authenticated fetch failed. Retrying '{seed.username}' with Instaloader...")
+                    raw_data = fetch_instaloader(seed.username)
+            else:
+                # Primary: Instaloader unauthenticated fetch
+                raw_data = fetch_instaloader(seed.username)
+
+                if not raw_data:
+                    logger.info(f"Instaloader fetch failed. Retrying '{seed.username}' with Playwright...")
+                    raw_data = fetch_playwright(seed.username)
+
         if not raw_data:
-            logger.error(f"Failed to fetch profile data for '{seed.username}'. Skipping.")
+            if uname_lower in cache:
+                logger.warning(f"Failed to fetch fresh data for '{seed.username}'. Preserving valid previous cache entry in dataset.")
+                enriched_results.append(EnrichedSeedProfile(**cache[uname_lower]))
+            else:
+                logger.error(f"Failed to fetch profile data for '{seed.username}'. Skipping.")
             continue
 
         # Calculate metrics & LLM classification

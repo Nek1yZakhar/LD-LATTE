@@ -162,7 +162,86 @@ python -m src.shared.smoke_test
 python src/ingest/clean.py
 ```
 
+### Шаг 7: Обогащение профилей Instagram (TICKET-04)
+Запустите конвейер сбора и обогащения данных для нормализованных seed-профилей.
+
+* **Тестовый локальный прогон (Mock Sandbox Mode)**:
+  ```bash
+  python -m src.fetchers.enrich --mock
+  ```
+* **Запуск в живом режиме (Instaloader -> Playwright Fallback)**:
+  ```bash
+  python -m src.fetchers.enrich
+  ```
+* **Запуск smoke-теста обогащения**:
+  ```bash
+  python -m tests.test_enrich_mock
+  ```
+  Результат обогащения сохраняется в `data/processed/seed_enriched.json`.
+
+### Шаг 8: Создание идеального портрета (TICKET-05)
+Запустите модуль синтеза портрета идеального блогера на основе `data/processed/seed_enriched.json`:
+* **Стандартный запуск (LLM Groq / OpenRouter fallback)**:
+  ```bash
+  python -m src.analyzers.portrait
+  ```
+* **Запуск в детерминированном offline/fallback режиме**:
+  ```bash
+  python -m src.analyzers.portrait --force-fallback
+  ```
+* **Запуск юнит-тестов профилировщика**:
+  ```bash
+  python -m pytest tests/test_ideal_portrait.py -v
+  ```
+  Результат синтеза сохраняется в `data/processed/ideal_portrait.json` в соответствии с Pydantic-схемой `IdealBloggerProfile`.
+
+### Шаг 9: Поиск и фильтрация кандидатов (Candidate Discovery, TICKET-06)
+Запустите модуль поиска и детерминированной rule-based фильтрации кандидатов из локального пула `data/raw/candidates_pool.json`:
+* **Запуск поиска кандидатов (CLI entrypoint)**:
+  ```bash
+  python -m src.search.discover
+  ```
+* **Запуск тестов модуля Candidate Discovery**:
+  ```bash
+  python -m pytest tests/test_candidate_discovery.py -v
+  ```
+  Результат сохраняется в `data/processed/candidates_discovered.json` в виде массива Pydantic-моделей `CandidateProfile`.
+
+### Шаг 10: Векторный поиск и скоринг фич (Embedding & Feature Scoring, TICKET-07)
+Запустите модуль векторизации и фичевого скоринга:
+* **Расчет эмбеддингов Qwen3-Embedding-0.6B**:
+  ```bash
+  python -m src.scoring.embed
+  ```
+* **Детерминированный скоринг фич и композитная оценка**:
+  ```bash
+  python -m src.scoring.score
+  ```
+* **Запуск тестов скоринга**:
+  ```bash
+  python -m pytest tests/test_scoring_basic.py -v
+  ```
+  Результат сохраняется в `data/processed/candidates_scored.json` и генерируется отчет `output/embedding_debug_report.md`.
+
+### Шаг 11: Реранкинг и визуальный контроль (Reranking & VLM Sanity Pass, TICKET-08)
+Запустите слой Cross-Encoder Reranking и VLM Visual Sanity Pass:
+* **Cross-Encoder Reranking (BAAI/bge-reranker-v2-m3)**:
+  ```bash
+  python -m src.scoring.rerank
+  ```
+  Создает `data/processed/candidates_reranked.json` и выгружает top-10 в `data/processed/shortlist_raw.json`.
+* **VLM Visual Sanity Pass (Qwen2.5-VL / Qwen3-VL / Mock Sandbox Mode)**:
+  ```bash
+  python -m src.scoring.vlm_sanity
+  ```
+  Выполняет эстетический контроль top 3–5 кандидатов и создаёт `data/processed/shortlist_final.json` по Pydantic-контракту `FinalShortlistEntry`.
+* **Запуск тестов реранкинга и VLM**:
+  ```bash
+  python -m pytest tests/test_rerank_vlm.py -v
+  ```
+
 ---
+
 
 ## 7. Ссылки, сформировавшие стек (References)
 

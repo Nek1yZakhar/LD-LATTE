@@ -35,14 +35,19 @@ class LLMClient:
         messages: List[Dict[str, str]],
         temperature: float = 0.2,
         response_format: Optional[Dict[str, Any]] = None,
+        groq_model: Optional[str] = None,
+        openrouter_models: Optional[List[str]] = None,
     ) -> str:
         """
-        Generate chat completion text using primary Groq provider with fallback to OpenRouter.
+        Generate chat completion text using primary Groq provider with fallback to OpenRouter models.
         """
+        target_groq_model = groq_model or settings.groq_default_model
+        fallback_models = openrouter_models or [settings.openrouter_default_model]
+
         # Try Groq first
         if settings.groq_api_key:
             try:
-                logger.info(f"Attempting LLM generation via Groq using model: {settings.groq_default_model}")
+                logger.info(f"Attempting LLM generation via Groq using model: {target_groq_model}")
                 
                 # Check for json mode compatibility
                 extra_args = {}
@@ -51,32 +56,37 @@ class LLMClient:
 
                 chat_completion = self.groq_client.chat.completions.create(
                     messages=messages,
-                    model=settings.groq_default_model,
+                    model=target_groq_model,
                     temperature=temperature,
                     **extra_args
                 )
                 return chat_completion.choices[0].message.content
             except Exception as e:
-                logger.warning(f"Groq API execution failed: {e}. Trying fallback to OpenRouter.")
+                logger.warning(f"Groq API execution failed ({target_groq_model}): {e}. Trying fallback to OpenRouter.")
 
         # Fallback to OpenRouter
         if settings.openrouter_api_key:
-            try:
-                logger.info(f"Attempting LLM generation via OpenRouter using model: {settings.openrouter_default_model}")
-                
-                extra_args = {}
-                if response_format and response_format.get("type") == "json_object":
-                    extra_args["response_format"] = response_format
+            last_err = None
+            for model_name in fallback_models:
+                try:
+                    logger.info(f"Attempting LLM generation via OpenRouter using model: {model_name}")
+                    
+                    extra_args = {}
+                    if response_format and response_format.get("type") == "json_object":
+                        extra_args["response_format"] = response_format
 
-                chat_completion = self.openrouter_client.chat.completions.create(
-                    messages=messages,
-                    model=settings.openrouter_default_model,
-                    temperature=temperature,
-                    **extra_args
-                )
-                return chat_completion.choices[0].message.content
-            except Exception as e:
-                logger.error(f"OpenRouter fallback API execution failed: {e}")
-                raise RuntimeError(f"Both Groq and OpenRouter failed. Final exception: {e}")
+                    chat_completion = self.openrouter_client.chat.completions.create(
+                        messages=messages,
+                        model=model_name,
+                        temperature=temperature,
+                        **extra_args
+                    )
+                    return chat_completion.choices[0].message.content
+                except Exception as e:
+                    logger.warning(f"OpenRouter model {model_name} failed: {e}")
+                    last_err = e
+            
+            raise RuntimeError(f"Both Groq and OpenRouter models failed. Last exception: {last_err}")
         
         raise RuntimeError("No LLM providers available. Ensure either GROQ_API_KEY or OPENROUTER_API_KEY is configured.")
+

@@ -12,14 +12,17 @@ class Settings(BaseSettings):
     local_models_cache_dir: str = "./models/cache"
     
     # LLM Client Model Configurations
-    groq_default_model: str = "llama3-8b-8192"
-    openrouter_default_model: str = "qwen/qwen-2.5-7b-instruct:free"
+    groq_default_model: str = "llama-3.1-8b-instant"
+    openrouter_default_model: str = "qwen/qwen-2.5-7b-instruct"
+
     
     # Scraper Configurations
     scraper_api_key: Optional[str] = None
     scraper_provider: str = "instaloader"  # options: instaloader, playwright, mock
+    scraper_proxy: Optional[str] = None
     instagram_username: Optional[str] = None
     instagram_password: Optional[str] = None
+    instagram_session_id: Optional[str] = None
     instagram_session_path: str = "./data/instagram_session.json"
     cache_ttl_hours: int = 24
 
