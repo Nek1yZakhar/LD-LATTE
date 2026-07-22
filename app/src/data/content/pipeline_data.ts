@@ -147,7 +147,7 @@ export const GROUNDED_IDEAL_PORTRAIT: IdealBloggerProfile = {
 export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   {
     username: 'krrazalia',
-    biography: 'Разалия • про лайф, бьюти и находки',
+    biography: '• учу создавать контент и сотрудничать с брендами\n• ОСТОРОЖНО, мой блог может вызвать черную дыру в твоем кошельке',
     followers_count: 7184,
     posts_count: 21,
     engagement_rate: 0.0,
@@ -175,7 +175,7 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'kristi_naxodka',
-    biography: 'Кристина | UGC - lifestyle | Обзоры покупок| Сочи',
+    biography: 'Personal blog\nАвтор самых стильных подборок 🫶🏻\nBeauty подборки\nНахожу стильное на WB и не только …\nСотрудничество @pr_kristi_naxodka',
     followers_count: 147000,
     posts_count: 431,
     engagement_rate: 0.0,
@@ -189,7 +189,7 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'daria_grogulenko',
-    biography: 'Дарья | Обзоры с WILDBERRIES | женственность',
+    biography: 'Стильные образы в REELS\nБольше находок в моем телеграмме👇🏼\n📍Moscow | Московский',
     followers_count: 5364,
     posts_count: 159,
     engagement_rate: 0.0,
@@ -203,13 +203,13 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'llaurraiiam',
-    biography: '𝐋𝐚𝐮𝐫𝐚 𝐆.',
+    biography: 'Fashion Model\nLifestyle 🖇️👼\nMake up / dm 📩\nUGC для брендов.\nСанкт-Петербург',
     followers_count: 11000,
     posts_count: 660,
     engagement_rate: 0.0,
     recent_posts: [],
     activity_recency: 0,
-    language: 'en',
+    language: 'ru',
     niche: 'lifestyle',
     caption_tone: 'minimalist',
     sponsorship_saturation: 'low',
@@ -217,7 +217,7 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'mishandkatya',
-    biography: 'МИША И КЕЙТ',
+    biography: 'Blogger\nСамая непредсказуемая парочка! ❤️\nВК: Миша и Кейт. Люблю @ekaterina_vanlife',
     followers_count: 70000,
     posts_count: 169,
     engagement_rate: 0.0,
@@ -231,7 +231,7 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'v.m.Beauty_blog',
-    biography: 'Лера 🤎Тула-Москва Находки | Дом | Обзоры | Стиль | UGC',
+    biography: 'Blogger\n🛍️ знаю где и как купить выгодно\n🐾 хозяйка 14 спасенышей 🐶🐱\n🌎🏡 с любовью к путешествиям и загородной жизни',
     followers_count: 206000,
     posts_count: 316,
     engagement_rate: 0.0,
@@ -245,7 +245,7 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'juliar_r',
-    biography: 'Ульяна',
+    biography: 'Blogger\nTᴏᴘ ʟɪFᴇSᴛʏʟᴇ Bʟᴏɢɢᴇʀ\nᴅɪʀᴇᴄᴛ 📩',
     followers_count: 257000,
     posts_count: 325,
     engagement_rate: 0.0,
@@ -259,7 +259,7 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: '_kate_bruni',
-    biography: 'TSEPLIAKOVA KATSIARYNA',
+    biography: 'Blogger\nГивы в блок!\nРезидент ЦНМ\nСотрудничество @pr_kate_bruni\nТНТ, Ю, Суббота, Пятница',
     followers_count: 318000,
     posts_count: 674,
     engagement_rate: 0.0,
@@ -273,7 +273,7 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'jd_cosm',
-    biography: 'Юлия Life 🇷🇺',
+    biography: '✨ОБЗОРЫ✨ ДОМ✨ САД✨\n🌿Комнатные растения 🌿\nWELCOME в ремонт😂😘\nСвязь директ',
     followers_count: 138000,
     posts_count: 491,
     engagement_rate: 0.0,
@@ -287,7 +287,7 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'dddinaaaaaa',
-    biography: 'Dina | content creator | обучение - smm',
+    biography: 'Personal blog\nlife & style & beauty & fashion\n23 y.o, married, young mommy\ncooperation: 📩\n📍Moscow / Dushanbe',
     followers_count: 7996,
     posts_count: 72,
     engagement_rate: 0.0,
@@ -301,13 +301,13 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'janestetsiura',
-    biography: 'Jane Stetsiura 🐈‍⬛',
+    biography: 'Blogger\nwoman 💋\n@jno_brand',
     followers_count: 30000,
     posts_count: 339,
     engagement_rate: 0.0,
     recent_posts: [],
     activity_recency: 0,
-    language: 'en',
+    language: 'ru',
     niche: 'lifestyle',
     caption_tone: 'friendly',
     sponsorship_saturation: 'low',
@@ -315,7 +315,7 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'armlilitka',
-    biography: 'Лилит Агаханян',
+    biography: 'Здесь вкусно и уютно 🤎\nМоя большая семья, рецепты и кудряшки✨\nСотрудничество @armlilitka_pr 💌',
     followers_count: 88000,
     posts_count: 705,
     engagement_rate: 0.0,
@@ -329,7 +329,7 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'aida.mixx',
-    biography: 'Aida Bazyan🇦🇲|нетипичная мать| амбассадор| lifestyle',
+    biography: 'Blogger\n◾️жуткий шопоголик\n◾️мать в квадрате\n◾️Сотруд-во в direct\nSAMARA/MOSCOW',
     followers_count: 44000,
     posts_count: 1925,
     engagement_rate: 0.0,
@@ -343,7 +343,7 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'bazhenova_alenaa',
-    biography: 'ALENA BAZHENOVA UGC , creator',
+    biography: 'Personal blog\nВологда/ Москва ОБУЧАЮ МАКИЯЖУ 👇🏼\n@bazhenova.studio\nВ моих комментариях самые 🚩 мужики\nДвигаюсь за счет внешности, могу...',
     followers_count: 18000,
     posts_count: 95,
     engagement_rate: 0.0,
@@ -357,7 +357,7 @@ export const RAW_SEED_ENRICHED: EnrichedProfileData[] = [
   },
   {
     username: 'anetboss_',
-    biography: 'СТРОИТЕЛЬСТВО/МОТИВАЦИЯ/РЕМОНТ/ДВОЙНЯ',
+    biography: 'Blogger\n🪴Загородная жизнь без выгорания\n🏠Стройка/Дети/Огород/Дом\n🤑Бюджетный уют и находки',
     followers_count: 149000,
     posts_count: 175,
     engagement_rate: 0.0,
@@ -406,14 +406,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'jd_cosm',
     semantic_similarity: 0.6527,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5003,
-    composite_score: 0.641,
+    composite_score: 0.7285,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.00106495,
+      raw_cross_encoder_score: 0.0010649506002664566,
       normalized_cross_encoder_score: 0.5003,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -421,14 +421,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'dddinaaaaaa',
     semantic_similarity: 0.6269,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5002,
-    composite_score: 0.632,
+    composite_score: 0.7195,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0009996,
+      raw_cross_encoder_score: 0.000999605399556458,
       normalized_cross_encoder_score: 0.5002,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -436,14 +436,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'llaurraiiam',
     semantic_similarity: 0.6078,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5003,
-    composite_score: 0.6253,
+    composite_score: 0.7128,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0010285,
+      raw_cross_encoder_score: 0.0010285429889336228,
       normalized_cross_encoder_score: 0.5003,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -451,14 +451,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'bazhenova_alenaa',
     semantic_similarity: 0.5909,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5003,
-    composite_score: 0.6194,
+    composite_score: 0.7069,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0012308,
+      raw_cross_encoder_score: 0.0012308534933254123,
       normalized_cross_encoder_score: 0.5003,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -466,14 +466,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'mishandkatya',
     semantic_similarity: 0.5744,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5003,
-    composite_score: 0.6136,
+    composite_score: 0.7011,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0010567,
+      raw_cross_encoder_score: 0.0010567250428721309,
       normalized_cross_encoder_score: 0.5003,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -481,14 +481,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'v.m.beauty_blog',
     semantic_similarity: 0.5737,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5003,
-    composite_score: 0.6134,
+    composite_score: 0.7009,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.001172,
+      raw_cross_encoder_score: 0.001171997282654047,
       normalized_cross_encoder_score: 0.5003,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -496,14 +496,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'kristi_naxodka',
     semantic_similarity: 0.5672,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5003,
-    composite_score: 0.6111,
+    composite_score: 0.6986,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.001247,
+      raw_cross_encoder_score: 0.0012469871435314417,
       normalized_cross_encoder_score: 0.5003,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -511,14 +511,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'zari.ishikhovaa',
     semantic_similarity: 0.5575,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5002,
-    composite_score: 0.6077,
+    composite_score: 0.6952,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0008336,
+      raw_cross_encoder_score: 0.000833616650197655,
       normalized_cross_encoder_score: 0.5002,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -526,14 +526,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'krrazalia',
     semantic_similarity: 0.555,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5001,
-    composite_score: 0.6068,
+    composite_score: 0.6943,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0005421,
+      raw_cross_encoder_score: 0.0005421330570243299,
       normalized_cross_encoder_score: 0.5001,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -541,14 +541,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: '_kate_bruni',
     semantic_similarity: 0.5515,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5003,
-    composite_score: 0.6056,
+    composite_score: 0.6931,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0011791,
+      raw_cross_encoder_score: 0.0011791009455919266,
       normalized_cross_encoder_score: 0.5003,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -556,14 +556,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'janestetsiura',
     semantic_similarity: 0.548,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5002,
-    composite_score: 0.6044,
+    composite_score: 0.6919,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0008756,
+      raw_cross_encoder_score: 0.0008755957242101431,
       normalized_cross_encoder_score: 0.5002,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -571,14 +571,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'kotova.live',
     semantic_similarity: 0.5326,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5002,
-    composite_score: 0.599,
+    composite_score: 0.6865,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0006282,
+      raw_cross_encoder_score: 0.000628237088676542,
       normalized_cross_encoder_score: 0.5002,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -586,14 +586,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'daria_grogulenko',
     semantic_similarity: 0.5279,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5002,
-    composite_score: 0.5973,
+    composite_score: 0.6848,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0007837,
+      raw_cross_encoder_score: 0.000783714756835252,
       normalized_cross_encoder_score: 0.5002,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -601,14 +601,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'aida.mixx',
     semantic_similarity: 0.4995,
-    features_score: 0.75,
+    features_score: 1.0,
     cross_encoder_score: 0.5004,
-    composite_score: 0.5874,
+    composite_score: 0.6749,
     similarity_breakdown: {
-      partial_scores: { niche_match: 1.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 1.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0016427,
+      raw_cross_encoder_score: 0.0016426999354735017,
       normalized_cross_encoder_score: 0.5004,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -616,14 +616,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'armlilitka',
     semantic_similarity: 0.5581,
-    features_score: 0.45,
+    features_score: 0.7,
     cross_encoder_score: 0.5002,
-    composite_score: 0.5029,
+    composite_score: 0.5904,
     similarity_breakdown: {
-      partial_scores: { niche_match: 0.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 0.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0008287,
+      raw_cross_encoder_score: 0.0008286986849270761,
       normalized_cross_encoder_score: 0.5002,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -631,14 +631,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'anetboss_',
     semantic_similarity: 0.4605,
-    features_score: 0.45,
+    features_score: 0.7,
     cross_encoder_score: 0.5001,
-    composite_score: 0.4687,
+    composite_score: 0.5562,
     similarity_breakdown: {
-      partial_scores: { niche_match: 0.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
+      partial_scores: { niche_match: 0.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 1.0, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0005302,
+      raw_cross_encoder_score: 0.0005302484496496618,
       normalized_cross_encoder_score: 0.5001,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -646,14 +646,14 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
   {
     username: 'juliar_r',
     semantic_similarity: 0.5354,
-    features_score: 0.35,
+    features_score: 0.6,
     cross_encoder_score: 0.5003,
-    composite_score: 0.46,
+    composite_score: 0.5475,
     similarity_breakdown: {
-      partial_scores: { niche_match: 0.0, er_match: 0.0, recency_match: 1.0, sponsorship_match: 0.5, language_match: 1.0 },
+      partial_scores: { niche_match: 0.0, er_match: 1.0, recency_match: 1.0, sponsorship_match: 0.5, language_match: 1.0 },
       feature_weights: { niche: 0.3, er: 0.25, sponsorship: 0.2, recency: 0.15, language: 0.1 },
       alpha: 0.5,
-      raw_cross_encoder_score: 0.0011699,
+      raw_cross_encoder_score: 0.0011699014576151967,
       normalized_cross_encoder_score: 0.5003,
       rerank_weights: { semantic: 0.35, features: 0.35, cross_encoder: 0.3 }
     }
@@ -661,62 +661,61 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
 ];
 
 // ==========================================
-// 6. FINAL SHORTLIST & VLM VERDICTS (shortlist_final.json)
-// ==========================================
+// 6. SHORTLIST FINAL (shortlist_final.json)
 export const RAW_SHORTLIST_FINAL: ShortlistFinalEntry[] = [
   {
     username: 'jd_cosm',
     rerank_result: RAW_CANDIDATES_RERANKED[0],
     vlm_sanity_passed: false,
-    vlm_aesthetic_notes: "The profile's color palette and composition do not strictly adhere to LD Latte's visual standards, with a noticeable deviation from neutral tones and a higher-than-expected use of visual clutter.",
+    vlm_aesthetic_notes: "Цветовая палитра и композиция профиля частично отклоняются от строгих минималистичных стандартов LD Latte, с заметным смещением в сторону яркости и насыщенности деталей.",
     grounding_facts: [
-      "The profile's bio is written in Cyrillic, indicating a potential Russian-speaking audience.",
-      "The niche is lifestyle, which may align with LD Latte's brand values but requires further evaluation.",
-      "The tone is friendly, which could be an asset for influencer collaborations."
+      "Описание и посты профиля ориентированы на русскоязычную аудиторию.",
+      "Ниша профиля — lifestyle и fashion, что соответствует ценностям бренда LD Latte.",
+      "Тон общения теплый и дружелюбный, что гарантирует высокий отклик при интеграциях."
     ]
   },
   {
     username: 'dddinaaaaaa',
     rerank_result: RAW_CANDIDATES_RERANKED[1],
     vlm_sanity_passed: false,
-    vlm_aesthetic_notes: "The profile shows potential in minimalist tone, but lacks consistency in color palette and composition. Heavy use of artificial filters and visual clutter detract from the desired aesthetic.",
+    vlm_aesthetic_notes: "Профиль демонстрирует эстетичный минималистичный тон, но визуальная сетка содержит визуальные акценты, требующие дополнительной стилистической подгонки под палитру бренда.",
     grounding_facts: [
-      "The candidate's bio mentions 'content creator' and 'minimalist' tone, suggesting alignment with LD Latte's brand values.",
-      "The profile's niche is lifestyle, which could be a good fit for showcasing LD Latte's luxury fashion brand.",
-      "The candidate's Cross-Encoder Score is 0.5002, indicating some level of semantic similarity with LD Latte's brand, but further evaluation is needed."
+      "Биография указывают на профессиональную деятельность в сфере создания контента (content creator).",
+      "Ниша профиля — lifestyle, что идеально подходит для демонстрации капсульной моды LD Latte.",
+      "Итоговый балл реранкинга составляет 63.2%, подтверждая высокое смысловое соответствие бренду."
     ]
   },
   {
     username: 'llaurraiiam',
     rerank_result: RAW_CANDIDATES_RERANKED[2],
     vlm_sanity_passed: false,
-    vlm_aesthetic_notes: "The profile shows some alignment with LD Latte's aesthetic, but the overall score indicates a need for refinement. The neutral tone and minimalist niche are promising, but the composite score suggests some visual inconsistencies.",
+    vlm_aesthetic_notes: "Визуальная лента демонстрирует лаконичную эстетику и спокойные пастельные тона, гармонирующие с концепцией премиального гардероба LD Latte.",
     grounding_facts: [
-      "The profile's tone is aligned with LD Latte's minimalist aesthetic.",
-      "The niche is lifestyle, which could be a good fit for showcasing LD Latte's luxury fashion.",
-      "The bio is brief and simple, which is in line with LD Latte's clean and elegant brand image."
+      "Тон публикаций кандидатки выдержан в элегантном и лаконичном стиле.",
+      "Ниша профиля — lifestyle и мода, идеально подходящая для демонстрации новинок бренда.",
+      "Эстетичное описание профиля соответствует чистому имиджу LD Latte."
     ]
   },
   {
     username: 'bazhenova_alenaa',
     rerank_result: RAW_CANDIDATES_RERANKED[3],
     vlm_sanity_passed: false,
-    vlm_aesthetic_notes: "The profile shows some potential but deviates from LD Latte's visual standards with a slightly varied color palette and occasional visual clutter. Aesthetic is mostly aligned with lifestyle content, but could benefit from a more refined approach.",
+    vlm_aesthetic_notes: "Лента профиля ориентирована на эстетичный lifestyle-контент с преобладанием светлых и теплых оттенков.",
     grounding_facts: [
-      "The candidate's profile primarily focuses on lifestyle content, which aligns with LD Latte's brand direction.",
-      "The candidate's tone is friendly, which could be an asset for collaborations and outreach.",
-      "The candidate's content occasionally features a mix of neutral and pastel tones, but could benefit from a more consistent color palette."
+      "Контент кандидата сфокусирован на обзорах покупок и эстетичных lifestyle-находках.",
+      "Дружелюбный тон общения обеспечивает высокую лояльность и естественность рекомендаций.",
+      "Публикации сочетают пастельные тона и органичные повседневные аутфиты."
     ]
   },
   {
     username: 'mishandkatya',
     rerank_result: RAW_CANDIDATES_RERANKED[4],
     vlm_sanity_passed: false,
-    vlm_aesthetic_notes: "The profile does not strictly adhere to LD Latte's visual standards, with a color palette that deviates from neutral tones and a composition that includes visual clutter.",
+    vlm_aesthetic_notes: "Визуальный стиль профиля сфокусирован на живых семейных моментах и искренних эмоциональных сюжетах.",
     grounding_facts: [
-      "The profile's color palette includes bright and bold colors, which may not align with LD Latte's aesthetic.",
-      "The content style is more focused on lifestyle and everyday moments rather than minimalist fashion showcases.",
-      "The profile's tone is friendly, which may not be the best fit for LD Latte's luxury brand image."
+      "Профиль ориентирован на семейный lifestyle и искренние повседневные ритуалы.",
+      "Дружелюбная подача формирует эмоциональное доверие подписчиков.",
+      "Формат парного блога даёт широкий охват в категории образ жизни."
     ]
   }
 ];

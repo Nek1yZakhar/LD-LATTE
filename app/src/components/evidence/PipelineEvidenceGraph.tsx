@@ -301,74 +301,188 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
 
       {/* 1.2 Ideal Blogger Portrait View */}
       <div id="p1-portrait" className="p-6 sm:p-8 rounded-3xl bg-[#FFFFFF] border border-[#D4C4B7] shadow-xs space-y-6">
+        {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E8E0D7]">
           <div>
             <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-full bg-[#C88D74]/15 text-[#6E5346] text-xs font-bold uppercase tracking-wider mb-1">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>1.2 Эталонный портрет блогера</span>
+              <span>1.2 Эталонный портрет инфлюенсера</span>
             </div>
             <h3 className="text-xl font-bold text-[#161210]">Портрет идеального инфлюенсера LD Latte</h3>
             <p className="text-xs text-[#4A3E39]">
-              Синтезирован моделью Llama-3.3-70B (`portrait.py`) на основе анализа 19 реальных seed-профилей.
+              Синтезирован моделью Llama-3.3-70B (`portrait.py`) на основе анализа 19 подтвержденных референсных профилей бренда.
             </p>
           </div>
-          <span className="px-3 py-1 rounded-full bg-[#F3EDE2] text-[#48121A] border border-[#D4C4B7] text-xs font-mono font-semibold">
+          <span className="px-3 py-1 rounded-full bg-[#F3EDE2] text-[#48121A] border border-[#D4C4B7] text-xs font-mono font-semibold self-start sm:self-center">
             `data/processed/ideal_portrait.json`
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-2">
-            <span className="text-[10px] font-bold text-[#8C7C75] uppercase tracking-wider">Целевые ниши</span>
-            <div className="flex flex-wrap gap-1.5">
-              {idealPortrait.target_niches.map((niche) => (
-                <span key={niche} className="px-2.5 py-1 rounded-lg bg-[#48121A] text-[#FAF7F2] text-xs font-bold">
-                  {niche}
+        {/* Explanatory Funnel Block: 34 -> 19 Verification */}
+        <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F2] border border-[#D4C4B7] space-y-4 shadow-2xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E8E0D7] pb-3">
+            <div className="flex items-center space-x-2 text-[#48121A] font-bold text-sm sm:text-base">
+              <Filter className="w-5 h-5 text-[#48121A]" />
+              <span>Откуда взялись данные: воронка отбора 34 → 19 профилей</span>
+            </div>
+            <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-[#2E6B48]/10 text-[#2E6B48] border border-[#2E6B48]/20 self-start sm:self-auto">
+              100% Real Data Policy
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+            <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7]">
+              <span className="block text-2xl font-extrabold font-mono text-[#161210]">34</span>
+              <span className="text-xs text-[#8C7C75] font-medium mt-1 block">Исходных ссылок LD Latte</span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-[#EAF3EC] border border-[#2E6B48]/30">
+              <span className="block text-2xl font-extrabold font-mono text-[#2E6B48]">19</span>
+              <span className="text-xs text-[#2E6B48] font-bold mt-1 block">Реальных аккаунтов в анализе</span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-[#F7EFF1] border border-[#48121A]/30">
+              <span className="block text-2xl font-extrabold font-mono text-[#48121A]">15</span>
+              <span className="text-xs text-[#48121A] font-bold mt-1 block">Исключено (HTTP 404 / 400)</span>
+            </div>
+          </div>
+
+          <div className="space-y-1.5 bg-[#FFFFFF] p-4 rounded-xl border border-[#E8E0D7] text-xs sm:text-sm text-[#4A3E39]">
+            <p className="leading-relaxed">
+              Бренд предоставил <strong className="text-[#161210]">34 исходных референсных профиля</strong>. Прямой сетевой прогон показал, что 15 ссылок оказались недоступны в Instagram (страницы удалены, заблокированы или возвращают HTTP 404/400).
+            </p>
+            <p className="leading-relaxed text-[#2E6B48] font-medium">
+              ✓ Чтобы портрет был честным и достоверным, отсеянные ссылки были исключены без выдумывания фейковых данных (Hard Reject). Анализ и синтез портрета строился строго по <strong>19 подтвержденным активным инфлюенсерам</strong>.
+            </p>
+          </div>
+
+          {/* Excluded Usernames Examples */}
+          <div className="space-y-2 pt-2 border-t border-[#E8E0D7]">
+            <span className="text-xs font-bold text-[#8C7C75] uppercase tracking-wider block">
+              Примеры исключенных ссылок (страница недоступна / HTTP 404):
+            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              {['_crazy__unicorn__', 'curly.bloger', 'demoiselle._.rie', 'merklary_l', 'nev_pollyy', 'yunglolaa'].map((user) => (
+                <span key={user} className="px-2.5 py-1 rounded-md bg-[#FFFFFF] border border-[#D4C4B7] text-[#8C7C75] text-xs font-mono line-through decoration-[#48121A]/50">
+                  @{user}
                 </span>
               ))}
-            </div>
-          </div>
 
-          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-1.5">
-            <span className="text-[10px] font-bold text-[#8C7C75] uppercase tracking-wider">Порог Engagement Rate</span>
-            <div className="flex items-baseline space-x-2">
-              <span className="text-2xl font-bold font-mono text-[#2E6B48]">
-                ≥ {(idealPortrait.estimated_er_min * 100).toFixed(1)}%
-              </span>
-              <span className="text-xs text-[#8C7C75]">мин. вовлеченность</span>
-            </div>
-          </div>
+              <div className="relative group/portraitTooltip inline-block">
+                <span className="px-3 py-1 rounded-md bg-[#F7EFF1] text-[#48121A] text-xs font-semibold border border-[#48121A]/30 cursor-help flex items-center space-x-1.5 hover:bg-[#F0E4E7] transition-colors">
+                  <span>+ 9 других недоступных ссылок</span>
+                  <Info className="w-3.5 h-3.5 text-[#48121A]/70" />
+                </span>
 
-          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-1.5">
-            <span className="text-[10px] font-bold text-[#8C7C75] uppercase tracking-wider">Тон повествования</span>
-            <p className="text-sm font-bold text-[#161210] capitalize">
-              {idealPortrait.preferred_tone_of_voice}
-            </p>
-            <p className="text-[11px] text-[#8C7C75] truncate">
-              {idealPortrait.key_themes.join(', ')}
-            </p>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-1.5">
-            <span className="text-[10px] font-bold text-[#8C7C75] uppercase tracking-wider">Рекламная нагрузка</span>
-            <div className="flex items-center space-x-2">
-              <span className="px-2.5 py-1 rounded-md bg-[#EAF3EC] text-[#2E6B48] font-mono text-xs font-bold uppercase">
-                {idealPortrait.sponsorship_saturation_max}
-              </span>
-              <span className="text-xs text-[#8C7C75]">Recency ≤ {idealPortrait.activity_recency_max_days}дн</span>
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 w-80 p-4 bg-[#161210] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C88D74]/40 backdrop-blur-md opacity-0 group-hover/portraitTooltip:opacity-100 transition-all duration-200 pointer-events-none z-50 space-y-2.5 text-xs font-sans">
+                  <div className="flex items-center justify-between border-b border-[#FAF7F2]/10 pb-2 text-[#C88D74] font-bold text-xs">
+                    <span>Остальные 9 недоступных ссылок</span>
+                    <span className="text-[11px] font-mono text-[#FAF7F2]/60">HTTP 404 / 400</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-1.5 font-mono text-xs text-[#FAF7F2]/90">
+                    <span>@sha_obzor.wb</span>
+                    <span>@lv_yana_lv</span>
+                    <span>@miysta_fatt_</span>
+                    <span>@habakher</span>
+                    <span>@ri_vls</span>
+                    <span>@__aparina</span>
+                    <span>@rtini.a13</span>
+                    <span>@ninooochka2.0</span>
+                    <span className="col-span-2">@irinatitovaaa_</span>
+                  </div>
+                  <p className="text-[11px] text-[#8C7C75] leading-tight border-t border-[#FAF7F2]/10 pt-2">
+                    Исключены на этапе сетевой валидации до синтеза портрета.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Grounded Rationale Box */}
-        <div className="p-5 rounded-2xl bg-[#F3EDE2] border border-[#E8E0D7] space-y-2">
-          <div className="flex items-center space-x-2 text-xs font-bold text-[#161210]">
-            <Info className="w-4 h-4 text-[#48121A]" />
-            <span>Обоснование алгоритма синтеза (Grounding Rationale)</span>
+        {/* 4 Criteria Cards with clear Russian labels & explanations */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-2 flex flex-col justify-between">
+            <div className="space-y-1.5">
+              <span className="text-[10px] font-bold text-[#8C7C75] uppercase tracking-wider block">Целевые ниши</span>
+              <div className="flex flex-wrap gap-1.5">
+                {idealPortrait.target_niches.map((niche) => (
+                  <span key={niche} className="px-2.5 py-1 rounded-lg bg-[#48121A] text-[#FAF7F2] text-xs font-bold capitalize">
+                    {niche === 'lifestyle' ? 'Lifestyle (стиль жизни)' : niche === 'beauty' ? 'Beauty (красота)' : niche}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <p className="text-[11px] text-[#4A3E39] pt-2 border-t border-[#E8E0D7] leading-tight">
+              Одежда и аксессуары LD Latte естественно вписываются в повседневные образы и бьюти-ритуалы.
+            </p>
           </div>
-          <p className="text-xs text-[#4A3E39] leading-relaxed italic">
-            "{idealPortrait.rationale}"
+
+          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-2 flex flex-col justify-between">
+            <div className="space-y-1.5">
+              <span className="text-[10px] font-bold text-[#8C7C75] uppercase tracking-wider block">Вовлеченность аудитории (ER)</span>
+              <div className="flex items-baseline space-x-2">
+                <span className="text-2xl font-bold font-mono text-[#2E6B48]">
+                  ≥ {idealPortrait.estimated_er_min.toFixed(1)}%
+                </span>
+                <span className="text-xs text-[#8C7C75]">мин. порог</span>
+              </div>
+            </div>
+            <p className="text-[11px] text-[#4A3E39] pt-2 border-t border-[#E8E0D7] leading-tight">
+              Гарантирует живой отклик и внимание подписчиков к рекомендациям, исключая «накрученный» охват.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-2 flex flex-col justify-between">
+            <div className="space-y-1.5">
+              <span className="text-[10px] font-bold text-[#8C7C75] uppercase tracking-wider block">Тон и стиль общения</span>
+              <p className="text-sm font-bold text-[#161210]">
+                {idealPortrait.preferred_tone_of_voice === 'friendly' ? 'Дружелюбный тон' : idealPortrait.preferred_tone_of_voice}
+              </p>
+              <p className="text-[11px] text-[#8C7C75] leading-relaxed">
+                {idealPortrait.key_themes.map(t => t === 'lifestyle highlights' ? 'события lifestyle' : t === 'beauty product reviews' ? 'бьюти-обзоры' : t === 'fashion finds' ? 'находки в моде' : t).join(', ')}
+              </p>
+            </div>
+            <p className="text-[11px] text-[#4A3E39] pt-2 border-t border-[#E8E0D7] leading-tight">
+              Теплая и естественная подача формирует доверие к бренду LD Latte вместо навязчивых продаж.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-2 flex flex-col justify-between">
+            <div className="space-y-1.5">
+              <span className="text-[10px] font-bold text-[#8C7C75] uppercase tracking-wider block">Рекламная нагрузка & свежесть</span>
+              <div className="flex items-center space-x-2">
+                <span className="px-2.5 py-1 rounded-md bg-[#EAF3EC] text-[#2E6B48] text-xs font-bold">
+                  {idealPortrait.sponsorship_saturation_max === 'low' ? 'Низкая реклама' : idealPortrait.sponsorship_saturation_max}
+                </span>
+                <span className="text-xs text-[#8C7C75]">Свежесть ≤ {idealPortrait.activity_recency_max_days}дн</span>
+              </div>
+            </div>
+            <p className="text-[11px] text-[#4A3E39] pt-2 border-t border-[#E8E0D7] leading-tight">
+              Лента не перегружена спонсорством, а посты не старше 7 дней означают, что блогер активен прямо сейчас.
+            </p>
+          </div>
+        </div>
+
+        {/* Narrative Rationale Box: Simple Russian Explanation */}
+        <div className="p-5 rounded-2xl bg-[#F3EDE2] border border-[#E8E0D7] space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2 text-xs font-bold text-[#161210]">
+              <Info className="w-4 h-4 text-[#48121A]" />
+              <span>Почему система выбрала именно такой портрет (обоснование алгоритма)</span>
+            </div>
+            <span className="text-[10px] font-mono text-[#8C7C75]">Llama-3.3-70B Synthesis</span>
+          </div>
+          <p className="text-xs sm:text-sm text-[#4A3E39] leading-relaxed">
+            На основе анализа 19 подтвержденных профилей-примеров система установила, что стилистика LD Latte наиболее гармонична с нишами lifestyle и beauty. Минимальный порог вовлеченности 3.6% гарантирует живой отклик подписчиков. Дружелюбный тон выстраивает эмоциональную связь без рекламной агрессии, низкая спонсорская нагрузка защищает от «усталости от рекламы», а свежая активность в пределах 7 дней подтверждает оперативную готовность к сотрудничеству.
           </p>
+          <div className="pt-2 border-t border-[#E8E0D7]/60">
+            <details className="group/raw">
+              <summary className="text-[11px] text-[#8C7C75] hover:text-[#161210] cursor-pointer font-mono font-semibold flex items-center space-x-1">
+                <span>Показать оригинальный технический JSON-текст (`rationale`)</span>
+              </summary>
+              <p className="text-[11px] text-[#8C7C75] italic mt-1.5 leading-relaxed bg-[#FAF7F2] p-3 rounded-xl border border-[#E8E0D7]">
+                "{idealPortrait.rationale}"
+              </p>
+            </details>
+          </div>
         </div>
       </div>
 
@@ -863,22 +977,28 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
             <div className="p-6 sm:p-8 space-y-6 text-sm overflow-y-auto shrink grow">
               <div className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-4">
                 <h4 className="font-bold text-[#161210] text-base">Параметры идеального блогера (`IdealBloggerProfile`):</h4>
-                <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
                   <div>
-                    <span className="text-[#8C7C75]">Target Niches:</span>
-                    <p className="font-bold text-[#161210] text-sm sm:text-base mt-0.5">{idealPortrait.target_niches.join(', ')}</p>
+                    <span className="text-[#8C7C75]">Целевые ниши (Target Niches):</span>
+                    <p className="font-bold text-[#161210] text-sm sm:text-base mt-0.5">
+                      {idealPortrait.target_niches.map(n => n === 'lifestyle' ? 'Lifestyle (стиль жизни)' : n === 'beauty' ? 'Beauty (красота)' : n).join(', ')}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-[#8C7C75]">Min Engagement Rate (ER):</span>
-                    <p className="font-bold font-mono text-[#2E6B48] text-sm sm:text-base mt-0.5">{(idealPortrait.estimated_er_min * 100).toFixed(1)}%</p>
+                    <span className="text-[#8C7C75]">Мин. вовлеченность (Min ER):</span>
+                    <p className="font-bold font-mono text-[#2E6B48] text-sm sm:text-base mt-0.5">≥ {idealPortrait.estimated_er_min.toFixed(1)}%</p>
                   </div>
                   <div>
-                    <span className="text-[#8C7C75]">Preferred Tone of Voice:</span>
-                    <p className="font-bold text-[#161210] capitalize text-sm sm:text-base mt-0.5">{idealPortrait.preferred_tone_of_voice}</p>
+                    <span className="text-[#8C7C75]">Тон и стиль (Tone of Voice):</span>
+                    <p className="font-bold text-[#161210] text-sm sm:text-base mt-0.5">
+                      {idealPortrait.preferred_tone_of_voice === 'friendly' ? 'Дружелюбный (Friendly)' : idealPortrait.preferred_tone_of_voice}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-[#8C7C75]">Sponsorship Saturation Max:</span>
-                    <p className="font-bold font-mono text-[#C88D74] uppercase text-sm sm:text-base mt-0.5">{idealPortrait.sponsorship_saturation_max}</p>
+                    <span className="text-[#8C7C75]">Рекламная нагрузка (Sponsorship):</span>
+                    <p className="font-bold text-[#2E6B48] text-sm sm:text-base mt-0.5">
+                      {idealPortrait.sponsorship_saturation_max === 'low' ? 'Низкая (Low)' : idealPortrait.sponsorship_saturation_max} (до {idealPortrait.activity_recency_max_days} дней)
+                    </p>
                   </div>
                 </div>
               </div>
@@ -888,17 +1008,27 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                 <div className="flex flex-wrap gap-2.5">
                   {idealPortrait.key_themes.map((theme) => (
                     <span key={theme} className="px-3.5 py-1.5 rounded-xl bg-[#F3EDE2] border border-[#E8E0D7] text-[#161210] font-semibold text-xs sm:text-sm">
-                      ✓ {theme}
+                      ✓ {theme === 'lifestyle highlights' ? 'события lifestyle' : theme === 'beauty product reviews' ? 'бьюти-обзоры' : theme === 'fashion finds' ? 'находки в моде' : theme}
                     </span>
                   ))}
                 </div>
               </div>
 
               <div className="space-y-2.5 pt-2 border-t border-[#E8E0D7]">
-                <h4 className="font-bold text-[#161210] text-base">Сгенерированное обоснование Llama-3.3-70B:</h4>
+                <h4 className="font-bold text-[#161210] text-base">Почему система выбрала именно такой портрет (Обоснование):</h4>
                 <p className="text-[#4A3E39] leading-relaxed bg-[#FAF7F2] p-5 rounded-2xl border border-[#E8E0D7] text-xs sm:text-sm">
-                  {idealPortrait.rationale}
+                  На основе анализа 19 подтвержденных профилей-примеров Llama-3.3-70B установила, что продукция бренда LD Latte наиболее естественна в нишах lifestyle и beauty. Минимальный порог вовлеченности 3.6% отсекает неактивную аудиторию, дружелюбный тон выстраивает доверие, а низкая рекламная нагрузка и свежая активность до 7 дней гарантируют высокую отдачу от интеграции.
                 </p>
+                <div className="pt-1">
+                  <details className="group/rawModal">
+                    <summary className="text-[11px] text-[#8C7C75] hover:text-[#161210] cursor-pointer font-mono font-semibold">
+                      Показать оригинальный технический текст (`rationale`)
+                    </summary>
+                    <p className="text-xs text-[#8C7C75] italic mt-1.5 leading-relaxed bg-[#FFFFFF] p-4 rounded-xl border border-[#E8E0D7]">
+                      "{idealPortrait.rationale}"
+                    </p>
+                  </details>
+                </div>
               </div>
             </div>
 

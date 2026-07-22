@@ -58,12 +58,12 @@ export const SectionNav: React.FC<SectionNavProps> = ({ activePart }) => {
   };
 
   return (
-    <div className="bg-[#FAF7F2] border-b border-[#E8E0D7] py-2 px-4 sticky top-16 sm:top-20 z-40 backdrop-blur-sm">
-      <div className="ld-container max-w-7xl mx-auto flex items-center justify-between overflow-x-auto no-scrollbar space-x-6 text-xs">
+    <div className="bg-[#FAF7F2]/75 border-b border-[#E8E0D7]/60 py-1 px-4 sticky top-14 sm:top-16 z-30 backdrop-blur-xs transition-all">
+      <div className="ld-container max-w-7xl mx-auto flex items-center justify-between overflow-x-auto no-scrollbar space-x-5 text-[11px]">
         
-        <div className="flex items-center space-x-1 font-semibold text-[#8C7C75] shrink-0">
-          <Anchor className="w-3.5 h-3.5 text-[#48121A]" />
-          <span className="uppercase text-[10px] tracking-wider">Быстрый переход:</span>
+        <div className="flex items-center space-x-1.5 font-medium text-[#8C7C75] shrink-0">
+          <Anchor className="w-3 h-3 text-[#48121A]/60" />
+          <span className="uppercase text-[9px] tracking-wider font-mono text-[#8C7C75]/90">Быстрый переход:</span>
         </div>
 
         <div className="flex items-center space-x-4 shrink-0">
@@ -71,7 +71,7 @@ export const SectionNav: React.FC<SectionNavProps> = ({ activePart }) => {
             <button
               key={item.id}
               onClick={() => handleScroll(item.href)}
-              className="text-[#4A3E39] hover:text-[#48121A] hover:underline font-medium transition-colors whitespace-nowrap"
+              className="text-[#6E5346] hover:text-[#48121A] hover:underline font-medium transition-colors whitespace-nowrap text-[11px]"
             >
               {item.label}
             </button>

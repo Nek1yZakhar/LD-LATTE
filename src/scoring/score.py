@@ -74,7 +74,9 @@ def calculate_er_score(cand_er: float, min_er: float) -> float:
         return 1.0
     if cand_er <= 0.0:
         return 0.0
-    ratio = cand_er / min_er
+    norm_min = min_er / 100.0 if min_er > 1.0 else min_er
+    norm_cand = cand_er / 100.0 if cand_er > 1.0 else cand_er
+    ratio = norm_cand / norm_min
     return max(0.0, min(1.0, float(ratio)))
 
 
