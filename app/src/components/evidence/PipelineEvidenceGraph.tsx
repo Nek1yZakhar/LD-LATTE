@@ -33,17 +33,17 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
           <div>
             <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-full bg-[#48121A]/10 text-[#48121A] text-xs font-bold uppercase tracking-wider mb-1">
               <Layers className="w-3.5 h-3.5" />
-              <span>1.1 Interactive Pipeline Flow</span>
+              <span>1.1 Логика работы конвейера</span>
             </div>
-            <h3 className="text-xl font-bold text-[#161210]">Архитектурный граф конвейера (8 Модулей)</h3>
+            <h3 className="text-xl font-bold text-[#161210]">Пошаговая схема работы AI-системы (8 этапов)</h3>
             <p className="text-xs text-[#4A3E39]">
-              Нажмите на любой модуль для детализации контрактов данных Pydantic и алгоритма работы.
+              Кликните на любой этап, чтобы узнать, что происходит на этом шаге, какие данные передаются и какой алгоритм используется.
             </p>
           </div>
           <div className="flex items-center space-x-2 text-xs font-mono">
             <span className="px-2.5 py-1 rounded-md bg-[#EAF3EC] text-[#2E6B48] border border-[#2E6B48]/30 font-semibold flex items-center space-x-1">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Pydantic Guarded</span>
+              <span>Строгое Pydantic-валидирование</span>
             </span>
           </div>
         </div>
@@ -69,11 +69,11 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                     <span className={`text-[10px] font-bold font-mono ${
                       isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
                     }`}>
-                      STAGE 0{node.stageNumber}
+                      ШАГ 0{node.stageNumber}
                     </span>
                     {node.isVlmNode ? (
                       <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#48121A] text-[#FAF7F2]">
-                        VLM
+                        VLM Визуал
                       </span>
                     ) : (
                       <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : 'bg-[#2E6B48]'}`}></span>
@@ -109,10 +109,10 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
             </div>
             <div>
               <p className="font-bold text-[#161210]">
-                Архитектурная роль VLM (Stage 07): Sanity Pass шорт-листа из 5 топов
+                Зачем здесь мультимодальный AI (Qwen2.5-VL)?
               </p>
               <p className="text-[#4A3E39] mt-0.5 leading-relaxed">
-                Мультимодальная модель Qwen2.5-VL используется <strong className="text-[#48121A]">исключительно на финальном шаге</strong> для оценки визуальной эстетики, а не для первичного поиска по всей базе. Это снижает затраты на инференс в ~100 раз.
+                Зрительный AI-анализ подключается <strong className="text-[#48121A]">только на самом последнем шаге</strong> — для финальной проверки эстетики ленты у 5 лучших финалистов. Система не тратит ресурсы на разбор миллиона картинок: сначала математика и алгоритмы отсеивают неподходящих блогеров, а мультимодальная модель оценивает визуал только у лидеров шорт-листа.
               </p>
             </div>
           </div>
@@ -132,7 +132,7 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
           <div>
             <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-full bg-[#C88D74]/15 text-[#6E5346] text-xs font-bold uppercase tracking-wider mb-1">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>1.2 Target Audience & Profile Target</span>
+              <span>1.2 Эталонный портрет блогера</span>
             </div>
             <h3 className="text-xl font-bold text-[#161210]">Портрет идеального инфлюенсера LD Latte</h3>
             <p className="text-xs text-[#4A3E39]">
@@ -207,11 +207,11 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
               <div className="space-y-1">
                 <div className="flex items-center space-x-2">
                   <span className="px-2 py-0.5 rounded bg-[#48121A] text-[#FAF7F2] font-mono text-xs font-bold">
-                    STAGE 0{selectedNode.stageNumber}
+                    ШАГ 0{selectedNode.stageNumber}
                   </span>
                   {selectedNode.isVlmNode && (
                     <span className="px-2 py-0.5 rounded bg-[#C88D74] text-[#161210] text-xs font-bold">
-                      VLM Sanity Node
+                      VLM Аудит визуала
                     </span>
                   )}
                 </div>

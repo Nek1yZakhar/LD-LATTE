@@ -40,7 +40,7 @@ export const PIPELINE_NODES: PipelineNode[] = [
   {
     id: 'stage_1',
     stageNumber: 1,
-    name: 'Seed Ingest & Network Validation',
+    name: 'Проверка исходного списка',
     moduleFile: 'src/ingest/clean.py',
     inputContract: 'Блогеры - Лист1.csv (34 rows)',
     outputContract: 'data/processed/normalized_seed_profiles_valid.csv (19 valid)',
@@ -50,7 +50,7 @@ export const PIPELINE_NODES: PipelineNode[] = [
   {
     id: 'stage_2',
     stageNumber: 2,
-    name: 'Instagram Enrichment Layer',
+    name: 'Сбор данных из Instagram',
     moduleFile: 'src/fetchers/enrich.py',
     inputContract: 'valid_seed_profiles',
     outputContract: 'data/processed/seed_enriched.json (19 entries)',
@@ -60,7 +60,7 @@ export const PIPELINE_NODES: PipelineNode[] = [
   {
     id: 'stage_3',
     stageNumber: 3,
-    name: 'Ideal Blogger Profiler',
+    name: 'Портрет идеального блогера',
     moduleFile: 'src/analyzers/portrait.py',
     inputContract: 'data/processed/seed_enriched.json',
     outputContract: 'data/processed/ideal_portrait.json',
@@ -70,7 +70,7 @@ export const PIPELINE_NODES: PipelineNode[] = [
   {
     id: 'stage_4',
     stageNumber: 4,
-    name: 'Candidate Discovery & Rule Reject',
+    name: 'Поиск и первичный отсев',
     moduleFile: 'src/search/discover.py',
     inputContract: 'seed_enriched.json + ideal_portrait.json',
     outputContract: 'data/processed/candidates_discovered.json (18 entries)',
@@ -80,7 +80,7 @@ export const PIPELINE_NODES: PipelineNode[] = [
   {
     id: 'stage_5',
     stageNumber: 5,
-    name: 'Qwen3 Embedding & Feature Scoring',
+    name: 'Смысловое сравнение и оценка',
     moduleFile: 'src/scoring/embed.py & score.py',
     inputContract: 'candidates_discovered.json',
     outputContract: 'data/processed/candidates_scored.json',
@@ -90,7 +90,7 @@ export const PIPELINE_NODES: PipelineNode[] = [
   {
     id: 'stage_6',
     stageNumber: 6,
-    name: 'Cross-Encoder BGE-Reranker',
+    name: 'Уточнение рейтинга кандидатов',
     moduleFile: 'src/scoring/rerank.py',
     inputContract: 'candidates_scored.json',
     outputContract: 'data/processed/candidates_reranked.json',
@@ -100,7 +100,7 @@ export const PIPELINE_NODES: PipelineNode[] = [
   {
     id: 'stage_7',
     stageNumber: 7,
-    name: 'VLM Visual Sanity Pass',
+    name: 'Проверка визуального стиля',
     moduleFile: 'src/scoring/vlm_sanity.py',
     inputContract: 'candidates_reranked.json (Top N)',
     outputContract: 'data/processed/shortlist_final.json (5 entries)',
@@ -111,7 +111,7 @@ export const PIPELINE_NODES: PipelineNode[] = [
   {
     id: 'stage_8',
     stageNumber: 8,
-    name: 'Outreach Offer Generator & QA',
+    name: 'Подготовка персонального предложения',
     moduleFile: 'src/outreach/generator.py',
     inputContract: 'shortlist_final.json + prompts/outreach_offer.md',
     outputContract: 'output/barter_offers.json (5 offers)',
