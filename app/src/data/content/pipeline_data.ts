@@ -883,6 +883,7 @@ export const GROUNDED_AUTHOR_RESUME: AuthorResume = {
   workFormat: 'Удалённая / гибридная / проектная работа (AI Systems Engineer / Loop Engineer)',
   githubUrl: 'https://github.com/Nek1yZakhar',
   portfolioUrls: [
+    'https://ld-latte.vercel.app/',
     'https://ecokedrum.ru/',
     'https://mib-osint.vercel.app/',
     'https://accessible-law-intake-board.vercel.app/'
@@ -915,6 +916,26 @@ export const GROUNDED_AUTHOR_RESUME: AuthorResume = {
     }
   ],
   keyCaseStudies: [
+    {
+      id: 'ld_latte',
+      title: 'LD LATTE — AI Discovery & Outreach Pipeline',
+      role: 'AI Systems & Pipeline Engineer (solo)',
+      period: '2026',
+      organization: 'LD LATTE (Fashion Brand)',
+      description: 'Модульный AI-пайплайн поиска инфлюенсеров, векторного скоринга Qwen3, BGE-реранкинга, мультимодального VLM-контроля Qwen2.5-VL и генерации писем DeepSeek-V4.',
+      highlights: [
+        'Сквозная воронка отбора: 34 seed-ссылки ➔ 19 живых аккаунтов ➔ Top 5 шорт-лист',
+        'Живой VLM аудит через OpenRouter API ($0.003 за 5 кандидатов)',
+        'Anti-Robotic QA фильтр против канцелярита + React Demo UI'
+      ],
+      results: [
+        'Сборка задеплоена на Vercel (ld-latte.vercel.app)',
+        '100% реальные данные, 39/39 Pytest PASS, $0.02 / батч'
+      ],
+      stack: ['Python', 'Qwen3', 'BGE Reranker', 'Qwen2.5-VL', 'DeepSeek-V4', 'React', 'Vercel'],
+      demoUrl: 'https://ld-latte.vercel.app/',
+      repoUrl: 'https://github.com/Nek1yZakhar/LD-LATTE'
+    },
     {
       id: 'ecokedrum',
       title: 'ЭкоКедрум — Бьюти/эко-бренд натуральной косметики',

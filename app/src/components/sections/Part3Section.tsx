@@ -589,7 +589,10 @@ const ArchitectureDocumentViewer: React.FC = () => {
             <p className="text-xs text-[#D4C4B7]">
               Веб-приложение с инспекторами промптов, модалками, фильтрами кандидатов и полной документацией.
             </p>
-            <span className="text-[10px] font-mono text-[#E8A990]">Vite + React SPA • Production Ready Deployment</span>
+            <a href="https://ld-latte.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-[10px] font-mono text-[#E8A990] hover:underline flex items-center space-x-1">
+              <span>Vite + React SPA • Live Demo: ld-latte.vercel.app</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
           </div>
         </div>
       </div>
