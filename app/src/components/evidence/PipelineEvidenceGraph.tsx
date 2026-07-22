@@ -93,30 +93,30 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                     {isTop && (
                       <button
                         onClick={() => setSelectedNode(node)}
-                        className={`p-3 sm:p-3.5 rounded-2xl text-left transition-all relative group flex flex-col justify-between h-34 border ${
+                        className={`text-left transition-all relative group flex flex-col justify-between border ${
                           node.isVlmNode 
-                            ? 'bg-[#F7EFF1] border-[#48121A]/40 hover:border-[#48121A] shadow-xs' 
+                            ? 'w-[122%] -ml-[11%] h-30 p-2.5 rounded-2xl bg-[#F7EFF1] border-[#48121A]/50 hover:border-[#48121A] shadow-xs z-20' 
                             : isSelected 
-                              ? 'bg-[#48121A] text-[#FAF7F2] border-[#48121A] shadow-md ring-2 ring-[#48121A]/20' 
-                              : 'bg-[#FAF7F2] border-[#E8E0D7] hover:border-[#48121A] hover:bg-[#FFFFFF]'
+                              ? 'w-full h-34 p-3 sm:p-3.5 rounded-2xl bg-[#48121A] text-[#FAF7F2] border-[#48121A] shadow-md ring-2 ring-[#48121A]/20' 
+                              : 'w-full h-34 p-3 sm:p-3.5 rounded-2xl bg-[#FAF7F2] border-[#E8E0D7] hover:border-[#48121A] hover:bg-[#FFFFFF]'
                         }`}
                       >
                         <div>
                           <div className="flex items-center justify-between mb-1">
-                            <span className={`text-xs font-bold font-mono ${
-                              isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
-                            }`}>
-                              Этап {node.stageNumber} из 8
-                            </span>
+                            <div className="flex items-center space-x-1.5">
+                              <span className={`text-xs font-bold font-mono ${
+                                isSelected ? 'text-[#C88D74]' : node.isVlmNode ? 'text-[#48121A]' : 'text-[#8C7C75]'
+                              }`}>
+                                Этап {node.stageNumber} из 8
+                              </span>
+                              {node.isVlmNode && (
+                                <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#48121A] text-[#FAF7F2] whitespace-nowrap shadow-2xs">
+                                  VLM Визуал
+                                </span>
+                              )}
+                            </div>
                             <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : node.isVlmNode ? 'bg-[#48121A]' : 'bg-[#2E6B48]'}`}></span>
                           </div>
-                          {node.isVlmNode && (
-                            <div className="mb-1">
-                              <span className="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#48121A] text-[#FAF7F2] whitespace-nowrap shadow-2xs">
-                                VLM Визуал
-                              </span>
-                            </div>
-                          )}
                           <h4 className={`text-xs sm:text-sm font-bold leading-snug clamp-2 ${
                             isSelected ? 'text-[#FAF7F2]' : 'text-[#161210]'
                           }`}>
@@ -124,7 +124,7 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                           </h4>
                         </div>
 
-                        <div className="pt-2 border-t border-black/5 flex items-center justify-between">
+                        <div className="pt-1.5 border-t border-black/5 flex items-center justify-between">
                           <span className={`text-[10px] sm:text-[11px] font-mono truncate ${
                             isSelected ? 'text-[#FAF7F2]/80' : 'text-[#8C7C75]'
                           }`}>
@@ -165,30 +165,30 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                     {!isTop && (
                       <button
                         onClick={() => setSelectedNode(node)}
-                        className={`p-3 sm:p-3.5 rounded-2xl text-left transition-all relative group flex flex-col justify-between h-34 border ${
+                        className={`text-left transition-all relative group flex flex-col justify-between border ${
                           node.isVlmNode 
-                            ? 'bg-[#F7EFF1] border-[#48121A]/40 hover:border-[#48121A] shadow-xs' 
+                            ? 'w-[122%] -ml-[11%] h-30 p-2.5 rounded-2xl bg-[#F7EFF1] border-[#48121A]/50 hover:border-[#48121A] shadow-xs z-20' 
                             : isSelected 
-                              ? 'bg-[#48121A] text-[#FAF7F2] border-[#48121A] shadow-md ring-2 ring-[#48121A]/20' 
-                              : 'bg-[#FAF7F2] border-[#E8E0D7] hover:border-[#48121A] hover:bg-[#FFFFFF]'
+                              ? 'w-full h-34 p-3 sm:p-3.5 rounded-2xl bg-[#48121A] text-[#FAF7F2] border-[#48121A] shadow-md ring-2 ring-[#48121A]/20' 
+                              : 'w-full h-34 p-3 sm:p-3.5 rounded-2xl bg-[#FAF7F2] border-[#E8E0D7] hover:border-[#48121A] hover:bg-[#FFFFFF]'
                         }`}
                       >
                         <div>
                           <div className="flex items-center justify-between mb-1">
-                            <span className={`text-xs font-bold font-mono ${
-                              isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
-                            }`}>
-                              Этап {node.stageNumber} из 8
-                            </span>
+                            <div className="flex items-center space-x-1.5">
+                              <span className={`text-xs font-bold font-mono ${
+                                isSelected ? 'text-[#C88D74]' : node.isVlmNode ? 'text-[#48121A]' : 'text-[#8C7C75]'
+                              }`}>
+                                Этап {node.stageNumber} из 8
+                              </span>
+                              {node.isVlmNode && (
+                                <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#48121A] text-[#FAF7F2] whitespace-nowrap shadow-2xs">
+                                  VLM Визуал
+                                </span>
+                              )}
+                            </div>
                             <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : node.isVlmNode ? 'bg-[#48121A]' : 'bg-[#2E6B48]'}`}></span>
                           </div>
-                          {node.isVlmNode && (
-                            <div className="mb-1">
-                              <span className="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#48121A] text-[#FAF7F2] whitespace-nowrap shadow-2xs">
-                                VLM Визуал
-                              </span>
-                            </div>
-                          )}
                           <h4 className={`text-xs sm:text-sm font-bold leading-snug clamp-2 ${
                             isSelected ? 'text-[#FAF7F2]' : 'text-[#161210]'
                           }`}>
@@ -196,7 +196,7 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                           </h4>
                         </div>
 
-                        <div className="pt-2 border-t border-black/5 flex items-center justify-between">
+                        <div className="pt-1.5 border-t border-black/5 flex items-center justify-between">
                           <span className={`text-[10px] sm:text-[11px] font-mono truncate ${
                             isSelected ? 'text-[#FAF7F2]/80' : 'text-[#8C7C75]'
                           }`}>
