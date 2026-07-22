@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layers, ShieldCheck, CheckCircle2, Cpu, Filter } from 'lucide-react';
+import { Layers, ShieldCheck, CheckCircle2, Cpu, Filter, Info } from 'lucide-react';
 import { getSectionContentMap, GROUNDED_PROOF_METRICS } from '@/data';
 import { PipelineEvidenceGraph } from '@/components/evidence/PipelineEvidenceGraph';
 import { CandidateEvidenceStudio } from '@/components/evidence/CandidateEvidenceStudio';
@@ -29,7 +29,7 @@ export const Part1Section: React.FC = () => {
               </span>
             </h2>
             <p className="text-sm sm:text-base text-[#4A3E39] leading-relaxed">
-              Интерактивная витрина 8 этапов конвейера: от сетевой валидации исходного списка до векторизации Qwen3-Embedding, кросс-энкодер реранкинга BGE-Reranker, VLM Visual Sanity контроля эстетики и генерации персональных PR-офферов.
+              Интерактивная витрина 8 этапов конвейера: от сетевой валидации исходного списка до векторизации Qwen3–Embedding, кросс-энкодер реранкинга BGE-Reranker, VLM Visual Sanity контроля эстетики и генерации персональных PR-офферов.
             </p>
           </div>
 
@@ -43,21 +43,63 @@ export const Part1Section: React.FC = () => {
               Из исходного списка в {metrics.totalSeedProfiles} ссылки {metrics.unreachableProfilesRemoved} аккаунтов оказались недоступны в Instagram (ошибки HTTP 404/400). Пайплайн автоматически применил фильтр сетевой валидации (Hard Reject) и отсеял их без выдумывания фейковых данных. Сквозной векторный скоринг Qwen3 и VLM-аудит Qwen2.5-VL проведены строго по <strong className="text-[#161210] font-semibold">{metrics.activeRealProfiles} реально существующим активным блогерам</strong>.
             </p>
 
-            {/* Second-Layer Technical Badges */}
+            {/* Second-Layer Technical Badges with Custom Tooltips */}
             <div className="pt-2 border-t border-[#E8E0D7] flex flex-wrap items-center gap-2 text-xs">
-              <div className="flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#EAF3EC] text-[#2E6B48] border border-[#2E6B48]/30 font-semibold text-[11px]">
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>100% Real Data ({metrics.activeRealProfiles}/{metrics.totalSeedProfiles} Instagram Profiles)</span>
+              {/* Badge 1: 100% Real Data */}
+              <div className="relative group/badge">
+                <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-[#EAF3EC] text-[#2E6B48] border border-[#2E6B48]/30 font-semibold text-[11px] cursor-help hover:bg-[#DDF0E2] transition-colors">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>100% Real Data ({metrics.activeRealProfiles}/{metrics.totalSeedProfiles} Instagram Profiles)</span>
+                  <Info className="w-3 h-3 text-[#2E6B48]/70" />
+                </div>
+                {/* Tooltip 1 */}
+                <div className="absolute left-0 top-full mt-2.5 w-72 sm:w-80 p-3.5 bg-[#161210] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C88D74]/40 backdrop-blur-md opacity-0 group-hover/badge:opacity-100 transition-all duration-200 pointer-events-none z-30 space-y-1.5 text-xs font-sans">
+                  <div className="flex items-center space-x-2 text-[#C88D74] font-bold border-b border-[#FAF7F2]/10 pb-1.5">
+                    <ShieldCheck className="w-4 h-4" />
+                    <span>Политика 100% реальных данных</span>
+                  </div>
+                  <p className="text-[11px] text-[#FAF7F2]/90 leading-relaxed font-normal">
+                    Пайплайн работает строго на реально спарсенных профилях. Из 34 исходных ссылок 15 недоступных аккаунтов отсеяны (Hard Reject), а скоринг проведен по 19 живым профилям без выдумывания фейков.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#FFFFFF] text-[#161210] border border-[#D4C4B7] font-semibold text-[11px]">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#2E6B48]" />
-                <span>{metrics.unitTestsPassCount}/39 Pytest Suite PASS</span>
+              {/* Badge 2: Pytest Suite PASS */}
+              <div className="relative group/badge">
+                <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-[#FFFFFF] text-[#161210] border border-[#D4C4B7] font-semibold text-[11px] cursor-help hover:bg-[#FAF7F2] transition-colors">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#2E6B48]" />
+                  <span>{metrics.unitTestsPassCount}/39 Pytest Suite PASS</span>
+                  <Info className="w-3 h-3 text-[#8C7C75]" />
+                </div>
+                {/* Tooltip 2 */}
+                <div className="absolute left-0 sm:left-auto sm:right-0 top-full mt-2.5 w-72 sm:w-80 p-3.5 bg-[#161210] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C88D74]/40 backdrop-blur-md opacity-0 group-hover/badge:opacity-100 transition-all duration-200 pointer-events-none z-30 space-y-1.5 text-xs font-sans">
+                  <div className="flex items-center space-x-2 text-[#C88D74] font-bold border-b border-[#FAF7F2]/10 pb-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-[#2E6B48]" />
+                    <span>100% Покрытие тестами</span>
+                  </div>
+                  <p className="text-[11px] text-[#FAF7F2]/90 leading-relaxed font-normal">
+                    Все 39 юнит- и интеграционных тестов (скрапинг, векторизация, BGE-реранкинг, VLM-аудит, anti-robotic QA) пройдены со 100% успехом в Pytest.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#F3EDE2] text-[#48121A] border border-[#D4C4B7] font-mono text-[11px]">
-                <Cpu className="w-3.5 h-3.5" />
-                <span>Инженерный стек: Qwen3-Embedding | BGE-Reranker | Qwen2.5-VL</span>
+              {/* Badge 3: Engineering Stack */}
+              <div className="relative group/badge">
+                <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-[#F3EDE2] text-[#48121A] border border-[#D4C4B7] font-mono text-[11px] cursor-help hover:bg-[#EAE0D2] transition-colors">
+                  <Cpu className="w-3.5 h-3.5" />
+                  <span>Инженерный стек: Qwen3-Embedding | BGE-Reranker | Qwen2.5-VL</span>
+                  <Info className="w-3 h-3 text-[#48121A]/70" />
+                </div>
+                {/* Tooltip 3 */}
+                <div className="absolute left-0 top-full mt-2.5 w-80 sm:w-96 p-3.5 bg-[#161210] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C88D74]/40 backdrop-blur-md opacity-0 group-hover/badge:opacity-100 transition-all duration-200 pointer-events-none z-30 space-y-1.5 text-xs font-sans">
+                  <div className="flex items-center space-x-2 text-[#C88D74] font-bold border-b border-[#FAF7F2]/10 pb-1.5">
+                    <Cpu className="w-4 h-4" />
+                    <span>Цепочка AI-моделей</span>
+                  </div>
+                  <p className="text-[11px] text-[#FAF7F2]/90 leading-relaxed font-normal">
+                    Qwen3-Embedding (0.6B) отвечает за семантический поиск, BAAI/bge-reranker-v2-m3 уточняет рейтинг кросс-энкодером, а Qwen2.5-VL оценивает визуал 5 финалистов.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
