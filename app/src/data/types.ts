@@ -26,6 +26,7 @@ export interface PipelineNode {
   id: string;
   stageNumber: number;
   name: string;
+  secondaryName?: string;
   moduleFile: string;
   inputContract: string;
   outputContract: string;

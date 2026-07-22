@@ -87,7 +87,7 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
               const isTop = index % 2 === 0; // Steps 1, 3, 5, 7 on Top; Steps 2, 4, 6, 8 on Bottom
 
               return (
-                <div key={node.id} className="flex flex-col items-center justify-between h-84 py-1">
+                <div key={node.id} className="flex flex-col items-center justify-between h-84 py-1 relative">
                   {/* Top Slot */}
                   <div className="w-full h-36 flex flex-col justify-end">
                     {isTop && (
@@ -106,7 +106,7 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                             <span className={`text-xs font-bold font-mono ${
                               isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
                             }`}>
-                              ШАГ 0{node.stageNumber}
+                              Этап {node.stageNumber} из 8
                             </span>
                             {node.isVlmNode ? (
                               <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#48121A] text-[#FAF7F2]">
@@ -138,7 +138,7 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                   </div>
 
                   {/* Stem Line & Node Dot Connection on Central Axis */}
-                  <div className="flex flex-col items-center justify-center my-1">
+                  <div className="flex flex-col items-center justify-center my-1 relative">
                     <div className={`w-0.5 h-4 ${isTop ? 'bg-[#D4C4B7]' : 'bg-transparent'}`} />
                     <div className={`w-4 h-4 rounded-full border-2 transition-all flex items-center justify-center ${
                       isSelected 
@@ -150,6 +150,13 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                       <div className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#FAF7F2]' : 'bg-[#48121A]'}`} />
                     </div>
                     <div className={`w-0.5 h-4 ${!isTop ? 'bg-[#D4C4B7]' : 'bg-transparent'}`} />
+
+                    {/* Flow arrow indicator to the next step along the central axis */}
+                    {index < 7 && (
+                      <div className="absolute left-[calc(50%+10px)] top-1/2 -translate-y-1/2 z-20 pointer-events-none flex items-center">
+                        <ChevronRight className="w-3.5 h-3.5 text-[#C88D74] opacity-70" />
+                      </div>
+                    )}
                   </div>
 
                   {/* Bottom Slot */}
@@ -170,7 +177,7 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                             <span className={`text-xs font-bold font-mono ${
                               isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
                             }`}>
-                              ШАГ 0{node.stageNumber}
+                              Этап {node.stageNumber} из 8
                             </span>
                             {node.isVlmNode ? (
                               <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#48121A] text-[#FAF7F2]">
@@ -230,7 +237,7 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                         <span className={`text-xs font-bold font-mono ${
                           isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
                         }`}>
-                          ШАГ 0{node.stageNumber}
+                          Этап {node.stageNumber} из 8
                         </span>
                         {node.isVlmNode ? (
                           <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#48121A] text-[#FAF7F2]">
@@ -372,7 +379,7 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
               <div className="space-y-1.5">
                 <div className="flex items-center space-x-2.5">
                   <span className="px-2.5 py-1 rounded-md bg-[#48121A] text-[#FAF7F2] font-mono text-xs sm:text-sm font-bold">
-                    ШАГ 0{selectedNode.stageNumber}
+                    Этап {selectedNode.stageNumber} из 8
                   </span>
                   {selectedNode.isVlmNode && (
                     <span className="px-2.5 py-1 rounded-md bg-[#C88D74] text-[#161210] text-xs sm:text-sm font-bold">
@@ -381,6 +388,11 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                   )}
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-[#161210]">{selectedNode.name}</h3>
+                {selectedNode.secondaryName && (
+                  <p className="text-xs sm:text-sm font-mono text-[#8C7C75] font-semibold">
+                    {selectedNode.secondaryName}
+                  </p>
+                )}
               </div>
               <button
                 onClick={() => setSelectedNode(null)}
@@ -429,15 +441,15 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                   <div className="grid grid-cols-3 gap-3 sm:gap-4 text-center">
                     <div className="p-3 sm:p-4 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7]">
                       <span className="block text-2xl sm:text-3xl font-extrabold font-mono text-[#161210]">34</span>
-                      <span className="text-xs text-[#8C7C75] leading-tight block font-medium mt-1">Исходный seed-список</span>
+                      <span className="text-xs sm:text-sm text-[#8C7C75] leading-tight block font-medium mt-1">Исходный seed-список</span>
                     </div>
                     <div className="p-3 sm:p-4 rounded-xl bg-[#EAF3EC] border border-[#2E6B48]/30">
                       <span className="block text-2xl sm:text-3xl font-extrabold font-mono text-[#2E6B48]">19</span>
-                      <span className="text-xs text-[#2E6B48] font-bold leading-tight block mt-1">Прошли сетевую проверку</span>
+                      <span className="text-xs sm:text-sm text-[#2E6B48] font-bold leading-tight block mt-1">Прошли сетевую проверку</span>
                     </div>
                     <div className="p-3 sm:p-4 rounded-xl bg-[#F7EFF1] border border-[#48121A]/30">
                       <span className="block text-2xl sm:text-3xl font-extrabold font-mono text-[#48121A]">15</span>
-                      <span className="text-xs text-[#48121A] font-bold leading-tight block mt-1">Исключены (HTTP 404/400)</span>
+                      <span className="text-xs sm:text-sm text-[#48121A] font-bold leading-tight block mt-1">Исключены (HTTP 404/400)</span>
                     </div>
                   </div>
 
@@ -491,6 +503,279 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                         </div>
                       </div>
 
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Special Architecture Card for Stage 02 (Self-operated Scraping Strategy) */}
+              {selectedNode.stageNumber === 2 && (
+                <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F2] border border-[#D4C4B7] space-y-4 shadow-2xs">
+                  <div className="flex items-center justify-between border-b border-[#E8E0D7] pb-3">
+                    <div className="flex items-center space-x-2 text-[#48121A] font-bold text-sm sm:text-base">
+                      <Database className="w-5 h-5 text-[#48121A]" />
+                      <span>Self-operated стратегия скрапинга</span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-[#48121A]/10 text-[#48121A] border border-[#48121A]/20">
+                      Local-First Architecture
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                    <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7] space-y-1">
+                      <span className="font-bold text-[#161210] flex items-center space-x-1.5">
+                        <CheckCircle2 className="w-4 h-4 text-[#2E6B48]" />
+                        <span>Прямой локальный сбор (Primary)</span>
+                      </span>
+                      <p className="text-xs sm:text-sm text-[#8C7C75]">
+                        Instaloader извлекает открытые посты, число подписчиков и био на локальной машине.
+                      </p>
+                    </div>
+                    <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7] space-y-1">
+                      <span className="font-bold text-[#161210] flex items-center space-x-1.5">
+                        <ShieldCheck className="w-4 h-4 text-[#C88D74]" />
+                        <span>Браузерная автоматизация (Fallback)</span>
+                      </span>
+                      <p className="text-xs sm:text-sm text-[#8C7C75]">
+                        Playwright с авторизованной сессией при необходимости обхода лимитов и разбора DOM.
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#4A3E39] bg-[#FFFFFF] p-3.5 sm:p-4 rounded-xl border border-[#E8E0D7] leading-relaxed">
+                    💡 <strong>Принцип ресурсосбережения:</strong> Сбор данных выполняется локально на собственном компьютере, без покупки внешнего scraping API в качестве основной инфраструктуры.
+                  </p>
+                </div>
+              )}
+
+              {/* Special Architecture Card for Stage 03 (Ideal Profiler) */}
+              {selectedNode.stageNumber === 3 && (
+                <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F2] border border-[#D4C4B7] space-y-4 shadow-2xs">
+                  <div className="flex items-center justify-between border-b border-[#E8E0D7] pb-3">
+                    <div className="flex items-center space-x-2 text-[#48121A] font-bold text-sm sm:text-base">
+                      <Sparkles className="w-5 h-5 text-[#48121A]" />
+                      <span>Автоматический синтез эталонного портрета</span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-[#C88D74]/15 text-[#6E5346] border border-[#C88D74]/30">
+                      Llama-3.3-70B Synthesis
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-3 text-center">
+                    <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7]">
+                      <span className="block font-extrabold text-[#48121A] text-sm sm:text-base">19 seed-профилей</span>
+                      <span className="text-xs text-[#8C7C75] font-medium mt-0.5 block">Реальные данные бренда</span>
+                    </div>
+                    <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7]">
+                      <span className="block font-extrabold text-[#2E6B48] text-sm sm:text-base">ER ≥ 3.6%</span>
+                      <span className="text-xs text-[#8C7C75] font-medium mt-0.5 block">Порог вовлеченности</span>
+                    </div>
+                    <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7]">
+                      <span className="block font-extrabold text-[#161210] text-sm sm:text-base">Дружелюбный тон</span>
+                      <span className="text-xs text-[#8C7C75] font-medium mt-0.5 block">Тональность текстов</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Special Architecture Card for Stage 04 (Discovery & Rules) */}
+              {selectedNode.stageNumber === 4 && (
+                <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F2] border border-[#D4C4B7] space-y-4 shadow-2xs">
+                  <div className="flex items-center justify-between border-b border-[#E8E0D7] pb-3">
+                    <div className="flex items-center space-x-2 text-[#48121A] font-bold text-sm sm:text-base">
+                      <Filter className="w-5 h-5 text-[#48121A]" />
+                      <span>Алгоритмические правила Hard Reject</span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-[#2E6B48]/10 text-[#2E6B48] border border-[#2E6B48]/20">
+                      Rule-Based Discovery
+                    </span>
+                  </div>
+                  <div className="p-3.5 sm:p-4 bg-[#FFFFFF] rounded-xl border border-[#E8E0D7] space-y-1.5 text-xs sm:text-sm">
+                    <span className="font-bold text-[#161210]">Критерии мгновенного отсева невалидных аккаунтов:</span>
+                    <ul className="list-disc list-inside text-[#4A3E39] space-y-1 leading-relaxed">
+                      <li>Приватный профиль (Private Account) без доступа к публикациям</li>
+                      <li>Нулевое количество подписчиков (0 followers)</li>
+                      <li>Отсутствие постов (0 posts / no media content)</li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+
+              {/* Special Architecture Card for Stage 05 (Embeddings & Feature Scoring) */}
+              {selectedNode.stageNumber === 5 && (
+                <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F2] border border-[#D4C4B7] space-y-4 shadow-2xs">
+                  <div className="flex items-center justify-between border-b border-[#E8E0D7] pb-3">
+                    <div className="flex items-center space-x-2 text-[#48121A] font-bold text-sm sm:text-base">
+                      <Cpu className="w-5 h-5 text-[#48121A]" />
+                      <span>Векторизация и 5-компонентный скоринг</span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-[#48121A]/10 text-[#48121A] border border-[#48121A]/20">
+                      Qwen3-Embedding-0.6B
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-5 gap-2.5 text-center font-mono font-bold">
+                    
+                    {/* 1. Niche */}
+                    <div className="relative group/nicheTooltip">
+                      <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7] hover:border-[#48121A]/40 transition-colors cursor-help space-y-0.5">
+                        <span className="block text-[#48121A] text-sm sm:text-base font-bold">30%</span>
+                        <span className="text-xs sm:text-sm text-[#161210] font-medium font-sans flex items-center justify-center space-x-1">
+                          <span>Ниша</span>
+                          <Info className="w-3 h-3 text-[#8C7C75]" />
+                        </span>
+                      </div>
+                      <div className="absolute top-full left-0 mt-2 w-64 p-3 bg-[#161210] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C88D74]/40 backdrop-blur-md opacity-0 group-hover/nicheTooltip:opacity-100 transition-all duration-200 pointer-events-none z-50 space-y-1 text-left text-xs font-sans">
+                        <div className="font-bold text-[#C88D74] border-b border-[#FAF7F2]/10 pb-1 flex items-center justify-between">
+                          <span>Совпадение ниши</span>
+                          <span className="font-mono text-[10px] text-[#FAF7F2]/60">Вес 30%</span>
+                        </div>
+                        <p className="text-[11px] text-[#FAF7F2]/90 leading-relaxed font-normal">
+                          Сравнение постов блогера с профилем бренда (lifestyle, beauty). 1.0 — полное совпадение, 0.0 — несовпадение (авто/ремонт).
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* 2. ER */}
+                    <div className="relative group/erTooltip">
+                      <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7] hover:border-[#48121A]/40 transition-colors cursor-help space-y-0.5">
+                        <span className="block text-[#48121A] text-sm sm:text-base font-bold">25%</span>
+                        <span className="text-xs sm:text-sm text-[#161210] font-medium font-sans flex items-center justify-center space-x-1">
+                          <span>ER</span>
+                          <Info className="w-3 h-3 text-[#8C7C75]" />
+                        </span>
+                      </div>
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 p-3 bg-[#161210] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C88D74]/40 backdrop-blur-md opacity-0 group-hover/erTooltip:opacity-100 transition-all duration-200 pointer-events-none z-50 space-y-1 text-left text-xs font-sans">
+                        <div className="font-bold text-[#C88D74] border-b border-[#FAF7F2]/10 pb-1 flex items-center justify-between">
+                          <span>Вовлеченность (ER)</span>
+                          <span className="font-mono text-[10px] text-[#FAF7F2]/60">Вес 25%</span>
+                        </div>
+                        <p className="text-[11px] text-[#FAF7F2]/90 leading-relaxed font-normal">
+                          Engagement Rate = (Лайки + Комменты) / Подписчики. Сопоставляется с порогом бренда (≥ 3.6%).
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* 3. Ads */}
+                    <div className="relative group/adsTooltip">
+                      <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7] hover:border-[#48121A]/40 transition-colors cursor-help space-y-0.5">
+                        <span className="block text-[#48121A] text-sm sm:text-base font-bold">20%</span>
+                        <span className="text-xs sm:text-sm text-[#161210] font-medium font-sans flex items-center justify-center space-x-1">
+                          <span>Реклама</span>
+                          <Info className="w-3 h-3 text-[#8C7C75]" />
+                        </span>
+                      </div>
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 p-3 bg-[#161210] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C88D74]/40 backdrop-blur-md opacity-0 group-hover/adsTooltip:opacity-100 transition-all duration-200 pointer-events-none z-50 space-y-1 text-left text-xs font-sans">
+                        <div className="font-bold text-[#C88D74] border-b border-[#FAF7F2]/10 pb-1 flex items-center justify-between">
+                          <span>Рекламная нагрузка</span>
+                          <span className="font-mono text-[10px] text-[#FAF7F2]/60">Вес 20%</span>
+                        </div>
+                        <p className="text-[11px] text-[#FAF7F2]/90 leading-relaxed font-normal">
+                          Оценка насыщенности ленты интеграциями. 1.0 — низкий уровень рекламы (чистая нативная лента).
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* 4. Recency */}
+                    <div className="relative group/recencyTooltip">
+                      <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7] hover:border-[#48121A]/40 transition-colors cursor-help space-y-0.5">
+                        <span className="block text-[#48121A] text-sm sm:text-base font-bold">15%</span>
+                        <span className="text-xs sm:text-sm text-[#161210] font-medium font-sans flex items-center justify-center space-x-1">
+                          <span>Свежесть</span>
+                          <Info className="w-3 h-3 text-[#8C7C75]" />
+                        </span>
+                      </div>
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 p-3 bg-[#161210] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C88D74]/40 backdrop-blur-md opacity-0 group-hover/recencyTooltip:opacity-100 transition-all duration-200 pointer-events-none z-50 space-y-1 text-left text-xs font-sans">
+                        <div className="font-bold text-[#C88D74] border-b border-[#FAF7F2]/10 pb-1 flex items-center justify-between">
+                          <span>Свежесть постов</span>
+                          <span className="font-mono text-[10px] text-[#FAF7F2]/60">Вес 15%</span>
+                        </div>
+                        <p className="text-[11px] text-[#FAF7F2]/90 leading-relaxed font-normal">
+                          Дата последнего поста. 1.0 — публиковался за последние 7 дней (живой активный автор).
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* 5. Language */}
+                    <div className="relative group/langTooltip">
+                      <div className="p-3 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7] hover:border-[#48121A]/40 transition-colors cursor-help space-y-0.5">
+                        <span className="block text-[#48121A] text-sm sm:text-base font-bold">10%</span>
+                        <span className="text-xs sm:text-sm text-[#161210] font-medium font-sans flex items-center justify-center space-x-1">
+                          <span>Язык</span>
+                          <Info className="w-3 h-3 text-[#8C7C75]" />
+                        </span>
+                      </div>
+                      <div className="absolute top-full right-0 mt-2 w-64 p-3 bg-[#161210] text-[#FAF7F2] rounded-2xl shadow-2xl border border-[#C88D74]/40 backdrop-blur-md opacity-0 group-hover/langTooltip:opacity-100 transition-all duration-200 pointer-events-none z-50 space-y-1 text-left text-xs font-sans">
+                        <div className="font-bold text-[#C88D74] border-b border-[#FAF7F2]/10 pb-1 flex items-center justify-between">
+                          <span>Язык контента</span>
+                          <span className="font-mono text-[10px] text-[#FAF7F2]/60">Вес 10%</span>
+                        </div>
+                        <p className="text-[11px] text-[#FAF7F2]/90 leading-relaxed font-normal">
+                          Анализ языка подписей и био. 1.0 — целевой язык вещания (ru/en), подходящий аудитории.
+                        </p>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              )}
+
+              {/* Special Architecture Card for Stage 06 (Reranking) */}
+              {selectedNode.stageNumber === 6 && (
+                <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F2] border border-[#D4C4B7] space-y-4 shadow-2xs">
+                  <div className="flex items-center justify-between border-b border-[#E8E0D7] pb-3">
+                    <div className="flex items-center space-x-2 text-[#48121A] font-bold text-sm sm:text-base">
+                      <Sliders className="w-5 h-5 text-[#48121A]" />
+                      <span>Кросс-энкодер пересортировка (Reranking)</span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-[#48121A]/10 text-[#48121A] border border-[#48121A]/20">
+                      BAAI/bge-reranker-v2-m3
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#4A3E39] bg-[#FFFFFF] p-3.5 sm:p-4 rounded-xl border border-[#E8E0D7] leading-relaxed">
+                    🎯 <strong>Зачем нужен кросс-энкодер:</strong> Векторный поиск быстро находит кандидатов со схожими словами, а кросс-энкодер глубоко анализирует весь текст целиком и расставляет аккаунты в идеальном порядке.
+                  </p>
+                </div>
+              )}
+
+              {/* Special Architecture Card for Stage 07 (VLM Sanity Pass) */}
+              {selectedNode.stageNumber === 7 && (
+                <div className="p-5 sm:p-6 rounded-2xl bg-[#F7EFF1] border border-[#48121A]/30 space-y-4 shadow-2xs">
+                  <div className="flex items-center justify-between border-b border-[#48121A]/15 pb-3">
+                    <div className="flex items-center space-x-2 text-[#48121A] font-bold text-sm sm:text-base">
+                      <Eye className="w-5 h-5 text-[#48121A]" />
+                      <span>Точечный зрительный аудит эстетики (Qwen2.5-VL)</span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-[#48121A] text-[#FAF7F2]">
+                      Top-5 Only Sanity Pass
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#48121A] bg-[#FFFFFF]/60 p-3.5 sm:p-4 rounded-xl border border-[#48121A]/20 leading-relaxed font-medium">
+                    💡 <strong>Разумная экономия ресурсов:</strong> Тяжелая зрительная нейросеть вызывается строго для 5 лучших финалистов рейтинга. Это исключает лишние затраты на просмотр сотен непригодных картинок.
+                  </p>
+                </div>
+              )}
+
+              {/* Special Architecture Card for Stage 08 (Outreach & QA) */}
+              {selectedNode.stageNumber === 8 && (
+                <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF7F2] border border-[#D4C4B7] space-y-4 shadow-2xs">
+                  <div className="flex items-center justify-between border-b border-[#E8E0D7] pb-3">
+                    <div className="flex items-center space-x-2 text-[#48121A] font-bold text-sm sm:text-base">
+                      <Award className="w-5 h-5 text-[#48121A]" />
+                      <span>Персонализированный Outreach & QA Контроль</span>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-[#2E6B48]/10 text-[#2E6B48] border border-[#2E6B48]/20">
+                      Anti-Robotic QA Enforced
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                    <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7] space-y-1">
+                      <span className="font-bold text-[#161210]">Заземление в реальных фактах</span>
+                      <p className="text-xs text-[#4A3E39] leading-relaxed">
+                        AI отбирает и цитирует конкретные детали из последних постов блогера (любые наряды, локации, темы), чтобы письмо выглядело написанным вручную.
+                      </p>
+                    </div>
+                    <div className="p-3.5 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7] space-y-1">
+                      <span className="font-bold text-[#2E6B48]">Anti-Robotic QA (Фильтр робо-текста)</span>
+                      <p className="text-xs text-[#4A3E39] leading-relaxed">
+                        Автоматическое отсечение заезженных нейросетевых клише (например, <i>«Надеюсь, это письмо застанет вас...»</i>) и обязательный контроль русского языка.
+                      </p>
                     </div>
                   </div>
                 </div>
