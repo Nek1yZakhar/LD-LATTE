@@ -102,20 +102,21 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                         }`}
                       >
                         <div>
-                          <div className="flex items-center justify-between mb-1.5">
+                          <div className="flex items-center justify-between mb-1">
                             <span className={`text-xs font-bold font-mono ${
                               isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
                             }`}>
                               Этап {node.stageNumber} из 8
                             </span>
-                            {node.isVlmNode ? (
-                              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#48121A] text-[#FAF7F2]">
+                            <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : node.isVlmNode ? 'bg-[#48121A]' : 'bg-[#2E6B48]'}`}></span>
+                          </div>
+                          {node.isVlmNode && (
+                            <div className="mb-1">
+                              <span className="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#48121A] text-[#FAF7F2] whitespace-nowrap shadow-2xs">
                                 VLM Визуал
                               </span>
-                            ) : (
-                              <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : 'bg-[#2E6B48]'}`}></span>
-                            )}
-                          </div>
+                            </div>
+                          )}
                           <h4 className={`text-xs sm:text-sm font-bold leading-snug clamp-2 ${
                             isSelected ? 'text-[#FAF7F2]' : 'text-[#161210]'
                           }`}>
@@ -173,20 +174,21 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                         }`}
                       >
                         <div>
-                          <div className="flex items-center justify-between mb-1.5">
+                          <div className="flex items-center justify-between mb-1">
                             <span className={`text-xs font-bold font-mono ${
                               isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
                             }`}>
                               Этап {node.stageNumber} из 8
                             </span>
-                            {node.isVlmNode ? (
-                              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#48121A] text-[#FAF7F2]">
+                            <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : node.isVlmNode ? 'bg-[#48121A]' : 'bg-[#2E6B48]'}`}></span>
+                          </div>
+                          {node.isVlmNode && (
+                            <div className="mb-1">
+                              <span className="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#48121A] text-[#FAF7F2] whitespace-nowrap shadow-2xs">
                                 VLM Визуал
                               </span>
-                            ) : (
-                              <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : 'bg-[#2E6B48]'}`}></span>
-                            )}
-                          </div>
+                            </div>
+                          )}
                           <h4 className={`text-xs sm:text-sm font-bold leading-snug clamp-2 ${
                             isSelected ? 'text-[#FAF7F2]' : 'text-[#161210]'
                           }`}>
@@ -233,20 +235,21 @@ export const PipelineEvidenceGraph: React.FC<PipelineEvidenceGraphProps> = ({ no
                     }`}
                   >
                     <div>
-                      <div className="flex items-center justify-between mb-1.5">
+                      <div className="flex items-center justify-between mb-1">
                         <span className={`text-xs font-bold font-mono ${
                           isSelected ? 'text-[#C88D74]' : 'text-[#8C7C75]'
                         }`}>
                           Этап {node.stageNumber} из 8
                         </span>
-                        {node.isVlmNode ? (
-                          <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#48121A] text-[#FAF7F2]">
+                        <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : node.isVlmNode ? 'bg-[#48121A]' : 'bg-[#2E6B48]'}`}></span>
+                      </div>
+                      {node.isVlmNode && (
+                        <div className="mb-1">
+                          <span className="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#48121A] text-[#FAF7F2] whitespace-nowrap shadow-2xs">
                             VLM Визуал
                           </span>
-                        ) : (
-                          <span className={`w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-[#C88D74]' : 'bg-[#2E6B48]'}`}></span>
-                        )}
-                      </div>
+                        </div>
+                      )}
                       <h4 className={`text-xs sm:text-sm font-bold leading-snug clamp-2 ${
                         isSelected ? 'text-[#FAF7F2]' : 'text-[#161210]'
                       }`}>
