@@ -44,11 +44,11 @@ export const OutreachOfferStudio: React.FC<OutreachOfferStudioProps> = ({
         <div>
           <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-full bg-[#C88D74]/15 text-[#6E5346] text-xs font-bold uppercase tracking-wider mb-1">
             <Mail className="w-3.5 h-3.5" />
-            <span>1.5 Outreach & Barter Offer Studio</span>
+            <span>1.5 Сквозная генерация писем & QA</span>
           </div>
-          <h3 className="text-xl font-bold text-[#161210]">Персонализированные офферы и Промпт-инспектор</h3>
+          <h3 className="text-xl font-bold text-[#161210]">Из чего формируется персональный оффер</h3>
           <p className="text-xs text-[#4A3E39]">
-            Генерация писем на базе DeepSeek-V4 / Groq Llama-3.3-70B с контролем anti-robotic QA.
+            Автоматический синтез писем (DeepSeek-V4) по фактам профиля с проверкой на отсутствие канцелярита.
           </p>
         </div>
 
@@ -57,13 +57,41 @@ export const OutreachOfferStudio: React.FC<OutreachOfferStudioProps> = ({
           className="px-4 py-2.5 rounded-xl bg-[#48121A] hover:bg-[#6B1D2E] text-[#FAF7F2] text-xs font-bold transition-all shadow-xs flex items-center space-x-2 shrink-0"
         >
           <FileCode className="w-4 h-4 text-[#C88D74]" />
-          <span>Промпт-инспектор (`outreach_offer.md`)</span>
+          <span>Инспектор промпта (`outreach_offer.md`)</span>
         </button>
+      </div>
+
+      {/* Narrative Explanation Banner: How the letter is assembled */}
+      <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E8E0D7] space-y-2 text-xs">
+        <div className="flex items-center space-x-2 text-[#48121A] font-bold">
+          <Sparkles className="w-4 h-4 text-[#C88D74]" />
+          <span>Как система собирает индивидуальное письмо (без шаблонов и роботоподобных фраз):</span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-[#4A3E39]">
+          <div className="p-2.5 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7] space-y-1">
+            <span className="font-bold text-[#161210] block">1. Входные факты</span>
+            <p className="text-[11px] leading-relaxed">
+              Система берет био, посты кандидата из Шорт-листа, эталонный тон бренда LD Latte и личное имя автора.
+            </p>
+          </div>
+          <div className="p-2.5 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7] space-y-1">
+            <span className="font-bold text-[#161210] block">2. Заземление в деталях</span>
+            <p className="text-[11px] leading-relaxed">
+              ИИ-модель (DeepSeek-V4) упоминает конкретные детали постов (стиль, эстетику, нишу) без выдуманных данных.
+            </p>
+          </div>
+          <div className="p-2.5 rounded-xl bg-[#FFFFFF] border border-[#E8E0D7] space-y-1">
+            <span className="font-bold text-[#2E6B48] block">3. Фильтр Anti-Robotic QA</span>
+            <p className="text-[11px] leading-relaxed">
+              Код отсеивает канцелярит (*«Надеюсь, письмо застанет вас...»*) и контролирует русский язык (Cyrillic ≥ 15).
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Candidate Selector Pills */}
       <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
-        <span className="text-xs font-bold text-[#8C7C75] shrink-0 mr-1">Кандидаты:</span>
+        <span className="text-xs font-bold text-[#8C7C75] shrink-0 mr-1">Офферы для лидеров шорт-листа:</span>
         {offers.map((offer, idx) => {
           const isSelected = selectedOfferIndex === idx;
           return (

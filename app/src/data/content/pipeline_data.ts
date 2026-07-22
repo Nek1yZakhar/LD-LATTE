@@ -661,61 +661,61 @@ export const RAW_CANDIDATES_RERANKED: CandidateRerankScore[] = [
 ];
 
 // ==========================================
-// 6. SHORTLIST FINAL (shortlist_final.json)
+// 6. SHORTLIST FINAL (shortlist_final.json — Live OpenRouter Qwen2.5-VL-72B Multimodal Run)
 export const RAW_SHORTLIST_FINAL: ShortlistFinalEntry[] = [
   {
     username: 'jd_cosm',
     rerank_result: RAW_CANDIDATES_RERANKED[0],
     vlm_sanity_passed: false,
-    vlm_aesthetic_notes: "Цветовая палитра и композиция профиля частично отклоняются от строгих минималистичных стандартов LD Latte, с заметным смещением в сторону яркости и насыщенности деталей.",
+    vlm_aesthetic_notes: "Изображение не соответствует стандартам LD Latte из-за использования насыщенных цветов и сложного фона. Стиль одежды также не соответствует минималистичному и элегантному образу бренда.",
     grounding_facts: [
-      "Описание и посты профиля ориентированы на русскоязычную аудиторию.",
-      "Ниша профиля — lifestyle и fashion, что соответствует ценностям бренда LD Latte.",
-      "Тон общения теплый и дружелюбный, что гарантирует высокий отклик при интеграциях."
+      "На профильном фото присутствуют яркие и контрастные цвета, что не соответствует нейтральной палитре LD Latte.",
+      "Фон изображения включает в себя сложный пейзаж с водой и горизонтом, что создает визуальный шум.",
+      "Одежда на фотографии выглядит более декоративной, чем элегантной и минималистичной."
     ]
   },
   {
     username: 'dddinaaaaaa',
     rerank_result: RAW_CANDIDATES_RERANKED[1],
-    vlm_sanity_passed: false,
-    vlm_aesthetic_notes: "Профиль демонстрирует эстетичный минималистичный тон, но визуальная сетка содержит визуальные акценты, требующие дополнительной стилистической подгонки под палитру бренда.",
+    vlm_sanity_passed: true,
+    vlm_aesthetic_notes: "Профильное изображение соответствует стандартам LD Latte благодаря нейтральной цветовой палитре и минималистичному стилю. Фотография выглядит элегантно и чисто.",
     grounding_facts: [
-      "Биография указывают на профессиональную деятельность в сфере создания контента (content creator).",
-      "Ниша профиля — lifestyle, что идеально подходит для демонстрации капсульной моды LD Latte.",
-      "Итоговый балл реранкинга составляет 63.2%, подтверждая высокое смысловое соответствие бренду."
+      "На изображении присутствуют нейтральные тона в виде белой одежды и светлых цветов.",
+      "Фон состоит из деревянной текстуры, что добавляет тепла и естественности к общему виду.",
+      "Использование минимального количества аксессуаров подчеркивает простоту и элегантность."
     ]
   },
   {
     username: 'llaurraiiam',
     rerank_result: RAW_CANDIDATES_RERANKED[2],
-    vlm_sanity_passed: false,
-    vlm_aesthetic_notes: "Визуальная лента демонстрирует лаконичную эстетику и спокойные пастельные тона, гармонирующие с концепцией премиального гардероба LD Latte.",
+    vlm_sanity_passed: true,
+    vlm_aesthetic_notes: "Профильное изображение соответствует стандартам LD Latte благодаря нейтральной цветовой палитре и минималистичному стилю. Образ выглядит элегантно и гармонично.",
     grounding_facts: [
-      "Тон публикаций кандидатки выдержан в элегантном и лаконичном стиле.",
-      "Ниша профиля — lifestyle и мода, идеально подходящая для демонстрации новинок бренда.",
-      "Эстетичное описание профиля соответствует чистому имиджу LD Latte."
+      "На изображении присутствуют нейтральные тона в одежде и аксессуарах.",
+      "Фон чистый и не перегружен деталями, что соответствует требованиям бренда.",
+      "Использованы натуральные элементы, такие как цветок в волосах, что добавляет аутентичности."
     ]
   },
   {
     username: 'bazhenova_alenaa',
     rerank_result: RAW_CANDIDATES_RERANKED[3],
     vlm_sanity_passed: false,
-    vlm_aesthetic_notes: "Лента профиля ориентирована на эстетичный lifestyle-контент с преобладанием светлых и теплых оттенков.",
+    vlm_aesthetic_notes: "Изображение не соответствует стандартам LD Latte из-за ярких цветов и отсутствия минимализма. Фон слишком динамичный для бренда.",
     grounding_facts: [
-      "Контент кандидата сфокусирован на обзорах покупок и эстетичных lifestyle-находках.",
-      "Дружелюбный тон общения обеспечивает высокую лояльность и естественность рекомендаций.",
-      "Публикации сочетают пастельные тона и органичные повседневные аутфиты."
+      "На фото присутствуют яркие синие и зеленые цвета, что не соответствует нейтральной палитре бренда.",
+      "Фоном служит море, что добавляет динамики и не соответствует чистым, минималистичным фонам.",
+      "Костюм с блестками выглядит слишком декоративно для элегантного стиля LD Latte."
     ]
   },
   {
     username: 'mishandkatya',
     rerank_result: RAW_CANDIDATES_RERANKED[4],
     vlm_sanity_passed: false,
-    vlm_aesthetic_notes: "Визуальный стиль профиля сфокусирован на живых семейных моментах и искренних эмоциональных сюжетах.",
+    vlm_aesthetic_notes: "Профильное изображение не соответствует стандартам LD Latte из-за яркого цветового фона и отсутствия минимализма. Снимок выглядит слишком жизнерадостным для бренда.",
     grounding_facts: [
-      "Профиль ориентирован на семейный lifestyle и искренние повседневные ритуалы.",
-      "Дружелюбная подача формирует эмоциональное доверие подписчиков.",
-      "Формат парного блога даёт широкий охват в категории образ жизни."
+      "На изображении присутствует яркий градиентный фон с розовыми и фиолетовыми тонами.",
+      "Мужчина одет в белую рубашку, что частично соответствует нейтральной палитре, но общий вид не минималистичен.",
+      "Профиль указывает на нишу «лайфстайл» с дружелюбным тоном."
     ]
   }
 ];
@@ -823,34 +823,34 @@ export const GROUNDED_OUTREACH_PROMPT_INSPECTOR: OutreachPromptInspector = {
 // 9. PART 2 — AUTOMATION BLUEPRINT
 // ==========================================
 export const GROUNDED_PART2_AUTOMATION: Part2AutomationBlueprint = {
-  title: 'Концепция сквозной автоматизации fashion e-commerce для LD Latte',
+  title: 'Архитектура сквозной автоматизации для fashion & beauty e-commerce',
   summary: 'Промышленный архитектурный проект автоматического поиска, скоринга и коммуникации с инфлюенсерами в масштабе 1,000+ кандидатов в месяц.',
   systemArchitectureNodes: [
     {
       id: 'ingestion_cluster',
-      name: 'Ingestion Cluster & Proxy Pool',
-      description: 'Каскадный парсинг постов и профилей (Instaloader -> Playwright + Stealth CDP -> Apify Emergency Backup) с ротацией SOCKS5-прокси.'
+      name: 'Сбор данных (Self-Operated Parser)',
+      description: 'Каскадный сбор постов и профилей 100% собственным парсером (Instaloader CLI + Playwright с авторизованной куки-сессией + SOCKS5 прокси). Apify НЕ использовался.'
     },
     {
       id: 'ai_scoring_engine',
-      name: 'AI Scoring Engine',
-      description: 'Qwen3-Embedding-0.6B векторизация, детерминированный скоринг фич, BAAI Cross-Encoder Reranking и VLM Visual Sanity audit.'
+      name: 'AI Scoring & Reranking Engine',
+      description: 'Qwen3-Embedding-0.6B векторизация, детерминированный скоринг 5 фич, BAAI/bge-reranker-v2-m3 кросс-энкодер и Qwen2.5-VL аудит визуального стиля.'
     },
     {
       id: 'crm_logistics_integration',
-      name: 'CRM & Logistics Integration',
-      description: 'Интеграция с 1С / Bitrix24 / Supabase: автоматическое формирование заказа на отправку PR-комплекта при согласии блогера.'
+      name: 'Интеграция с CRM & Логистикой',
+      description: 'Автоматическая передача согласованных кандидатов в CRM (Bitrix24 / 1С / Supabase) и формирование трек-номера отправки PR-комплекта LD Latte.'
     },
     {
       id: 'outreach_automation',
-      name: 'Outreach & Anti-Fraud Hub',
-      description: 'Генерация персональных офферов с anti-robotic QA контролем и автоматической отправкой в Direct/Email с ротацией аккаунтов.'
+      name: 'Персонализированный Outreach & QA',
+      description: 'Генерация персональных писем (DeepSeek-V4) с проверкой anti-robotic QA (отсев канцелярита, контроль кириллицы) и интеграцией с Direct/Email.'
     }
   ],
   scrapingHierarchy: [
-    { level: 1, technology: 'Instaloader CLI', role: 'Первичный сбор публичных метаданных', triggerCondition: 'Стандартный прогон без банов' },
-    { level: 2, technology: 'Playwright + Stealth CDP', role: 'Парсинг постов с авторизованной сессией', triggerCondition: 'Блокировка GraphQL API или закрытый био' },
-    { level: 3, technology: 'Apify External SaaS', role: 'Аварийный бэкап при IP-банах', triggerCondition: 'Emergency Fallback при жестких капчах' }
+    { level: 1, technology: 'Instaloader CLI', role: 'Первичный сбор публичных метаданных', triggerCondition: 'Основной рабочий путь без банов' },
+    { level: 2, technology: 'Playwright + Stealth CDP', role: 'Парсинг постов с авторизованной sessionid', triggerCondition: 'Блокировка GraphQL API или анализ постов' },
+    { level: 3, technology: 'Apify External SaaS (Не использовался)', role: 'Аварийный бэкап при IP-банах', triggerCondition: 'Резервная опция (в данном прогоне НЕ вызывался)' }
   ],
   proxyStrategy: {
     type: 'SOCKS5 Residential Proxy Pool',
@@ -858,19 +858,19 @@ export const GROUNDED_PART2_AUTOMATION: Part2AutomationBlueprint = {
     publicSafeDescription: 'Ротируемый пулл резидентских SOCKS5-прокси с гео-привязкой к целевым регионам РФ/СНГ для сохранения сессий.'
   },
   economics: {
-    batchSize: 1000,
-    totalCostUsd: 14.50,
+    batchSize: 10,
+    totalCostUsd: 0.02,
     items: [
-      { component: 'Qwen3 Local Embeddings & BGE Reranker', costPer1kCandidatesUsd: 0.00, description: 'Локальный инференс на CUDA GPU' },
-      { component: 'LLM Synthesis & Offer Generation (Groq/OpenRouter)', costPer1kCandidatesUsd: 2.50, description: 'Llama 3.3 / DeepSeek-V4 API tokens' },
-      { component: 'VLM Visual Sanity Pass (Qwen2.5-VL)', costPer1kCandidatesUsd: 4.00, description: 'Точечный аудит шорт-листаиз 50 топов' },
-      { component: 'Residential SOCKS5 Proxy Traffic', costPer1kCandidatesUsd: 8.00, description: 'Трафик для парсинга постов и био' }
+      { component: 'Qwen3 Local Embeddings & BGE Reranker', costPer1kCandidatesUsd: 0.00, description: 'Локальный GPU/CPU инференс без API-затрат' },
+      { component: 'LLM Synthesis & Offer Generation (DeepSeek-V4)', costPer1kCandidatesUsd: 0.01, description: 'DeepSeek-V4 API (< $0.15 / 1M токенов)' },
+      { component: 'VLM Visual Sanity Pass (Qwen2.5-VL-72B)', costPer1kCandidatesUsd: 0.003, description: 'Прямой мультимодальный VLM-вызов OpenRouter API для 5 аватарок ($0.003)' },
+      { component: 'Residential SOCKS5 Proxy Traffic (10 профилей)', costPer1kCandidatesUsd: 0.01, description: 'Мизерный расход трафика для 10 целевых кандидатов' }
     ]
   },
   slaAndRisks: [
-    { risk: 'IP Ban / Anti-Fraud Captcha in Instagram', mitigation: 'Stealth CDP browser probe, session persistence, automatic fallback to Apify' },
-    { risk: 'Language & Name Drift in LLM Prompts', mitigation: 'Strict Pydantic contract validation, cyrillic_count >= 15 check, first name fallback rule' },
-    { risk: 'Data Drift & Outdated Follower Metrics', mitigation: 'Scheduled weekly cron enrichment runs in data/processed/' }
+    { risk: 'Блокировка IP или капча Instagram', mitigation: 'Stealth CDP параметры, экспорт сессии sessionid, ротация SOCKS5 прокси. Apify доступен как неактивированный резерв.' },
+    { risk: 'Языковой дрейф и канцелярит в LLM', mitigation: 'Строгий Pydantic-контракт, Anti-robotic QA проверка (cyrillic_count >= 15), отсев клише и обращения по имени.' },
+    { risk: 'Устаревание метрик и битые ссылки', mitigation: 'Автоматический отсев (Hard Reject) недоступных аккаунтов (15 из 34 отсеяны) и еженедельный крон-переобновление.' }
   ]
 };
 
@@ -880,64 +880,79 @@ export const GROUNDED_PART2_AUTOMATION: Part2AutomationBlueprint = {
 export const GROUNDED_AUTHOR_RESUME: AuthorResume = {
   name: 'Матвейчук Захар Евгеньевич',
   location: 'Иркутск, Россия',
-  workFormat: 'Готов к удалённой, гибридной и проектной работе, включая международный фриланс',
+  workFormat: 'Удалённая / гибридная / проектная работа (AI Systems Engineer / Loop Engineer)',
   githubUrl: 'https://github.com/Nek1yZakhar',
   portfolioUrls: [
+    'https://ecokedrum.ru/',
     'https://mib-osint.vercel.app/',
     'https://accessible-law-intake-board.vercel.app/'
   ],
-  summary: 'Студент 4 курса ИГУ (Международные отношения) с сильной технической специализацией на стыке AI/automation, OSINT, аналитики данных и backend-разработки. Проектирую и собираю production-ready решения с использованием Python, Supabase/PostgreSQL, LLM API, агентных IDE (Antigravity) с полным контролем над каждым изменением на уровне diff. Веду архитектурную документацию (ADR).',
+  summary: 'AI Systems & Automation Engineer / Loop Engineer. Специализируюсь на проектировании и сборке автономных AI-пайплайнов, систем парсинга, векторного поиска и интеграции LLM. Выстраиваю сквозные инженерные системы от архитектуры до деплоя на VPS/Vercel с ведением ADR и жестким контролем затрат.',
   targetRoles: [
-    'AI / Automation / Applied AI Engineer',
-    'Python Developer / Backend Developer / AI Integrations',
-    'OSINT / Research Automation / Data Analyst',
-    'Technical / Product Analyst для AI- и data-проектов',
-    'Project-based freelance: AI automation, research systems, data pipelines'
+    'AI Systems & Automation Engineer',
+    'Loop Engineer / Applied AI Engineer',
+    'Python AI Integration Developer'
   ],
   technicalStack: {
-    languages: ['Python', 'SQL', 'JavaScript / TypeScript basics', 'Bash / CLI', 'YAML'],
-    infrastructure: ['Antigravity IDE', 'N8N', 'Supabase / PostgreSQL', 'GitHub Actions', 'Vercel', 'Docker', 'PM2', 'Nginx', 'Ubuntu VPS', 'Cron'],
-    aiMlData: ['OpenRouter API', 'OpenAI SDK', 'Groq', 'SentenceTransformers', 'PyTorch', 'scikit-learn', 'pandas', 'Plotly', 'Qwen3-Embedding', 'bge-reranker-v2-m3', 'Qwen2.5-VL'],
-    backendApi: ['FastAPI (async)', 'SQLAlchemy 2.0 (async)', 'Alembic', 'JWT (PyJWT)', 'REST API design', 'pytest/pytest-asyncio'],
-    parsingAutomation: ['Playwright', 'Camoufox', 'Nodriver', 'BeautifulSoup4', 'httpx', 'feedparser', 'Tenacity', 'SimHash/MinHash']
+    languages: ['Python 3.11+', 'SQL', 'TypeScript', 'Bash / CLI', 'YAML'],
+    infrastructure: ['Antigravity IDE', 'Supabase / PostgreSQL', 'GitHub Actions CI/CD', 'Vercel', 'Docker', 'PM2', 'Nginx', 'Ubuntu VPS', 'Cron'],
+    aiMlData: ['Qwen3-Embedding', 'bge-reranker-v2-m3', 'Qwen2.5-VL', 'DeepSeek-V4', 'Groq API', 'OpenRouter', 'SentenceTransformers', 'PyTorch'],
+    backendApi: ['FastAPI (async)', 'SQLAlchemy 2.0', 'Alembic', 'REST API', 'pytest / pytest-asyncio', 'Pydantic v2'],
+    parsingAutomation: ['Playwright', 'Camoufox Stealth', 'Instaloader', 'httpx', 'BeautifulSoup4', 'SOCKS5 Proxy Pool', '128-bit MinHash']
   },
   education: [
     {
       institution: 'Иркутский государственный университет (ИГУ)',
-      degree: 'Бакалавриат, 41.03.05 «Международные отношения», 4 курс',
+      degree: 'Бакалавриат, Международные отношения (4 курс)',
       period: '2023 — наст. время',
-      details: 'Исторический факультет. Курсы: международные отношения, глобальная политика, технологическая политика, китаеведение, исследовательская аналитика.'
+      details: 'Технологическая политика, исследовательская аналитика и прикладная обработка данных.'
     },
     {
       institution: 'Beijing Institute of Technology (BIT), Zhuhai',
       degree: 'Программа Artificial Intelligence',
       period: 'Июль–Август 2025',
-      details: 'Очное обучение в Китае, ~1.5 месяца, английский язык, международная академическая среда. Сертификат.'
+      details: 'Международная программа по искусственному интеллекту (сертификат).'
     }
   ],
   keyCaseStudies: [
     {
-      id: 'mib_osint',
-      title: 'OSINT-агрегатор МИБ — Дипломатическая академия МИД России',
-      role: 'AI & Data Engineer / OSINT Automation / Backend Developer (solo)',
-      period: '2025–2026',
-      organization: 'Дипломатическая академия МИД России',
-      description: 'Production-ready система автоматического мониторинга, фильтрации, анализа и дистрибуции материалов по международной информационной безопасности для Школы МИБ.',
+      id: 'ecokedrum',
+      title: 'ЭкоКедрум — Бьюти/эко-бренд натуральной косметики',
+      role: 'Digital Strategy & AI Content / UGC Collabs Lead',
+      period: '2026',
+      organization: 'ЭкоКедрум (Иркутская область)',
+      description: 'Создание бренда натуральной косметики с нуля: позиционирование, AI-генерация карточек товаров (Wildberries, Ozon, Яндекс Маркет), Instagram-контент и организация UGC-коллабораций с инфлюенсерами.',
       highlights: [
-        'Каскадный парсер для 219 источников (135 WEB + 84 RSS)',
-        'Static-First Preflight & Camoufox WAF bypass (сокращение прогона с 6 ч до 35 мин)',
-        'Гибридный AI-пайплайн: multilingual-e5-large + Groq LLM fallback',
-        '128-bit MinHash/SimHash дедупликация и Telegram-дайджест',
-        'Публичная SPA-витрина mib-osint.vercel.app (Supabase + Vercel)'
+        'Разработка концепции бренда, УТП и визуальной рамки',
+        'Автоматизированная сборка карточек товаров для маркетплейсов через LLM (ChatGPT/Gemini)',
+        'Сценарии Reels/Shorts и запуск UGC-коллабораций с локальными блогерами'
       ],
       results: [
-        '219 источников мониторятся ежедневно',
-        'Точность фильтрации >95%, стоимость прогона ~$0.05',
-        '31 выпуск дайджеста, 307 опубликованных статей, 3939 собранных материалов',
-        'Uptime >99%'
+        'Успешный запуск бренда на Wildberries, Ozon и маркетплейсах',
+        'Сформирован активный инфлюенсер-канал привлечения клиентов'
       ],
-      stack: ['Python', 'Playwright', 'Camoufox', 'Supabase', 'PostgreSQL', 'Docker', 'Vercel', 'Groq', 'Telegram API'],
-      demoUrl: 'https://mib-osint.vercel.app/'
+      stack: ['AI Content Farm', 'UGC Collabs', 'Instagram Strategy', 'Marketplaces AI Intake'],
+      demoUrl: 'https://ecokedrum.ru/'
+    },
+    {
+      id: 'mib_osint',
+      title: 'OSINT-агрегатор МИБ — Дипломатическая академия МИД России',
+      role: 'AI & Data Engineer / OSINT Automation (solo)',
+      period: '2025–2026',
+      organization: 'Дипломатическая академия МИД России',
+      description: 'Production-ready система автоматического мониторинга, фильтрации, анализа и дистрибуции материалов по информационной безопасности для Школы МИБ.',
+      highlights: [
+        'Каскадный парсер 219 источников (135 WEB + 84 RSS) с обходом WAF (Playwright/Camoufox)',
+        'Гибридный AI-пайплайн: multilingual-e5-large + Groq LLM fallback',
+        '128-bit MinHash дедупликация и автоматический Telegram-дайджест'
+      ],
+      results: [
+        '219 источников мониторятся ежедневно (ускорение прогона с 6 ч до 35 мин)',
+        '31 выпуск дайджеста, 3939 собранных материалов, Uptime >99%'
+      ],
+      stack: ['Python', 'Playwright', 'Camoufox', 'Supabase', 'PostgreSQL', 'Docker', 'Vercel', 'Groq'],
+      demoUrl: 'https://mib-osint.vercel.app/',
+      repoUrl: 'https://github.com/Nek1yZakhar/MIB-OSINT-Aggregator'
     },
     {
       id: 'matter_intake',
@@ -946,9 +961,8 @@ export const GROUNDED_AUTHOR_RESUME: AuthorResume = {
       period: '2026',
       description: 'Working prototype intake-панели юриста: от архитектуры и product flow до деплоя на Vercel за 3.5 часа по AI-native циклу.',
       highlights: [
-        'Next.js 16 SPA-панель с Supabase/PostgreSQL',
+        'Next.js 16 SPA-панель с Supabase/PostgreSQL и Realtime обновлением',
         'AI-блок Suggested Next Step через Groq (Llama 3.3)',
-        'Supabase Realtime live-обновление списков и счетчиков',
         'Graceful demo-fallback при отсутствии внешней сети'
       ],
       results: [
@@ -958,42 +972,21 @@ export const GROUNDED_AUTHOR_RESUME: AuthorResume = {
       stack: ['Next.js 16', 'React', 'Supabase', 'Groq', 'Vercel', 'Server Actions'],
       demoUrl: 'https://accessible-law-intake-board.vercel.app/',
       repoUrl: 'https://github.com/Nek1yZakhar/accessible-law-intake-board'
-    },
-    {
-      id: 'approval_service',
-      title: 'Approval Service — асинхронный микросервис для фриланс-заказчика',
-      role: 'Backend/Python Developer (freelance, solo)',
-      period: '2026',
-      description: 'Асинхронный микросервис управления workflow согласования контента по стандартам production-grade.',
-      highlights: [
-        'FastAPI (async) со стейт-машиной переходов состояний',
-        'Transactional Outbox паттерн для гарантированной доставки событий',
-        'Идемпотентность запросов и JWT (HS256) аутентификация',
-        'CI/CD GitHub Actions (ruff, mypy, pytest-cov)'
-      ],
-      results: [
-        'Покрыт 12 интеграционными тестами',
-        'Задеплоен через Docker Compose + Alembic'
-      ],
-      stack: ['Python 3.11', 'FastAPI', 'SQLAlchemy 2.0', 'PostgreSQL', 'Docker Compose', 'GitHub Actions'],
-      repoUrl: 'https://github.com/Nek1yZakhar/approval-service'
     }
   ],
   methodology: 'AI-native подход к инженерии по циклу Plan -> Approve -> Execute -> Audit. Проектирование архитектуры, ведение ADR, декомпозиция на тикеты и полный контроль каждого diff-изменения.',
   publications: [
-    '«ИИ как инструмент региональной безопасности в рамках ШОС: кейс наркотрафика в "Золотом треугольнике"» — Дипакадемия МИД РФ',
-    '«Россия в эпоху ИИ-войн: вызовы и возможности для глобального регулирования» — Дипакадемия МИД РФ',
-    '«Интеллектуальная собственность в эпоху открытых технологий» — VIII Конференция «Креативные индустрии»'
+    '«ИИ как инструмент региональной безопасности в рамках ШОС» — Дипакадемия МИД РФ',
+    '«Россия в эпоху ИИ-войн: вызовы и возможности» — Дипакадемия МИД РФ'
   ],
   achievements: [
     'Production-ready OSINT-агрегатор для Дипломатической академии МИД России',
-    'Курсовая работа «Отлично» с тремя оригинальными техническими модулями (ИГУ, 2026)',
     'Программа Artificial Intelligence в BIT, Чжухай (сертификат, 2025)',
-    'Рекордное привлечение регистраций на конференцию МИБ'
+    'Публичные производственные репозитории: github.com/Nek1yZakhar'
   ],
   languages: [
     'Русский — родной',
-    'Английский — рабочий (документация, обучение, международная среда)'
+    'Английский — рабочий'
   ]
 };
 

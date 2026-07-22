@@ -12,10 +12,10 @@ export const Footer: React.FC = () => {
       <div className="ld-container max-w-7xl mx-auto space-y-12">
         
         {/* Top Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           {/* Brand Info */}
-          <div className="space-y-4 md:col-span-1">
+          <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <div className="w-9 h-9 rounded-xl bg-[#FAF7F2] p-1.5 flex items-center justify-center">
                 <img src="/favicon.svg" alt="LD Latte Logo" className="w-full h-full" />
@@ -56,29 +56,6 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Documentation Navigator */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold text-[#E8A990] uppercase tracking-wider">
-              Документация & Код
-            </h4>
-            <ul className="space-y-2 text-xs">
-              {GROUNDED_PROOF_LINKS.slice(0, 4).map((link) => (
-                <li key={link.id}>
-                  <a
-                    href={`https://github.com/Nek1yZakhar/LD-LATTE/blob/main/${link.filePath}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-1.5 text-[#FAF7F2] hover:text-[#E8A990] transition-colors font-normal group"
-                  >
-                    <FileText className="w-3.5 h-3.5 text-[#E8A990] shrink-0" />
-                    <span className="text-[#FAF7F2] group-hover:text-[#E8A990]">{link.label}</span>
-                    <ExternalLink className="w-2.5 h-2.5 opacity-70 group-hover:opacity-100 shrink-0" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Author Meta */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-[#E8A990] uppercase tracking-wider">
@@ -93,10 +70,11 @@ export const Footer: React.FC = () => {
                   href={GROUNDED_AUTHOR_RESUME.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-[#FAF7F2]/10 hover:bg-[#48121A] text-[#FAF7F2] transition-colors"
+                  className="p-2 rounded-lg bg-[#FAF7F2]/10 hover:bg-[#48121A] text-[#FAF7F2] transition-colors flex items-center space-x-2"
                   title="GitHub Profile"
                 >
                   <Github className="w-4 h-4" />
+                  <span className="text-xs font-semibold">GitHub</span>
                 </a>
               </div>
             </div>

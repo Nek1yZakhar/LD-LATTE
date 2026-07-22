@@ -1,11 +1,23 @@
+# Node / Web dependencies & builds
+node_modules/
+app/node_modules/
+app/dist/
+dist/
+
+# Logs and scratch scripts
+*.log
+scratch/
+
+# Environment and IDE
 .env
 .env.local
+.env.*.local
 __pycache__/
 *.pyc
 .idea/
 .vscode/
 
-# Игнорируем данные и выводы, но сохраняем структуру через .gitkeep
+# Data and outputs
 data/*
 !data/raw/
 !data/processed/
@@ -17,10 +29,10 @@ data/processed/*
 output/*
 !output/.gitkeep
 
-# Virtual environments
+# Virtual environments & local models
 .venv/
 venv/
 env/
-
+models/
 # Local models weights cache
 models/
